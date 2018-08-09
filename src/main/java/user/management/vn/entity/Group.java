@@ -1,5 +1,123 @@
 package user.management.vn.entity;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+@Entity
 public class Group {
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@Column(name = "name", nullable = false)
+	private String name;
+
+	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
+	private Boolean nonDel;
+
+	@Column(name = "describes", nullable = true)
+	private String describes;
+
+	@Column(name = "created_at")
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date createdAt;
+
+	@OneToMany(mappedBy = "groupId",cascade=CascadeType.ALL,orphanRemoval=true)
+	private List<GroupRole> groupRoles;
+
+	@OneToMany(mappedBy = "groupId",cascade=CascadeType.ALL,orphanRemoval=true)
+	private List<UserGroup> userGroups;
+
+	public Group() {
+		super();
+	}
+
+	public Group(String name, String describe) {
+		super();
+		this.name = name;
+		this.describes = describe;
+	}
+	
+	public Group(Long id, String name, Boolean nonDel, String describe, Date createdAt, List<GroupRole> groupRoles,
+			List<UserGroup> userGroups) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.nonDel = nonDel;
+		this.describes = describe;
+		this.createdAt = createdAt;
+		this.groupRoles = groupRoles;
+		this.userGroups = userGroups;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Boolean getNonDel() {
+		return nonDel;
+	}
+
+	public void setNonDel(Boolean nonDel) {
+		this.nonDel = nonDel;
+	}
+
+	public String getDescribe() {
+		return describes;
+	}
+
+	public void setDescribe(String describe) {
+		this.describes = describe;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public List<GroupRole> getGroupRoles() {
+		return groupRoles;
+	}
+
+	public void setGroupRoles(List<GroupRole> groupRoles) {
+		this.groupRoles = groupRoles;
+	}
+
+	public List<UserGroup> getUserGroups() {
+		return userGroups;
+	}
+
+	public void setUserGroups(List<UserGroup> userGroups) {
+		this.userGroups = userGroups;
+	}
 
 }

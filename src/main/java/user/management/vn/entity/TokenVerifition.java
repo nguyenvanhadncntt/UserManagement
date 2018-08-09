@@ -1,5 +1,102 @@
 package user.management.vn.entity;
 
+import java.util.Date;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity
+@Table(name = "token_verfication")
 public class TokenVerifition {
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_id", unique = true, nullable = false,
+		foreignKey = @ForeignKey(name = "ref_user_token"))
+	private User userId;
+
+	@Column(name = "token_code", nullable = false)
+	private String tokenCode;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "expire_time", nullable = false)
+	private Date expireTime;
+
+	@Column(name = "type", nullable = false)
+	private Integer type;
+
+	public TokenVerifition() {
+		super();
+	}
+
+	public TokenVerifition(User userId, String tokenCode, Date expireTime, Integer type) {
+		super();
+		this.userId = userId;
+		this.tokenCode = tokenCode;
+		this.expireTime = expireTime;
+		this.type = type;
+	}
+
+	public TokenVerifition(Long id, User userId, String tokenCode, Date expireTime, Integer type) {
+		super();
+		this.id = id;
+		this.userId = userId;
+		this.tokenCode = tokenCode;
+		this.expireTime = expireTime;
+		this.type = type;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public User getUserId() {
+		return userId;
+	}
+
+	public void setUserId(User userId) {
+		this.userId = userId;
+	}
+
+	public String getTokenCode() {
+		return tokenCode;
+	}
+
+	public void setTokenCode(String tokenCode) {
+		this.tokenCode = tokenCode;
+	}
+
+	public Date getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(Date expireTime) {
+		this.expireTime = expireTime;
+	}
+
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
 
 }
