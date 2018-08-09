@@ -24,14 +24,14 @@ public class User {
 	@Column(name = "password", nullable = false)
 	private String password;
 
-	@Column(name = "enable", nullable = false, columnDefinition = "TINYINT(1) default 0")
-	private Boolean enable;
+	@Column(name = "enable", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean enable = false;
 
-	@Column(name = "non_del", nullable = false, columnDefinition = "TINYINT(1) default 1")
-	private Boolean nonDel;
+	@Column(name = "non_del", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean nonDel = true;
 
-	@Column(name = "non_locked", nullable = false, columnDefinition = "TINYINT(1) default 1")
-	private Boolean nonLocked;
+	@Column(name = "non_locked", nullable = false, columnDefinition = "TINYINT(1)")
+	private Boolean nonLocked = true;
 
 	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL,orphanRemoval=true)
 	private UserDetail userDetail;

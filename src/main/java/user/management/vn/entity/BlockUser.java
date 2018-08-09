@@ -36,7 +36,7 @@ public class BlockUser {
 	private Date blockTime;
 
 	@Column(name = "number_fail", nullable = false)
-	private Integer numberFail;
+	private Integer numberFail = 0;
 
 	public BlockUser() {
 		super();

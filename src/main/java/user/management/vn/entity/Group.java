@@ -10,12 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
+@Table(name="groups")
 public class Group {
 	@Id
 	@Column(name = "id")
@@ -25,11 +27,11 @@ public class Group {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
-	private Boolean nonDel;
+	@Column(name = "non_del",nullable = false,columnDefinition="TINYINT(1)")
+	private Boolean nonDel = true;
 
-	@Column(name = "describes", nullable = true)
-	private String describes;
+	@Column(name = "description", nullable = true)
+	private String description;
 
 	@Column(name = "created_at")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -49,7 +51,7 @@ public class Group {
 	public Group(String name, String describe) {
 		super();
 		this.name = name;
-		this.describes = describe;
+		this.description = describe;
 	}
 	
 	public Group(Long id, String name, Boolean nonDel, String describe, Date createdAt, List<GroupRole> groupRoles,
@@ -58,7 +60,7 @@ public class Group {
 		this.id = id;
 		this.name = name;
 		this.nonDel = nonDel;
-		this.describes = describe;
+		this.description = describe;
 		this.createdAt = createdAt;
 		this.groupRoles = groupRoles;
 		this.userGroups = userGroups;
@@ -89,11 +91,11 @@ public class Group {
 	}
 
 	public String getDescribe() {
-		return describes;
+		return description;
 	}
 
 	public void setDescribe(String describe) {
-		this.describes = describe;
+		this.description = describe;
 	}
 
 	public Date getCreatedAt() {

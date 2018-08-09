@@ -23,7 +23,7 @@ public class Role {
 	private String roleName;
 
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
-	private Boolean nonDel;
+	private Boolean nonDel = true;
 
 	@OneToMany(mappedBy = "roleId",cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
