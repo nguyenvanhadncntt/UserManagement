@@ -27,13 +27,13 @@ public class Group {
 	@Column(name = "name", nullable = false)
 	private String name;
 
-	@Column(name = "non_del",nullable = false,columnDefinition="TINYINT(1)")
+	@Column(name = "non_del",nullable = false,columnDefinition="TINYINT(1) default 1")
 	private Boolean nonDel = true;
 
 	@Column(name = "description", nullable = true)
 	private String description;
 
-	@Column(name = "created_at")
+	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;

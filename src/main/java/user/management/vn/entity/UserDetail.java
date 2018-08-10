@@ -31,13 +31,17 @@ public class UserDetail {
 	@Column(name = "phone", columnDefinition = "VARCHAR(15)", nullable = false)
 	private String phone;
 
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "birthday",nullable = false)
+	private Date birthDay;
+	
 	@Column(name = "address", nullable = false)
 	private String address;
 
 	@Column(name = "gender", columnDefinition = "TINYINT(1)", nullable = false)
 	private Boolean gender;
 
-	@Column(name = "created_at")
+	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;
