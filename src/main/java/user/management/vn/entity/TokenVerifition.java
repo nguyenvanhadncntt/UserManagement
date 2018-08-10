@@ -26,7 +26,7 @@ public class TokenVerifition {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", unique = true, nullable = false,
 		foreignKey = @ForeignKey(name = "ref_user_token"))
-	private User userId;
+	private User user;
 
 	@Column(name = "token_code", nullable = false)
 	private String tokenCode;
@@ -42,18 +42,18 @@ public class TokenVerifition {
 		super();
 	}
 
-	public TokenVerifition(User userId, String tokenCode, Date expireTime, Integer type) {
+	public TokenVerifition(User user, String tokenCode, Date expireTime, Integer type) {
 		super();
-		this.userId = userId;
+		this.user = user;
 		this.tokenCode = tokenCode;
 		this.expireTime = expireTime;
 		this.type = type;
 	}
 
-	public TokenVerifition(Long id, User userId, String tokenCode, Date expireTime, Integer type) {
+	public TokenVerifition(Long id, User user, String tokenCode, Date expireTime, Integer type) {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.user = user;
 		this.tokenCode = tokenCode;
 		this.expireTime = expireTime;
 		this.type = type;
@@ -67,12 +67,12 @@ public class TokenVerifition {
 		this.id = id;
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getTokenCode() {

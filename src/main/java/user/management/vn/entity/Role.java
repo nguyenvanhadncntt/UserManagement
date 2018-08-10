@@ -25,10 +25,10 @@ public class Role {
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
 	private Boolean nonDel = true;
 
-	@OneToMany(mappedBy = "roleId",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
 
-	@OneToMany(mappedBy = "roleId",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<GroupRole> groupRoles;
 
 	public Role() {
@@ -89,4 +89,5 @@ public class Role {
 		this.groupRoles = groupRoles;
 	}
 
+	
 }

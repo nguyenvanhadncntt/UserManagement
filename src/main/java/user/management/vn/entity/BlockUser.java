@@ -29,7 +29,7 @@ public class BlockUser {
 				foreignKey = @ForeignKey(name = "ref_blockuser_user"), 
 				unique = true, 
 				nullable = false)
-	private User userId;
+	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "block_time", nullable = false)
@@ -42,17 +42,17 @@ public class BlockUser {
 		super();
 	}
 
-	public BlockUser(User userId, Date blockTime, Integer numberFail) {
+	public BlockUser(User user, Date blockTime, Integer numberFail) {
 		super();
-		this.userId = userId;
+		this.user = user;
 		this.blockTime = blockTime;
 		this.numberFail = numberFail;
 	}
 
-	public BlockUser(Long id, User userId, Date blockTime, Integer numberFail) {
+	public BlockUser(Long id, User user, Date blockTime, Integer numberFail) {
 		super();
 		this.id = id;
-		this.userId = userId;
+		this.user = user;
 		this.blockTime = blockTime;
 		this.numberFail = numberFail;
 	}
@@ -65,12 +65,12 @@ public class BlockUser {
 		this.id = id;
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getBlockTime() {

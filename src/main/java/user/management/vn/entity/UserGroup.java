@@ -27,11 +27,11 @@ public class UserGroup {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_group"))
-	private User userId;
+	private User user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "group_id", nullable = false,foreignKey=@ForeignKey(name="ref_group_user"))
-	private Group groupId;
+	private Group group;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "join_date", nullable = false)
@@ -42,17 +42,17 @@ public class UserGroup {
 		super();
 	}
 
-	public UserGroup(User userId, Group groupId) {
+	public UserGroup(User user, Group group) {
 		super();
-		this.userId = userId;
-		this.groupId = groupId;
+		this.user = user;
+		this.group = group;
 	}
 	
-	public UserGroup(Long id, User userId, Group groupId, Date joinDate) {
+	public UserGroup(Long id, User user, Group group, Date joinDate) {
 		super();
 		this.id = id;
-		this.userId = userId;
-		this.groupId = groupId;
+		this.user = user;
+		this.group = group;
 		this.joinDate = joinDate;
 	}
 
@@ -64,20 +64,20 @@ public class UserGroup {
 		this.id = id;
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Group getGroupId() {
-		return groupId;
+	public Group getGroup() {
+		return group;
 	}
 
-	public void setGroupId(Group groupId) {
-		this.groupId = groupId;
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 
 	public Date getJoinDate() {
@@ -87,5 +87,4 @@ public class UserGroup {
 	public void setJoinDate(Date joinDate) {
 		this.joinDate = joinDate;
 	}
-	
 }

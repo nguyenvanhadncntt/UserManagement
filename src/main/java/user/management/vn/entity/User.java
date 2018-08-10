@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class User {
 	@Id
@@ -33,19 +36,23 @@ public class User {
 	@Column(name = "non_locked", nullable = false, columnDefinition = "TINYINT(1) default 1")
 	private Boolean nonLocked = true;
 
-	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnoreProperties("user")
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
 	private UserDetail userDetail;
 
-	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnore
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
 	private TokenVerifition tokenVerifition;
 
-	@OneToOne(mappedBy = "userId", cascade = CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnore
+	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
 	private BlockUser blockUser;
 
-	@OneToMany(mappedBy = "userId",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnore
+	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
-	@OneToMany(mappedBy = "userId",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserRole> userRoles;
 
 	public User() {

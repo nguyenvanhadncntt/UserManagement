@@ -21,27 +21,27 @@ public class GroupRole {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "ref_role_group"))
-	private Role roleId;
+	private Role role;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "group_id", nullable = false, foreignKey = @ForeignKey(name = "ref_group_role"))
-	private Group groupId;
+	private Group group;
 
 	public GroupRole() {
 		super();
 	}
 
-	public GroupRole(Role roleId, Group groupId) {
+	public GroupRole(Role role, Group groupId) {
 		super();
-		this.roleId = roleId;
-		this.groupId = groupId;
+		this.role = role;
+		this.group = groupId;
 	}
 
-	public GroupRole(Long id, Role roleId, Group groupId) {
+	public GroupRole(Long id, Role role, Group groupId) {
 		super();
 		this.id = id;
-		this.roleId = roleId;
-		this.groupId = groupId;
+		this.role = role;
+		this.group = groupId;
 	}
 
 	public Long getId() {
@@ -52,20 +52,20 @@ public class GroupRole {
 		this.id = id;
 	}
 
-	public Role getRoleId() {
-		return roleId;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoleId(Role roleId) {
-		this.roleId = roleId;
+	public void setRole(Role role) {
+		this.role = role;
 	}
 
-	public Group getGroupId() {
-		return groupId;
+	public Group getGroup() {
+		return group;
 	}
 
-	public void setGroupId(Group groupId) {
-		this.groupId = groupId;
+	public void setGroup(Group group) {
+		this.group = group;
 	}
-
+	
 }

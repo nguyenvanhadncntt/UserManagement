@@ -31,7 +31,7 @@ public class UserDetail {
 	@Column(name = "phone", columnDefinition = "VARCHAR(15)", nullable = false)
 	private String phone;
 
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	@Column(name = "birthday",nullable = false)
 	private Date birthDay;
 	
@@ -48,7 +48,7 @@ public class UserDetail {
 
 	@OneToOne(cascade = CascadeType.ALL, optional = false)
 	@PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name="ref_user_detail"))
-	private User userId;
+	private User user;
 
 	public UserDetail() {
 		super();
@@ -63,7 +63,7 @@ public class UserDetail {
 	}
 
 	public UserDetail(Long id, String fullname, String phone, String address, Boolean gender, Date createdAt,
-			User userId) {
+			User user) {
 		super();
 		this.id = id;
 		this.fullname = fullname;
@@ -71,7 +71,7 @@ public class UserDetail {
 		this.address = address;
 		this.gender = gender;
 		this.createdAt = createdAt;
-		this.userId = userId;
+		this.user = user;
 	}
 
 	public Long getId() {
@@ -98,6 +98,14 @@ public class UserDetail {
 		this.phone = phone;
 	}
 
+	public Date getBirthDay() {
+		return birthDay;
+	}
+
+	public void setBirthDay(Date birthDay) {
+		this.birthDay = birthDay;
+	}
+
 	public String getAddress() {
 		return address;
 	}
@@ -122,12 +130,12 @@ public class UserDetail {
 		this.createdAt = createdAt;
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 }

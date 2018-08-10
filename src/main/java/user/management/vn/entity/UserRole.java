@@ -22,27 +22,27 @@ public class UserRole {
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_role"))
-	private User userId;
+	private User user;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", nullable = false,foreignKey=@ForeignKey(name="ref_role_user"))
-	private Role roleId;
+	private Role role;
 
 	public UserRole() {
 		super();
 	}
 
-	public UserRole(User userId, Role roleId) {
+	public UserRole(User user, Role role) {
 		super();
-		this.userId = userId;
-		this.roleId = roleId;
+		this.user = user;
+		this.role = role;
 	}
 	
-	public UserRole(Long id, User userId, Role roleId) {
+	public UserRole(Long id, User user, Role role) {
 		super();
 		this.id = id;
-		this.userId = userId;
-		this.roleId = roleId;
+		this.user = user;
+		this.role = role;
 	}
 
 	public Long getId() {
@@ -53,20 +53,19 @@ public class UserRole {
 		this.id = id;
 	}
 
-	public User getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(User userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public Role getRoleId() {
-		return roleId;
+	public Role getRole() {
+		return role;
 	}
 
-	public void setRoleId(Role roleId) {
-		this.roleId = roleId;
+	public void setRole(Role role) {
+		this.role = role;
 	}
-
 }

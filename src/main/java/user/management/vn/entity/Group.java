@@ -38,10 +38,10 @@ public class Group {
 	@CreationTimestamp
 	private Date createdAt;
 
-	@OneToMany(mappedBy = "groupId",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<GroupRole> groupRoles;
 
-	@OneToMany(mappedBy = "groupId",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
 	public Group() {
