@@ -6,17 +6,19 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.beans.support.PropertyComparator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class ListPaging<T> implements Serializable{
-	/**
-	 * 
-	 */
+/**
+ * 
+ * @author Thehap Rok
+ *
+ * @param <T>
+ */
+public class ListPaging<T> implements Serializable {
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;
 
@@ -24,32 +26,31 @@ public class ListPaging<T> implements Serializable{
 
 	private Integer totalPage;
 
+	private Integer currentPage;
+
 	public ListPaging() {
 		super();
 	}
 
-	public ListPaging(List<T> list,int size
-			,int pageIndex
-			,String fieldSort,HttpServletRequest request) {
-		PageRequest pageRequest = null;
-		if(fieldSort!=null) {
+	public ListPaging(List<T> list, int size, int pageIndex, String fieldSort, HttpServletRequest request) {
+		if (fieldSort != null) {
 			HttpSession session = request.getSession();
 			String sortType = (String) session.getAttribute("sortType");
-			Sort sort = null;
-			if(sortType==null || sortType.equals("ASC")) {
-				sort = Sort.by(fieldSort).ascending();
+			if (sortType == null || sortType.equals("ASC")) {
+				PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, true));
 				session.setAttribute("sortType", "DESC");
-			}else {
-				sort = Sort.by(fieldSort).descending();
+			} else {
+				PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, false));
 				session.setAttribute("sortType", "ASC");
 			}
-			pageRequest = new PageRequest(pageIndex, size,sort);
-		}else {
-			pageRequest = new PageRequest(pageIndex, size);
 		}
-		Page<T> listPaging = new PageImpl<>(list,pageRequest , 0);
-		this.list = listPaging.getContent();
-		this.totalPage = listPaging.getTotalPages();
+		
+		PagedListHolder<T> pageList = new PagedListHolder<>(list);
+		pageList.setPageSize(size);
+		pageList.setPage(pageIndex);
+		this.list = pageList.getPageList();
+		this.totalPage = pageList.getPageCount();
+		this.currentPage = pageList.getPage();
 	}
 
 	public List<T> getList() {
@@ -66,6 +67,14 @@ public class ListPaging<T> implements Serializable{
 
 	public void setTotalPage(Integer totalPage) {
 		this.totalPage = totalPage;
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
 	}
 
 }

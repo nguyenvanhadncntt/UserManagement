@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
@@ -55,10 +54,8 @@ public class UserServiceImpl implements UserService{
 	public List<UserResponse> convertUserToUserResponse(List<User> listUser) {
 		List<UserResponse> listUserResponse = new ArrayList<>();
 		for (User user : listUser) {
-			UserDetail userDetail = user.getUserDetail();
 			UserResponse userResponse = new UserResponse();
 			userResponse.addPropertiesFromUser(user);
-			userResponse.addPropertiesFromUserDetail(userDetail);
 			listUserResponse.add(userResponse);
 		}
 		return listUserResponse;

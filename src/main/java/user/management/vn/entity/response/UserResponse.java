@@ -112,13 +112,12 @@ public class UserResponse implements Serializable {
 	}
 
 	public void addPropertiesFromUser(User user) {
+		UserDetail userDetail = user.getUserDetail();
+		
 		this.email = user.getEmail();
 		this.enable = user.getEnable();
 		this.nonLocked = user.getNonLocked();
 		this.id = user.getId();
-	}
-
-	public void addPropertiesFromUserDetail(UserDetail userDetail) {
 		this.fullname = userDetail.getFullname();
 		this.address = userDetail.getAddress();
 		this.phone = userDetail.getPhone();

@@ -4,7 +4,13 @@ import java.util.List;
 
 import user.management.vn.entity.UserGroup;
 
+/**
+ * @author Thehap Rok
+ *
+ */
 public interface GroupService {
-	public UserGroup addNewUserToGroup(Long groupId,Long userId);
-	public boolean removeUseFromGroup(Long groupId, List<Long> userIds);
+	
+	UserGroup addNewUserToGroup(Long groupId,Long userId);
+	Integer removeUserFromGroup(Long groupId,Long userId);
+	Integer removeListUseFromGroup(Long groupId, List<Long> userIds);
 }
