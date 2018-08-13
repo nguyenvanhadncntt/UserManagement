@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import user.management.vn.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long>{
+	
 }

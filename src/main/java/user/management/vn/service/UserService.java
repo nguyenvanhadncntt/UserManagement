@@ -6,4 +6,5 @@ import user.management.vn.entity.User;
 
 public interface UserService {
 	List<User> getAllUserOfGroup(Long groupId);
+	List<User> findAllUser();
 }
