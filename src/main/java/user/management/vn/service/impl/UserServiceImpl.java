@@ -58,7 +58,6 @@ public class UserServiceImpl implements UserService{
 			UserDetail userDetail = user.getUserDetail();
 			UserResponse userResponse = new UserResponse();
 			userResponse.addPropertiesFromUser(user);
-			userResponse.addPropertiesFromUserDetail(userDetail);
 			listUserResponse.add(userResponse);
 		}
 		return listUserResponse;

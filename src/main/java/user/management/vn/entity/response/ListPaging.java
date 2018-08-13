@@ -1,15 +1,16 @@
 package user.management.vn.entity.response;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.beans.support.MutableSortDefinition;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.beans.support.PropertyComparator;
+import org.springframework.beans.support.SortDefinition;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -24,6 +25,12 @@ public class ListPaging<T> implements Serializable{
 
 	private Integer totalPage;
 
+	private Integer currentPage;
+	
+	private String fieldSort;
+	
+	private String typeSort;
+	
 	public ListPaging() {
 		super();
 	}
@@ -31,25 +38,28 @@ public class ListPaging<T> implements Serializable{
 	public ListPaging(List<T> list,int size
 			,int pageIndex
 			,String fieldSort,HttpServletRequest request) {
-		PageRequest pageRequest = null;
-		if(fieldSort!=null) {
-			HttpSession session = request.getSession();
-			String sortType = (String) session.getAttribute("sortType");
-			Sort sort = null;
-			if(sortType==null || sortType.equals("ASC")) {
-				sort = Sort.by(fieldSort).ascending();
-				session.setAttribute("sortType", "DESC");
-			}else {
-				sort = Sort.by(fieldSort).descending();
-				session.setAttribute("sortType", "ASC");
-			}
-			pageRequest = new PageRequest(pageIndex, size,sort);
-		}else {
-			pageRequest = new PageRequest(pageIndex, size);
-		}
-		Page<T> listPaging = new PageImpl<>(list,pageRequest , 0);
-		this.list = listPaging.getContent();
-		this.totalPage = listPaging.getTotalPages();
+		String sortType = null;
+        if (fieldSort != null) {
+            HttpSession session = request.getSession();
+            sortType = (String) session.getAttribute("sortType");
+            if (sortType == null || sortType.equals("ASC")) {
+                PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, true));
+                session.setAttribute("sortType", "DESC");
+            } else {
+                PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, false));
+                session.setAttribute("sortType", "ASC");
+            }
+        }
+        
+        PagedListHolder<T> pageList = new PagedListHolder<>(list);
+        pageList.setPageSize(size);
+        pageList.setPage(pageIndex);
+        this.list = pageList.getPageList();
+        this.totalPage = pageList.getPageCount();
+        this.currentPage = pageList.getPage();
+        this.fieldSort = fieldSort ;
+        this.typeSort = sortType;
+        
 	}
 
 	public List<T> getList() {
@@ -68,4 +78,29 @@ public class ListPaging<T> implements Serializable{
 		this.totalPage = totalPage;
 	}
 
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
+	}
+
+	public String getFieldSort() {
+		return fieldSort;
+	}
+
+	public void setFieldSort(String fieldSort) {
+		this.fieldSort = fieldSort;
+	}
+
+	public String getTypeSort() {
+		return typeSort;
+	}
+
+	public void setTypeSort(String typeSort) {
+		this.typeSort = typeSort;
+	}
+
+	
 }

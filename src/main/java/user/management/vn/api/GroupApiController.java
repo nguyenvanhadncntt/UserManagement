@@ -1,6 +1,8 @@
 package user.management.vn.api;
 
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,13 +13,18 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import user.management.vn.entity.Group;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.service.GroupService;
 import user.management.vn.service.UserService;
 
@@ -63,4 +70,60 @@ public class GroupApiController {
 		}
 		return new ResponseEntity<>("delete successful",HttpStatus.OK); 
 	}
+	
+	@GetMapping
+	public ResponseEntity<Object> getAllGroup(@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
+			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort
+			,HttpServletRequest request) {
+		List<Group>	listGroup = groupService.viewAllGroup();
+		if(listGroup.size()==0) {
+			return new ResponseEntity<>(listGroup,HttpStatus.NOT_FOUND);
+		}
+		ListPaging<Group> listPagging = new ListPaging<>(listGroup,size,pageIndex,fieldSort,request);
+		return new ResponseEntity<>(listPagging,HttpStatus.OK);
+	}
+	@GetMapping("/{id}")
+	public ResponseEntity<Object> getGroup(@PathVariable("id") long id,
+			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
+			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort
+			,HttpServletRequest request){
+		Optional<Group> group = groupService.viewGroup(id);
+		if(!group.isPresent()) {
+			throw new GroupNotFoundException("Group Not Found id: "+id);
+		}
+		return new ResponseEntity<>(group,HttpStatus.OK);
+	}
+	@PostMapping
+	public ResponseEntity<Object> createGroup(@RequestBody Group group){
+		Group savedGroup = groupService.addGroup(group);
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(savedGroup.getId()).toUri();
+		return new ResponseEntity<>("Cread group successful",HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id){
+		
+		Optional<Group> groupOptional = groupService.viewGroup(id);
+		if(!groupOptional.isPresent()) {
+			throw new GroupNotFoundException("Group Not Found id: "+id);
+		}
+		group.setUserGroups(groupOptional.get().getUserGroups());
+		group.setGroupRoles(groupOptional.get().getGroupRoles());
+		group.setId(id);
+		groupService.saveGroup(group);
+		return new ResponseEntity<>("Update group successful",HttpStatus.OK);
+		
+	}
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Object> deleteGroup(@PathVariable("id") long id){
+		Optional<Group> deletedGroup = groupService.deleteGroup(id);
+		if (!deletedGroup.isPresent()) {
+			throw new GroupNotFoundException("Group Not Found id: "+id);
+		}
+		return new ResponseEntity<>("Dedelte group successful",HttpStatus.OK);
+	}	
 }
