@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import user.management.vn.entity.BlockUser;
 
-public interface BlockUserService extends JpaRepository<BlockUser, Long> {
+public interface BlockUserRepository extends JpaRepository<BlockUser, Long> {
 
 }
