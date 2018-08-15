@@ -90,7 +90,7 @@ public class GroupServiceImpl implements GroupService {
 			return null;
 		}
 		Optional<UserGroup> userGroupOptional = userGroupRepository.findUserById(groupId, userId);
-		if(userGroupOptional.isPresent()) {
+		if(!userGroupOptional.isPresent()) {
 			return null;
 		}
 		
