@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -19,12 +20,13 @@ public class User {
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
 
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
-	@JsonIgnore
+	/*@JsonIgnore*/
 	@Column(name = "password", nullable = false)
 	private String password;
 
