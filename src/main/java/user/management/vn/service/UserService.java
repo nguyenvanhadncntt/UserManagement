@@ -1,7 +1,6 @@
 package user.management.vn.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
@@ -17,8 +16,6 @@ public interface UserService {
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
 	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
 	List<UserResponse> getAllUserOfGroup(Long groupId);
-  
-	List<User> findUserNotInGroupByName(Long groupId,String name);
    
 	/**
 	* @summary add one User into database

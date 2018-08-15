@@ -164,6 +164,6 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 		return optionalUser.get();
-	}	
+	}
 
 }
