@@ -1,5 +1,6 @@
 package user.management.vn.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,20 +11,28 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class User {
+public class User implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
 	private Long id;
 
 	@Column(name = "email", nullable = false, unique = true)
 	private String email;
 
+	/*@JsonIgnore*/
 	@Column(name = "password", nullable = false)
 	private String password;
 
@@ -52,6 +61,7 @@ public class User {
 	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
+	@JsonIgnoreProperties("user")
 	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserRole> userRoles;
 
