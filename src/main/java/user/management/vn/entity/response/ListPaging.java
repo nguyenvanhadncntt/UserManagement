@@ -33,7 +33,7 @@ public class ListPaging<T> implements Serializable {
 	}
 
 	public ListPaging(List<T> list, int size, int pageIndex, String fieldSort, HttpServletRequest request) {
-		if (fieldSort != null) {
+		if (!"null".equals(fieldSort)) {
 			HttpSession session = request.getSession();
 			String sortType = (String) session.getAttribute("sortType");
 			if (sortType == null || sortType.equals("ASC")) {
@@ -53,6 +53,7 @@ public class ListPaging<T> implements Serializable {
 		this.currentPage = pageList.getPage();
 	}
 
+	
 	public List<T> getList() {
 		return list;
 	}

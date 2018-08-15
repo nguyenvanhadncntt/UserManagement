@@ -1,4 +1,4 @@
-package user.management.vn.entity.dto;
+package user.management.vn.wrapper;
 
 import java.io.Serializable;
 import java.util.List;

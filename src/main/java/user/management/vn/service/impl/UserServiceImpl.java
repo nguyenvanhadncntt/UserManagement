@@ -45,12 +45,6 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> findUserNotInGroupByName(Long groupId,String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public List<UserResponse> convertUserToUserResponse(List<User> listUser) {
 		List<UserResponse> listUserResponse = new ArrayList<>();
 		for (User user : listUser) {

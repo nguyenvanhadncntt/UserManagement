@@ -14,11 +14,12 @@ import user.management.vn.entity.UserGroup;
 @Repository
 @Transactional
 public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
-	@Query(value = "select ug.* from user_group ug join user u on u.id=ug.user_id where group_id=?1 and non_del=1"
-			, nativeQuery = true)
+
+	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.group.nonDel = 1")
 	List<UserGroup> findAllUserOfGroupId(Long groupId);
 	
 	@Modifying
-	@Query(value = "delete from user_group where group_id=?1 and user_id=?2", nativeQuery = true)
+	@Query("delete from UserGroup ug where ug.group.id=?1 and ug.user.id=?2")
 	Integer deleteUserFromGroup(Long groupId, Long userId);
+	
 }
