@@ -1,4 +1,4 @@
-package user.management.vn;
+package user.management.vn.util;
 
 import java.util.List;
 
@@ -17,32 +17,35 @@ public class SearchGeneric {
 	@SuppressWarnings("unchecked")
 	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue) {
 		StringBuilder sqlQuery = new StringBuilder();
-		sqlQuery.append("select tb from ");
+		sqlQuery.append("from ");
 		sqlQuery.append(tableName);
-		if("UserDetail".equals(tableName)) {
-			sqlQuery.append(" tb where tb.user.nonDel=1 and tb.");
+		if ((!fieldSearch.isEmpty() || fieldSearch != null) 
+				&& (!searchValue.isEmpty() || searchValue != null)) {
+			sqlQuery.append(" where ");
+			sqlQuery.append(fieldSearch);
+			sqlQuery.append(" like '%");
+			sqlQuery.append(searchValue);
+			sqlQuery.append("%' and nonDel=1 ");
 		}
-		sqlQuery.append(fieldSearch);
-		sqlQuery.append(" like '%");
-		sqlQuery.append(searchValue);
-		sqlQuery.append("%' and tb.nonDel=1 ");
 		Query query = entityManager.createQuery(sqlQuery.toString());
 		return query.getResultList();
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue,String condition) {
+	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue, String condition) {
 		StringBuilder sqlQuery = new StringBuilder();
-		sqlQuery.append("select tb from ");
+		sqlQuery.append("from ");
 		sqlQuery.append(tableName);
-		if("UserDetail".equals(tableName)) {
-			sqlQuery.append(" tb where tb.user.nonDel=1 and tb.");
+		if ((!fieldSearch.isEmpty() || fieldSearch != null) 
+				&& (!searchValue.isEmpty() || searchValue != null)) {
+			sqlQuery.append(" where ");
+			sqlQuery.append(fieldSearch);
+			sqlQuery.append(" like '%");
+			sqlQuery.append(searchValue);
+			sqlQuery.append("%' and nonDel=1 ");
 		}
-		sqlQuery.append(fieldSearch);
-		sqlQuery.append(" like '%");
-		sqlQuery.append(searchValue);
-		sqlQuery.append("%' and tb.nonDel=1 ");
-		if(condition!= null && !condition.isEmpty()) {
+		if (condition != null && !condition.isEmpty()) {
+			sqlQuery.append("and ");
 			sqlQuery.append(condition);
 		}
 		Query query = entityManager.createQuery(sqlQuery.toString());

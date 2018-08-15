@@ -53,6 +53,9 @@ public class ListPaging<T> implements Serializable {
 		this.currentPage = pageList.getPage();
 	}
 
+	public void clearSession() {
+		
+	}
 	
 	public List<T> getList() {
 		return list;

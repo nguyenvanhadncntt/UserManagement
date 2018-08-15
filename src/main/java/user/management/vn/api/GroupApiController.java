@@ -20,6 +20,7 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.query.GroupQueryCondition;
 import user.management.vn.service.GroupService;
 import user.management.vn.service.SearchService;
 import user.management.vn.service.UserService;
@@ -30,7 +31,6 @@ import user.management.vn.wrapper.ListIdWrapper;
 @RequestMapping("/api/groups")
 public class GroupApiController {
 
-	
 	@Autowired
 	private UserService userService;
 
@@ -39,9 +39,9 @@ public class GroupApiController {
 
 	@Autowired
 	private SearchService searchService;
-	
+
 	@GetMapping(path = "/{groupId}/users")
-	public ResponseEntity<Object> getListUserInGroup(@PathVariable(name = "groupId") long groupId,
+	public ResponseEntity<Object> getListUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
 			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
 			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
@@ -55,8 +55,8 @@ public class GroupApiController {
 	}
 
 	@PostMapping(path = "/{groupId}/users/{userId}")
-	public ResponseEntity<Object> addUserToGroup(@PathVariable(name = "groupId") long groupId,
-			@PathVariable(name = "userId") long userId) {
+	public ResponseEntity<Object> addUserToGroup(@PathVariable(name = "groupId") Long groupId,
+			@PathVariable(name = "userId") Long userId) {
 		UserGroup userGroup = groupService.addNewUserToGroup(groupId, userId);
 		if (userGroup == null) {
 			return new ResponseEntity<>("user or group not found", HttpStatus.NOT_FOUND);
@@ -85,27 +85,38 @@ public class GroupApiController {
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
 
-	@GetMapping(path="/{groupId}/user/search-not-in")
-	public ResponseEntity<Object> findUserNotInGroupByNameOrEmail(@PathVariable("groupId")Long groupId,
-			@RequestParam("searchParam") String searchParam){
-		List<User> users = groupService.findUserNotInGroupByNameOrEmail(groupId, searchParam);
-		return new ResponseEntity<>(users,HttpStatus.OK);
+	@GetMapping(path = "/{groupId}/user/search-not-in")
+	public ResponseEntity<Object> findUserNotInGroupByNameOrEmail(@PathVariable("groupId") Long groupId,
+			@RequestParam("searchParam") String searchParam) {
+		List<UserResponse> users = groupService.findUserNotInGroupByNameOrEmail(groupId, searchParam);
+		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
-	@GetMapping(path="/{groupId}/users/search")
-	public ResponseEntity<Object> findUserInGroup(@PathVariable(name = "groupId") long groupId,
-			@RequestParam(name="searchValue") String searchValue,
-			@RequestParam(name="searchField") String fieldSearch,
+	@GetMapping(path = "/{groupId}/users/search")
+	public ResponseEntity<Object> findUserInGroup(@PathVariable(name = "groupId") Long groupId,
+			@RequestParam(name = "searchValue") String searchValue,
+			@RequestParam(name = "searchField") String fieldSearch,
 			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
 			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
 			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request){
-		List<User> users = searchService.search(EntityName.USER, fieldSearch, searchValue," and tb.");
+			HttpServletRequest request) {
+		List<User> users = searchService.search(EntityName.USER, fieldSearch, searchValue,
+				GroupQueryCondition.conditionSearchUserInGroup(groupId));
 		List<UserResponse> listUser = userService.convertUserToUserResponse(users);
 		if (listUser.size() == 0) {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
 		ListPaging<UserResponse> listPagging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+	}
+
+	@GetMapping(path = "/{groupId}/users/{userId}")
+	public ResponseEntity<Object> getInforUserInGroup(@PathVariable(name = "groupId") Long groupId,
+			@PathVariable(name = "userId") Long userId) {
+		UserResponse user = groupService.getInforOfUser(groupId, userId);
+		if (user == null) {
+			return new ResponseEntity<>("user not found",HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>(user,HttpStatus.OK);
 	}
 }

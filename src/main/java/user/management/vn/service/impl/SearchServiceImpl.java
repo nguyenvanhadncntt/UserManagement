@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import user.management.vn.SearchGeneric;
 import user.management.vn.service.SearchService;
+import user.management.vn.util.SearchGeneric;
 
 @Service
 public class SearchServiceImpl implements SearchService {
