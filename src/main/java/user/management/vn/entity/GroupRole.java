@@ -1,5 +1,71 @@
 package user.management.vn.entity;
 
-public class GroupRole {
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "role_group")
+public class GroupRole {
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "ref_role_group"))
+	private Role role;
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "group_id", nullable = false, foreignKey = @ForeignKey(name = "ref_group_role"))
+	private Group group;
+
+	public GroupRole() {
+		super();
+	}
+
+	public GroupRole(Role role, Group groupId) {
+		super();
+		this.role = role;
+		this.group = groupId;
+	}
+
+	public GroupRole(Long id, Role role, Group groupId) {
+		super();
+		this.id = id;
+		this.role = role;
+		this.group = groupId;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+	
 }
