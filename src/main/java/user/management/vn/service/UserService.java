@@ -17,6 +17,7 @@ public interface UserService {
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
 	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
 	List<UserResponse> getAllUserOfGroup(Long groupId);
+  
 	List<User> findUserNotInGroupByName(Long groupId,String name);
    
 	/**

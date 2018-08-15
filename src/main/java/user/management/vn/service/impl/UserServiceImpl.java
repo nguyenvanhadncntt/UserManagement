@@ -10,14 +10,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
-import user.management.vn.entity.UserDetail;
+
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.service.UserService;
+import user.management.vn.entity.UserDTO;
+import user.management.vn.entity.UserDetail;
+
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -53,19 +55,11 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> findUserNotInGroupByName(Long groupId,String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	
-	@Override
 	public List<UserResponse> convertUserToUserResponse(List<User> listUser) {
 		List<UserResponse> listUserResponse = new ArrayList<>();
 		for (User user : listUser) {
-			UserDetail userDetail = user.getUserDetail();
 			UserResponse userResponse = new UserResponse();
-			userResponse.addPropertiesFromUser(user);			
+			userResponse.addPropertiesFromUser(user);
 			listUserResponse.add(userResponse);
 		}
 		return listUserResponse;
