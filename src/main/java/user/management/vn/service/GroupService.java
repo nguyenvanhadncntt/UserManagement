@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import user.management.vn.entity.Group;
-import user.management.vn.entity.GroupRole;
-import user.management.vn.entity.Role;
 import user.management.vn.entity.UserGroup;
-
 import user.management.vn.entity.response.UserResponse;
 
   /**
@@ -114,6 +111,4 @@ public interface GroupService {
 	 */
 	Optional<Group> deleteGroup(long groupId);
 	
-	UserGroup addNewUserToGroup(Long groupId,Long userId);
-
 }

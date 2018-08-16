@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,15 +23,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
-import user.management.vn.exception.GroupNotFoundException;
-import user.management.vn.service.RoleGroupService;
-
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.query.GroupQueryCondition;
 import user.management.vn.service.GroupService;
+import user.management.vn.service.RoleGroupService;
 import user.management.vn.service.SearchService;
 import user.management.vn.service.UserService;
 import user.management.vn.util.EntityName;
@@ -251,6 +249,8 @@ public class GroupApiController {
 		if (groupRole == null) {
 			return new ResponseEntity<>("role da co trong group", HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>("add role successful", HttpStatus.CREATED);
+	}
     
 	/**
 	 * @summary api add new user to group base on user id and group id
@@ -290,7 +290,7 @@ public class GroupApiController {
 			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("delete successful",HttpStatus.OK);
-
+	}
 	/**
 	 * @summary api remove many user in group 
 	 * @date Aug 16, 2018
