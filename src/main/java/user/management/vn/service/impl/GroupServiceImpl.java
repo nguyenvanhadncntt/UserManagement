@@ -35,17 +35,6 @@ public class GroupServiceImpl implements GroupService {
 		return userGroupRepository.save(userGroup);
 	}
 
-	@Override
-	public boolean removeUseFromGroup(Long groupId, List<Long> userIds) {
-		Optional<Group> groupOptional = groupRepository.findById(groupId);
-		if (!groupOptional.isPresent()) {
-			return false;
-		}
-		for (Long userId : userIds) {
-			userGroupRepository.deleteUserFromGroup(groupId, userId);
-		}
-		return true;
-	}
 
 	@Override
 	public List<Group> viewAllGroup() {

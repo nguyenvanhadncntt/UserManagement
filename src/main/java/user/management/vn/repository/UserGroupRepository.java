@@ -15,7 +15,4 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 			, nativeQuery = true)
 	List<UserGroup> findAllUserOfGroupId(Long groupId);
 	
-	@Modifying
-	@Query(value = "delete from user_group where group_id=?1 and user_id=?2", nativeQuery = true)
-	long deleteUserFromGroup(Long groupId, Long userId);
 }
