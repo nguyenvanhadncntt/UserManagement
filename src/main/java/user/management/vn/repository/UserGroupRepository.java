@@ -1,6 +1,7 @@
 package user.management.vn.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -11,11 +12,18 @@ import user.management.vn.entity.UserGroup;
 
 @Repository
 public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
-	@Query(value = "select ug.* from user_group ug join user u on u.id=ug.user_id where group_id=?1 and non_del=1"
-			, nativeQuery = true)
+
+	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.group.nonDel = 1")
 	List<UserGroup> findAllUserOfGroupId(Long groupId);
-	
+
+	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.user.id = ?2 "
+			+ "and ug.group.nonDel = 1 and ug.user.nonDel = 1")
+	Optional<UserGroup> findUserById(Long groupId, Long userId);
+
 	@Modifying
-	@Query(value = "delete from user_group where group_id=?1 and user_id=?2", nativeQuery = true)
-	long deleteUserFromGroup(Long groupId, Long userId);
+	@Query("delete from UserGroup ug where ug.group.id=?1 and ug.user.id=?2")
+	Integer deleteUserFromGroup(Long groupId, Long userId);
+	
+	boolean existsByGroupIdAndUserId(Long groupId,Long userId);	
+
 }

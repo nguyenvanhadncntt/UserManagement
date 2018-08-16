@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "role_group")
 public class GroupRole {
@@ -19,10 +21,12 @@ public class GroupRole {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@JsonIgnoreProperties({"groupRoles","userRoles"})
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "ref_role_group"))
 	private Role role;
 
+	@JsonIgnoreProperties({"groupRoles","userGroups"})
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "group_id", nullable = false, foreignKey = @ForeignKey(name = "ref_group_role"))
 	private Group group;
