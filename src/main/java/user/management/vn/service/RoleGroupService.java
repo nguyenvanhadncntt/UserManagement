@@ -2,7 +2,6 @@ package user.management.vn.service;
 
 import java.util.List;
 
-import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
 
@@ -27,7 +26,7 @@ public interface RoleGroupService {
 	* @return
 	* @return boolean
 	 */
-	boolean existsByGroup(Long groupId);
+	Boolean existsByGroup(Long groupId);
 	/**
 	 * 
 	* @summary convert list groupRole object to role object
@@ -49,7 +48,7 @@ public interface RoleGroupService {
 	* @return
 	* @return boolean
 	 */
-	boolean existsByGroupAndRole(Long groupId,Long roleId);
+	Boolean existsByGroupAndRole(Long groupId,Long roleId);
 	/**
 	 * 
 	* @summary add role to group
@@ -72,5 +71,5 @@ public interface RoleGroupService {
 	* @return
 	* @return boolean
 	 */
-	boolean deleteRoleFormGroup(long groupId, long roleId);
+	Boolean deleteRoleFormGroup(Long groupId, Long roleId);
 }

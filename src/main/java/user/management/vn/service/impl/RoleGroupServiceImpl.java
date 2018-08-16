@@ -30,7 +30,7 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 
 
 	@Override
-	public boolean existsByGroup(Long groupId) {
+	public Boolean existsByGroup(Long groupId) {
 		Optional<Group> exist = groupRepository.findByIdAndNonDel(groupId, false);
 		if (!exist.isPresent()) {
 			return false;
@@ -60,7 +60,7 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 	}
 
 	@Override
-	public boolean existsByGroupAndRole(Long groupId, Long roleId) {
+	public Boolean existsByGroupAndRole(Long groupId, Long roleId) {
 		Optional<GroupRole> exist = groupRoleRepository.findByGroupIdAndRoleId(groupId, roleId);
 		if (!exist.isPresent()) {
 			return false;
@@ -91,12 +91,12 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 	}
 
 	@Override
-	public boolean deleteRoleFormGroup(long groupId, long roleId) {
-		boolean exist = existsByGroupAndRole(groupId, roleId);
+	public Boolean deleteRoleFormGroup(Long groupId, Long roleId) {
+		Boolean exist = existsByGroupAndRole(groupId, roleId);
 		if (!exist) {
 			return false;
 		}
-		long deleted = groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
+		Integer deleted = groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
 		return true;
 	}
 

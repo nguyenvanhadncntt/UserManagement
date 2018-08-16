@@ -55,7 +55,7 @@ public interface GroupRoleRepository extends JpaRepository<GroupRole, Long>{
 	* @return
 	* @return Optional<GroupRole>
 	 */
-	Optional<GroupRole> findByGroupIdAndRoleId(long groupId,long roleId);
+	Optional<GroupRole> findByGroupIdAndRoleId(Long groupId,Long roleId);
 	/**
 	 * 
 	* @summary delete from role group base on group id and role id
@@ -68,7 +68,7 @@ public interface GroupRoleRepository extends JpaRepository<GroupRole, Long>{
 	 */
 	@Modifying
 	@Query(value= "delete from role_group where group_id=?1 and role_id =?2",nativeQuery=true)
-	Integer deleteByGroupIdAndRoleId(long groupId,long roleId);
+	Integer deleteByGroupIdAndRoleId(Long groupId,Long roleId);
 	
 	
 }

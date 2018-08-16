@@ -77,20 +77,7 @@ public class GroupApiController {
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
 
-
-	@PostMapping(path = "/{groupId}/users/{userId}")
-	public ResponseEntity<Object> addUserToGroup(@PathVariable(name = "groupId") long groupId,
-			@PathVariable(name = "userId") long userId) {
-		UserGroup userGroup = groupService.addNewUserToGroup(groupId, userId);
-		if (userGroup == null) {
-			return new ResponseEntity<>("user or group not found", HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<>("Add user successful", HttpStatus.CREATED);
-	}
-
-
 	/**
-	 * 
 	* @summary view list all group 
 	* @date Aug 16, 2018
 	* @author Tai
@@ -98,7 +85,6 @@ public class GroupApiController {
 	* @param size
 	* @param fieldSort
 	* @param request
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@GetMapping
@@ -159,13 +145,11 @@ public class GroupApiController {
 	}
 
 	/**
-	 * 
 	* @summary update a group
 	* @date Aug 16, 2018
 	* @author Tai
 	* @param group
 	* @param id
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@PutMapping("/{id}")
@@ -184,12 +168,10 @@ public class GroupApiController {
 	}
 
 	/**
-	 * 
 	* @summary delete a group
 	* @date Aug 16, 2018
 	* @author Tai
 	* @param id
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@DeleteMapping("/{id}")
@@ -202,7 +184,6 @@ public class GroupApiController {
 	}
 
 	/**
-	 * 
 	* @summary list all roles in a group
 	* @date Aug 16, 2018
 	* @author Tai
@@ -211,7 +192,6 @@ public class GroupApiController {
 	* @param size
 	* @param fieldSort
 	* @param request
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@GetMapping("/{id}/roles")
@@ -233,13 +213,11 @@ public class GroupApiController {
 	}
 
 	/**
-	 * 
 	* @summary add role in group
 	* @date Aug 16, 2018
 	* @author Tai
 	* @param groupId
 	* @param roleId
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@PostMapping("/{groupId}/roles/{roleId}")
@@ -273,13 +251,11 @@ public class GroupApiController {
 	
 
 	/**
-	 * 
 	* @summary Api delete role form group
 	* @date Aug 16, 2018
 	* @author Tai
 	* @param groupId
 	* @param roleId
-	* @return
 	* @return ResponseEntity<Object>
 	 */
 	@DeleteMapping("/{groupId}/roles/{roleId}")

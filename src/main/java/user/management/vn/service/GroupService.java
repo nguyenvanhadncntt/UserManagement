@@ -81,7 +81,7 @@ public interface GroupService {
 	* @param groupId
 	* @return Optional<Group>
 	 */
-	Optional<Group> viewGroup(long groupId);
+	Optional<Group> viewGroup(Long groupId);
 	/**
 	 * 
 	* @summary add a group 
@@ -109,6 +109,6 @@ public interface GroupService {
 	* @return
 	* @return Optional<Group>
 	 */
-	Optional<Group> deleteGroup(long groupId);
+	Optional<Group> deleteGroup(Long groupId);
 	
 }
