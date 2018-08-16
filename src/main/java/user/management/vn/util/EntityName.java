@@ -1,5 +1,10 @@
 package user.management.vn.util;
-
+/**
+ * 
+ * @summary name of entity
+ * @author Thehap Rok
+ *
+ */
 public interface EntityName {
 	final static String BLOCK_USER = "BlockUser";
 	final static String GROUP = "Group";

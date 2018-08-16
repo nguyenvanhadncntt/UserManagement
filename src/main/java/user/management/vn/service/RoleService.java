@@ -3,7 +3,12 @@ package user.management.vn.service;
 import java.util.List;
 
 import user.management.vn.entity.Role;
-
+/**
+ * 
+ * @summary handle service of role
+ * @author ThaiLe
+ *
+ */
 public interface RoleService {
 	
 	/**

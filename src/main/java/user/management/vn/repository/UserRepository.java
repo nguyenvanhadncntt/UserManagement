@@ -18,6 +18,14 @@ import org.springframework.data.jpa.repository.Modifying;
 public interface UserRepository extends JpaRepository<User, Long>{
 	Optional<User> findById(Long userId);
 
+	/**
+	 * @summary find user not in group by email or fullname
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param nameOrEmail
+	 * @return List<User>
+	 */
   @Query("select u from User u "
 			+ "where u.id not in "
 			+ "(select ug.id from UserGroup ug "
@@ -31,7 +39,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @date Aug 13, 2018
 	* @author Thai
 	* @param id
-	* @return
 	* @return int
 	 */
 	@Modifying
@@ -44,7 +51,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @date Aug 13, 2018
 	* @author Thai
 	* @param email
-	* @return
 	* @return Optional<User>
 	 */
 	Optional<User> findByEmail(String email);

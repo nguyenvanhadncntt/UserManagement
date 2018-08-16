@@ -3,6 +3,8 @@ package user.management.vn.service.impl;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +23,13 @@ public class GroupServiceImpl implements GroupService {
 
 	@Autowired
 	private UserGroupRepository userGroupRepository;
+	
 	@Autowired
 	private GroupRepository groupRepository;
+	
 	@Autowired
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -37,7 +41,7 @@ public class GroupServiceImpl implements GroupService {
 			return null;
 		}
 		boolean checkExist = userGroupRepository.existsByGroupIdAndUserId(groupId, userId);
-		if(checkExist) {
+		if (checkExist) {
 			return null;
 		}
 		UserGroup userGroup = new UserGroup(userOptional.get(), groupOptional.get());
@@ -45,6 +49,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
+	@Transactional
 	public Integer removeListUseFromGroup(Long groupId, List<Long> userIds) {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
 		if (!groupOptional.isPresent()) {
@@ -59,6 +64,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	@Override
+	@Transactional
 	public Integer removeUserFromGroup(Long groupId, Long userId) {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
 		Optional<User> userOptional = userRepository.findById(userId);
@@ -90,10 +96,10 @@ public class GroupServiceImpl implements GroupService {
 			return null;
 		}
 		Optional<UserGroup> userGroupOptional = userGroupRepository.findUserById(groupId, userId);
-		if(!userGroupOptional.isPresent()) {
+		if (!userGroupOptional.isPresent()) {
 			return null;
 		}
-		
+
 		UserGroup ug = userGroupOptional.get();
 		User user = ug.getUser();
 		UserResponse userResponse = new UserResponse();

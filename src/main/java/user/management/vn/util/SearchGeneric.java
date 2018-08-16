@@ -8,12 +8,29 @@ import javax.persistence.Query;
 
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @summary search for all field,all entity
+ * @author HaNguyen
+ *
+ */
+
 @Component
 public class SearchGeneric {
 
 	@PersistenceContext
 	EntityManager entityManager;
 
+	/**
+	 * 
+	 * @summary search for entity, all field no condition
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param tableName
+	 * @param fieldSearch
+	 * @param searchValue
+	 * @return List<T>
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue) {
 		StringBuilder sqlQuery = new StringBuilder();
@@ -31,6 +48,17 @@ public class SearchGeneric {
 		return query.getResultList();
 	}
 
+	/**
+	 * 
+	 * @summary search for entity, all field have condition
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param tableName
+	 * @param fieldSearch
+	 * @param searchValue
+	 * @param condition
+	 * @return List<T>
+	 */
 	@SuppressWarnings("unchecked")
 	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue, String condition) {
 		StringBuilder sqlQuery = new StringBuilder();

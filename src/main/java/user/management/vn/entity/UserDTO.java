@@ -4,7 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+/**
+ * 
+ * @author ThaiLe
+ * get user infor from request
+ *
+ */
 public class UserDTO implements Serializable{
 	
 	@JsonIgnore

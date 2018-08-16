@@ -8,13 +8,48 @@ import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 
+/**
+ * 
+ * @summary handle service of user
+ * @author Thehap Rok
+ *
+ */
 public interface UserService {
-	/*
-	 * ha
+	/**
+	 * @summary convert list object UserGroup to list object User 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userGroups
+	 * @return List<User>
 	 */
 	List<User> convertUserGroupsToUsers(List<UserGroup> userGroups);
+	
+	/**
+	 * @summary convert list object UserRole to list object User
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userRoles
+	 * @return List<User>
+	 */
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
+	
+	/**
+	 * @summary convert list object User to list object UserResponse
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param listUser
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
+	
+	/**
+	 * @summary get all user of group from database 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @return
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> getAllUserOfGroup(Long groupId);
    
 	/**

@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import user.management.vn.entity.UserGroup;
 
 @Repository
-@Transactional
 public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 
 	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.group.nonDel = 1")

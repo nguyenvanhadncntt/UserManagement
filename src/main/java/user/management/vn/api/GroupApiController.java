@@ -40,6 +40,17 @@ public class GroupApiController {
 	@Autowired
 	private SearchService searchService;
 
+	/**
+	 * @summary api get all user of group base on group id 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param pageIndex
+	 * @param size
+	 * @param fieldSort
+	 * @param request
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/{groupId}/users")
 	public ResponseEntity<Object> getListUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
@@ -54,6 +65,14 @@ public class GroupApiController {
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
 
+	/**
+	 * @summary api add new user to group base on user id and group id
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param userId
+	 * @return ResponseEntity<Object>
+	 */
 	@PostMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> addUserToGroup(@PathVariable(name = "groupId") Long groupId,
 			@PathVariable(name = "userId") Long userId) {
@@ -64,6 +83,15 @@ public class GroupApiController {
 		return new ResponseEntity<>("Add user successful", HttpStatus.CREATED);
 	}
 
+	
+	/**
+	 * @summary api remove many user in group 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param listIdWapper
+	 * @return ResponseEntity<Object>
+	 */
 	@DeleteMapping(path = "/{groupId}/users")
 	public ResponseEntity<Object> removeListUserFromGroup(@PathVariable("groupId") Long groupId,
 			@RequestBody ListIdWrapper listIdWapper) {
@@ -75,6 +103,15 @@ public class GroupApiController {
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
 
+	/**
+	 * @summary api remove one user in group 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param userId
+	 * @return
+	 * @return ResponseEntity<Object>
+	 */
 	@DeleteMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> removeUserFromGroup(@PathVariable("groupId") Long groupId,
 			@PathVariable("userId") Long userId) {
@@ -85,6 +122,14 @@ public class GroupApiController {
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
 
+	/**
+	 * @summary api find user not in group by fullname of email 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param searchParam
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/{groupId}/user/search-not-in")
 	public ResponseEntity<Object> findUserNotInGroupByNameOrEmail(@PathVariable("groupId") Long groupId,
 			@RequestParam("searchParam") String searchParam) {
@@ -92,6 +137,19 @@ public class GroupApiController {
 		return new ResponseEntity<>(users, HttpStatus.OK);
 	}
 
+	/**
+	 * @summary api search user in group base on any field 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param searchValue
+	 * @param fieldSearch
+	 * @param pageIndex
+	 * @param size
+	 * @param fieldSort
+	 * @param request
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/{groupId}/users/search")
 	public ResponseEntity<Object> findUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@RequestParam(name = "searchValue") String searchValue,
@@ -110,6 +168,14 @@ public class GroupApiController {
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
 
+	/**
+	 * @summary api get infor of user in group base on group id and user id 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @param userId
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> getInforUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@PathVariable(name = "userId") Long userId) {
