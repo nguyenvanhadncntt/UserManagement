@@ -113,7 +113,7 @@ public class UserResponse implements Serializable {
 
 	public void addPropertiesFromUser(User user) {
 		UserDetail userDetail = user.getUserDetail();
-    
+
 		this.email = user.getEmail();
 		this.enable = user.getEnable();
 		this.nonLocked = user.getNonLocked();

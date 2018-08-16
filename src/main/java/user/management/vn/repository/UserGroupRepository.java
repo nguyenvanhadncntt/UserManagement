@@ -27,4 +27,5 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 	Integer deleteUserFromGroup(Long groupId, Long userId);
 	
 	boolean existsByGroupIdAndUserId(Long groupId,Long userId);	
+
 }

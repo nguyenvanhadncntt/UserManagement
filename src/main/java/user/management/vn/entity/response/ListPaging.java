@@ -12,13 +12,10 @@ import org.springframework.beans.support.PropertyComparator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * 
- * @author Thehap Rok
- *
- * @param <T>
- */
-public class ListPaging<T> implements Serializable {
+public class ListPaging<T> implements Serializable{
+	/**
+	 * 
+	 */
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;
 
@@ -27,46 +24,43 @@ public class ListPaging<T> implements Serializable {
 	private Integer totalPage;
 
 	private Integer currentPage;
-
+	
+	private String fieldSort;
+	
+	private String typeSort;
+	
 	public ListPaging() {
 		super();
 	}
 
-	/**
-	 * @summary handle paging for list
-	 * @author Thehap Rok
-	 * @param list
-	 * @param size
-	 * @param pageIndex
-	 * @param fieldSort
-	 * @param request
-	 */
-	public ListPaging(List<T> list, int size, int pageIndex, String fieldSort, HttpServletRequest request) {
-
+	public ListPaging(List<T> list,int size
+			,int pageIndex
+			,String fieldSort,HttpServletRequest request) {
+		String sortType = null;
 		HttpSession session = request.getSession();
 		String fieldSortSession = (String) session.getAttribute("fieldSort");
-		if (!"null".equals(fieldSort) || fieldSortSession != null) {
-			session.setAttribute("fieldSort", (fieldSortSession != null) ? fieldSortSession : fieldSort);
-			String sortType = (String) session.getAttribute("sortType");
-			if (sortType == null || sortType.equals("ASC")) {
-				PropertyComparator.sort(list, new MutableSortDefinition(fieldSort, true, true));
-				session.setAttribute("sortType", "DESC");
-			} else {
-				PropertyComparator.sort(list, new MutableSortDefinition(fieldSort, true, false));
-				session.setAttribute("sortType", "ASC");
-			}
-		}
-
-		PagedListHolder<T> pageList = new PagedListHolder<>(list);
-		pageList.setPageSize(size);
-		pageList.setPage(pageIndex);
-		this.list = pageList.getPageList();
-		this.totalPage = pageList.getPageCount();
-		this.currentPage = pageList.getPage();
-	}
-
-	public void clearSession() {
-
+        if (!"null".equals(fieldSort)|| !"null".equals(fieldSortSession)) {
+        	fieldSort = (!"null".equalsIgnoreCase(fieldSort)) ? fieldSort : fieldSortSession;
+        	session.setAttribute("fieldSort", fieldSort);
+            sortType = (String) session.getAttribute("sortType");
+            if (sortType == null || sortType.equals("ASC")) {
+                PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, true));
+                session.setAttribute("sortType", "DESC");
+            } else {
+                PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, false));
+                session.setAttribute("sortType", "ASC");
+            }
+        }
+        
+        PagedListHolder<T> pageList = new PagedListHolder<>(list);
+        pageList.setPageSize(size);
+        pageList.setPage(pageIndex);
+        this.list = pageList.getPageList();
+        this.totalPage = pageList.getPageCount();
+        this.currentPage = pageList.getPage();
+        this.fieldSort = fieldSort ;
+        this.typeSort = sortType;
+        
 	}
 
 	public List<T> getList() {
@@ -93,4 +87,21 @@ public class ListPaging<T> implements Serializable {
 		this.currentPage = currentPage;
 	}
 
+	public String getFieldSort() {
+		return fieldSort;
+	}
+
+	public void setFieldSort(String fieldSort) {
+		this.fieldSort = fieldSort;
+	}
+
+	public String getTypeSort() {
+		return typeSort;
+	}
+
+	public void setTypeSort(String typeSort) {
+		this.typeSort = typeSort;
+	}
+
+	
 }

@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -31,7 +32,8 @@ public class Role {
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
 
-	@JsonIgnoreProperties({"role","group"})
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<GroupRole> groupRoles;
 

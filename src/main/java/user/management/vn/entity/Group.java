@@ -54,13 +54,13 @@ public class Group {
 		this.description = describe;
 	}
 	
-	public Group(Long id, String name, Boolean nonDel, String describe, Date createdAt, List<GroupRole> groupRoles,
+	public Group(Long id, String name, Boolean nonDel, String description, Date createdAt, List<GroupRole> groupRoles,
 			List<UserGroup> userGroups) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.nonDel = nonDel;
-		this.description = describe;
+		this.description = description;
 		this.createdAt = createdAt;
 		this.groupRoles = groupRoles;
 		this.userGroups = userGroups;
@@ -90,12 +90,12 @@ public class Group {
 		this.nonDel = nonDel;
 	}
 
-	public String getDescribe() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescribe(String describe) {
-		this.description = describe;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Date getCreatedAt() {
