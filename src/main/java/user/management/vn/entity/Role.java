@@ -28,10 +28,12 @@ public class Role {
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
 	private Boolean nonDel = true;
 
+	@Column(name = "scope",nullable = false)
+	private Integer scope;
+	
 	@JsonIgnoreProperties({"role","user"})
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
-
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
@@ -95,5 +97,12 @@ public class Role {
 		this.groupRoles = groupRoles;
 	}
 
+	public Integer getScope() {
+		return scope;
+	}
+
+	public void setScope(Integer scope) {
+		this.scope = scope;
+	}
 	
 }
