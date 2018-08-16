@@ -28,10 +28,12 @@ public class Role {
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
 	private Boolean nonDel = true;
 
+	@Column(name = "scope",nullable = false)
+	private String scope;
+	
 	@JsonIgnoreProperties({"role","user"})
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
 	private List<UserRole> userRoles;
-
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
@@ -41,11 +43,13 @@ public class Role {
 		super();
 	}
 
-	public Role(String roleName) {
+	public Role(String roleName,String scope) {
 		super();
 		this.roleName = roleName;
+		this.scope = scope;
 	}
-
+	
+	
 	public Role(Long id, String roleName, Boolean nonDel, List<UserRole> userRoles, List<GroupRole> groupRoles) {
 		super();
 		this.id = id;
@@ -95,5 +99,12 @@ public class Role {
 		this.groupRoles = groupRoles;
 	}
 
-	
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
 }

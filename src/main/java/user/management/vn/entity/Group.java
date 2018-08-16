@@ -16,6 +16,9 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="groups")
 public class Group {
@@ -38,9 +41,11 @@ public class Group {
 	@CreationTimestamp
 	private Date createdAt;
 
+	@JsonIgnoreProperties("group")
 	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<GroupRole> groupRoles;
 
+	@JsonIgnoreProperties("group")
 	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
