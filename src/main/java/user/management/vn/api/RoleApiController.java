@@ -40,7 +40,7 @@ public class RoleApiController {
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping
-	public ResponseEntity<Object> getAllUser(
+	public ResponseEntity<Object> getAllRole(
 			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
 			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
 			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
