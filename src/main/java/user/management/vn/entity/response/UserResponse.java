@@ -17,7 +17,7 @@ public class UserResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String email;
+	private String email;	
 	private Boolean enable;
 	private Boolean nonLocked;
 	private String fullname;
@@ -113,6 +113,7 @@ public class UserResponse implements Serializable {
 
 	public void addPropertiesFromUser(User user) {
 		UserDetail userDetail = user.getUserDetail();
+
 		this.email = user.getEmail();
 		this.enable = user.getEnable();
 		this.nonLocked = user.getNonLocked();

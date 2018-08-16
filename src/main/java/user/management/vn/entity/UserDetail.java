@@ -54,12 +54,13 @@ public class UserDetail {
 		super();
 	}
 
-	public UserDetail(String fullname, String phone, String address, Boolean gender) {
+	public UserDetail(String fullname, String phone, String address, Boolean gender, Date birthDay) {
 		super();
 		this.fullname = fullname;
 		this.phone = phone;
 		this.address = address;
 		this.gender = gender;
+		this.birthDay = birthDay;
 	}
 
 	public UserDetail(Long id, String fullname, String phone, String address, Boolean gender, Date createdAt,

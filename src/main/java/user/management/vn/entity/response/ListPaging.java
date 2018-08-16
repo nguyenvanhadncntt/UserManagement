@@ -1,7 +1,6 @@
 package user.management.vn.entity.response;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.PropertyComparator;
-import org.springframework.beans.support.SortDefinition;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -39,8 +37,11 @@ public class ListPaging<T> implements Serializable{
 			,int pageIndex
 			,String fieldSort,HttpServletRequest request) {
 		String sortType = null;
-        if (fieldSort != null) {
-            HttpSession session = request.getSession();
+		HttpSession session = request.getSession();
+		String fieldSortSession = (String) session.getAttribute("fieldSort");
+        if (!"null".equals(fieldSort)|| !"null".equals(fieldSortSession)) {
+        	fieldSort = (!"null".equalsIgnoreCase(fieldSort)) ? fieldSort : fieldSortSession;
+        	session.setAttribute("fieldSort", fieldSort);
             sortType = (String) session.getAttribute("sortType");
             if (sortType == null || sortType.equals("ASC")) {
                 PropertyComparator.sort(list,new MutableSortDefinition(fieldSort, true, true));
