@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -47,7 +48,8 @@ public class GroupRole {
 		this.role = role;
 		this.group = groupId;
 	}
-
+	
+	@JoinTable()
 	public Long getId() {
 		return id;
 	}
