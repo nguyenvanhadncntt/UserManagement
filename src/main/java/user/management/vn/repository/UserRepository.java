@@ -54,5 +54,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @return Optional<User>
 	 */
 	Optional<User> findByEmail(String email);
+	
+	List<User> findByUserDetailFullnameContaining(String name);
 
 }

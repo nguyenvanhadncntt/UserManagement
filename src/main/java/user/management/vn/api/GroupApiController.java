@@ -106,6 +106,20 @@ public class GroupApiController {
 		ListPaging<Group> listPagging = new ListPaging<>(listGroup, size, pageIndex, fieldSort, request);
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
+	/**
+	 * 
+	* @summary search role in group
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param searchValue
+	* @param fieldSearch
+	* @param pageIndex
+	* @param size
+	* @param fieldSort
+	* @param request
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/search")
 	public ResponseEntity<Object> findRoleInGroup(@RequestParam(name = "searchValue") String searchValue,
 			@RequestParam(name = "searchField") String fieldSearch,

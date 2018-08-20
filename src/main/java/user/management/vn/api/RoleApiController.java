@@ -145,6 +145,19 @@ public class RoleApiController {
 		return new ResponseEntity<String>("Edit role successfully" + editRole.getRoleName(), HttpStatus.NOT_FOUND);
 	}
 	
+	/**
+	 * 
+	* @summary view all list groups in role
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param id
+	* @param pageIndex
+	* @param size
+	* @param fieldSort
+	* @param request
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@GetMapping("/{id}/groups")
 	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id,
 			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
@@ -163,6 +176,16 @@ public class RoleApiController {
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	* @summary add a group in role
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param roleId
+	* @param groupId
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@PostMapping("/{roleId}/groups/{groupId}")
 	public ResponseEntity<Object> creadRoleGroup(@PathVariable("roleId") long roleId,
 			@PathVariable("groupId") long groupId) {
@@ -174,6 +197,16 @@ public class RoleApiController {
 	}
 
 
+	/**
+	 * 
+	* @summary delete a group in role
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param groupId
+	* @param roleId
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@DeleteMapping("/{roleId}/groups/{groupId}")
 	public ResponseEntity<Object> removeRoleFromGroup(@PathVariable("groupId") long groupId,
 			@PathVariable("roleId") long roleId) {
@@ -184,7 +217,16 @@ public class RoleApiController {
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
 
-	
+	/**
+	 * 
+	* @summary delete a list group in role
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param roleId
+	* @param listIdWapper
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@DeleteMapping("/{roleId}/groups")
 	public ResponseEntity<Object> removeListRoleFromGroup(@PathVariable("roleId") long roleId,
 			@RequestBody ListIdWrapper listIdWapper) {
@@ -196,6 +238,21 @@ public class RoleApiController {
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 
 	}
+	/**
+	 * 
+	* @summary search group in role
+	* @date Aug 20, 2018
+	* @author Tai
+	* @param roleId
+	* @param searchValue
+	* @param fieldSearch
+	* @param pageIndex
+	* @param size
+	* @param fieldSort
+	* @param request
+	* @return
+	* @return ResponseEntity<Object>
+	 */
 	@GetMapping("/{roleId}/groups/search")
 	public ResponseEntity<Object> findRoleInGroup(@PathVariable(name = "roleId") Long roleId,
 			@RequestParam(name = "searchValue") String searchValue,
