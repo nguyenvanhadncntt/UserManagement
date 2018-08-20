@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.PropertyComparator;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -102,6 +104,11 @@ public class ListPaging<T> implements Serializable{
 	public void setTypeSort(String typeSort) {
 		this.typeSort = typeSort;
 	}
-
+	
+	public static void clearSessionPaging(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("fieldSort");
+		session.removeAttribute("sortType");
+	}
 	
 }
