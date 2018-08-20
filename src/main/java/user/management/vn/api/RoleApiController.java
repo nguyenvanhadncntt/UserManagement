@@ -18,9 +18,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import user.management.vn.entity.Group;
+import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.response.ListPaging;
+import user.management.vn.exception.RoleNotFoundException;
+import user.management.vn.query.RoleQueryCondition;
+import user.management.vn.service.RoleGroupService;
 import user.management.vn.service.RoleService;
+import user.management.vn.service.SearchService;
+import user.management.vn.util.EntityName;
+import user.management.vn.wrapper.ListIdWrapper;
 
 @RestController
 @RequestMapping("/api/roles")
@@ -28,6 +36,12 @@ public class RoleApiController {
 
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private RoleGroupService roleGroupService;
+	
+	@Autowired
+	private SearchService searchService;
 
 	/**
 	 * @summary api get all role from database
@@ -129,5 +143,74 @@ public class RoleApiController {
 			return new ResponseEntity<String>("Can't edit role", HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<String>("Edit role successfully" + editRole.getRoleName(), HttpStatus.NOT_FOUND);
+	}
+	
+	@GetMapping("/{id}/groups")
+	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id,
+			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
+			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
+			HttpServletRequest request) {
+		if (roleGroupService.existsByRole(id)) {
+			throw new RoleNotFoundException("Role Not Found id: " + id);
+		}
+		List<GroupRole> list = roleGroupService.findAllGroupByRole(id);
+		List<Group> listGroup = roleGroupService.convertGroupRoleToGroup(list);
+		if (list.isEmpty()) {
+			return new ResponseEntity<>("no role", HttpStatus.NOT_FOUND);
+		}
+		ListPaging<Group> listPagging = new ListPaging<>(listGroup, size, pageIndex, fieldSort, request);
+		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+	}
+
+	@PostMapping("/{roleId}/groups/{groupId}")
+	public ResponseEntity<Object> creadRoleGroup(@PathVariable("roleId") long roleId,
+			@PathVariable("groupId") long groupId) {
+		GroupRole groupRole = roleGroupService.addGroupToRole(groupId, roleId);
+		if (groupRole == null) {
+			return new ResponseEntity<>("Group da co trong role", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("add Group successful", HttpStatus.CREATED);
+	}
+
+
+	@DeleteMapping("/{roleId}/groups/{groupId}")
+	public ResponseEntity<Object> removeRoleFromGroup(@PathVariable("groupId") long groupId,
+			@PathVariable("roleId") long roleId) {
+		boolean deleted = roleGroupService.deleteGroupFormRole(groupId, roleId);
+		if (!deleted) {
+			return new ResponseEntity<>("RoleId not found", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("delete successful", HttpStatus.OK);
+	}
+
+	
+	@DeleteMapping("/{roleId}/groups")
+	public ResponseEntity<Object> removeListRoleFromGroup(@PathVariable("roleId") long roleId,
+			@RequestBody ListIdWrapper listIdWapper) {
+		List<Long> groupIds = listIdWapper.getIds();
+		Integer result = roleGroupService.deleteListGroupFromRole(roleId, groupIds);
+		if (result == 0) {
+			return new ResponseEntity<>("Group not found", HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>("delete successful", HttpStatus.OK);
+
+	}
+	@GetMapping("/{roleId}/groups/search")
+	public ResponseEntity<Object> findRoleInGroup(@PathVariable(name = "roleId") Long roleId,
+			@RequestParam(name = "searchValue") String searchValue,
+			@RequestParam(name = "searchField") String fieldSearch,
+			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
+			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
+			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
+			HttpServletRequest request) {
+		List<Group> groups = searchService.search(EntityName.GROUP, fieldSearch, searchValue,
+				RoleQueryCondition.conditionSearchGroupInRole(roleId));
+
+		if (groups.size() == 0) {
+			return new ResponseEntity<>(groups, HttpStatus.NOT_FOUND);
+		}
+		ListPaging<Group> listPagging = new ListPaging<>(groups, size, pageIndex, fieldSort, request);
+		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
 }

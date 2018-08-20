@@ -13,6 +13,7 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.repository.GroupRepository;
+import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.service.GroupService;
@@ -29,6 +30,9 @@ public class GroupServiceImpl implements GroupService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private GroupRoleRepository groupRoleRepository;
 
 
 	@Autowired
@@ -36,7 +40,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public UserGroup addNewUserToGroup(Long groupId, Long userId) {
-		Optional<Group> groupOptional = groupRepository.findById(groupId);
+		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent() || !userOptional.isPresent()) {
 			return null;
@@ -106,7 +110,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public UserResponse getInforOfUser(Long groupId, Long userId) {
-		Optional<Group> groupOptional = groupRepository.findById(groupId);
+		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent()) {
 			return null;
@@ -137,6 +141,7 @@ public class GroupServiceImpl implements GroupService {
 		
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 		group.get().setNonDel(false);
+		long deleteRoleGroup = groupRoleRepository.deleteByGroupId(groupId);
 		
 		return Optional.ofNullable(groupRepository.save(group.get()));
 	}

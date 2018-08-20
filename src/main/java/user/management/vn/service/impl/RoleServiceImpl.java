@@ -68,5 +68,11 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleRepository.findByRoleName(roleName);
 	}
+
+	@Override
+	public List<Role> findByGroupRolesGroupId(long group) {
+		
+		return roleRepository.findByGroupRolesGroupId(group);
+	}
 	
 }
