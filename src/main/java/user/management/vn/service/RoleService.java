@@ -3,7 +3,12 @@ package user.management.vn.service;
 import java.util.List;
 
 import user.management.vn.entity.Role;
-
+/**
+ * 
+ * @summary handle service of role
+ * @author ThaiLe
+ *
+ */
 public interface RoleService {
 	
 	/**
@@ -67,4 +72,22 @@ public interface RoleService {
 	* @return Role
 	 */
 	Role findByRoleName(String roleName);
+	
+	/**
+	 * @summary get list role base on scope 
+	 * @date Aug 17, 2018
+	 * @author Thehap Rok
+	 * @param scope
+	 * @return List<Role>
+	 */
+	List<Role> getListRoleByScope(String scope);
+	
+	/**
+	 * @summary update user to admin 
+	 * @date Aug 17, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return
+	 * @return Integer
+	 */
 }

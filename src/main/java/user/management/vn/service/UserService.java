@@ -2,20 +2,61 @@ package user.management.vn.service;
 
 import java.util.List;
 
+import user.management.vn.entity.Group;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 
+/**
+ * 
+ * @summary handle service of user
+ * @author Thehap Rok
+ *
+ */
 public interface UserService {
+<<<<<<< HEAD
 
 	/*
 	 * ha
+=======
+	/**
+	 * @summary convert list object UserGroup to list object User 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userGroups
+	 * @return List<User>
+>>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 	 */
 	List<User> convertUserGroupsToUsers(List<UserGroup> userGroups);
+	
+	/**
+	 * @summary convert list object UserRole to list object User
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userRoles
+	 * @return List<User>
+	 */
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
+	
+	/**
+	 * @summary convert list object User to list object UserResponse
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param listUser
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
+	
+	/**
+	 * @summary get all user of group from database 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @return
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> getAllUserOfGroup(Long groupId);
    
 	/**
@@ -99,5 +140,9 @@ public interface UserService {
 	* @return User
 	 */
 	User getUserByEmail(String email);
+	
+	void removeRoleOfGroupFromUserRole(Group group,User user);
+	
+	UserRole upgradeUserToAdmin(Long userId);
 
 }

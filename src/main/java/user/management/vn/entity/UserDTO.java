@@ -8,10 +8,19 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+<<<<<<< HEAD
 
 import user.management.vn.validation.PasswordMatches;
 
 @PasswordMatches
+=======
+/**
+ * 
+ * @author ThaiLe
+ * get user infor from request
+ *
+ */
+>>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 public class UserDTO implements Serializable{
 	
 	@JsonIgnore

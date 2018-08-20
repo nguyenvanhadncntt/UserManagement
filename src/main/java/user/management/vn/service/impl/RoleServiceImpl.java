@@ -9,14 +9,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Role;
+import user.management.vn.entity.User;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.service.RoleService;
+import user.management.vn.service.UserService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private UserService userService;
+	
 	@Override
 	public List<Role> getAllRoles() {
 		// TODO Auto-generated method stub
@@ -68,5 +74,10 @@ public class RoleServiceImpl implements RoleService {
 		// TODO Auto-generated method stub
 		return roleRepository.findByRoleName(roleName);
 	}
-	
+
+	@Override
+	public List<Role> getListRoleByScope(String scope) {
+		// TODO Auto-generated method stub
+		return roleRepository.findByScope(scope);
+	}
 }
