@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
->>>>>>> 3dfda233b5cd98dfc2f9bfeb41103de1b13e001c
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -109,20 +108,12 @@ public class UserServiceImpl implements UserService{
 		List<User> listUser =  userRepository.findAll();
 		return convertUserToUserResponse(listUser);
 	}
-
-	@Override
-	public List<UserResponse> getUsersByName(String name) {
->>>>>>> 3dfda233b5cd98dfc2f9bfeb41103de1b13e001c
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-<<<<<<< HEAD
+	
 	public List<User> findAllUser() {
 		// TODO Auto-generated method stub
 		return userRepository.findAll();
-=======
+	}
+	
 	public UserResponse findUserById(Long userId) {
 		// TODO Auto-generated method stub
 		Optional<User> user =  userRepository.findById(userId);
@@ -172,7 +163,6 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 		return optionalUser.get();
->>>>>>> 3dfda233b5cd98dfc2f9bfeb41103de1b13e001c
 	}
 
 }

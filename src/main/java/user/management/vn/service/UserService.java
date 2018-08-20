@@ -53,15 +53,7 @@ public interface UserService {
 	* @return List<UserResponse>
 	 */
 	List<UserResponse> getAllUsers();
-	
-	/**
-	* @summary get common information of a user
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param name
-	* @return List<UserResponse>
-	 */
-	List<UserResponse> getUsersByName(String name);
+
 	
 	/**
 	* @summary find a user base on id of user, return object of type UserResponse class

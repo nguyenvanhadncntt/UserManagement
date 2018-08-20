@@ -50,7 +50,7 @@ public class RoleApiController {
 			return new ResponseEntity<>(listRole, HttpStatus.NOT_FOUND);
 		}
 		ListPaging<Role> listPaging = new ListPaging<>(listRole, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listRole, HttpStatus.OK);		
+		return new ResponseEntity<>(listPaging, HttpStatus.OK);		
 	}
 
 	/**

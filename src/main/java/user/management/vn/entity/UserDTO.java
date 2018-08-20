@@ -3,20 +3,43 @@ package user.management.vn.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import user.management.vn.validation.PasswordMatches;
+
+@PasswordMatches
 public class UserDTO implements Serializable{
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;	
+	@Email
+	@NotNull
+	@NotEmpty
 	private String email;
+	@NotNull
 	private String fullname;
 	private String phone;
+	@NotNull
 	private Date birthday;
+	@NotNull
 	private String address;
+	@NotNull
 	private Boolean gender;
-	private String password;
+	@NotNull
+	@NotEmpty
+	private String password;	
+	private String matchingPassword;
 	
+	public String getMatchingPassword() {
+		return matchingPassword;
+	}
+	public void setMatchingPassword(String matchingPassword) {
+		this.matchingPassword = matchingPassword;
+	}
 	public UserDTO() {
 		super();
 	}
