@@ -146,5 +146,8 @@ public interface UserService {
 	void removeRoleOfGroupFromUserRole(Group group,User user);
 	
 	UserRole upgradeUserToAdmin(Long userId);
-
+	
+	void deleteAllRoleOfUser(Long userId);
+	
+	void deleteUserGroup(Long userId);
 }
