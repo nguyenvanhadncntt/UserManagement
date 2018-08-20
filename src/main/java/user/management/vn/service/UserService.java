@@ -16,18 +16,14 @@ import user.management.vn.entity.response.UserResponse;
  *
  */
 public interface UserService {
-<<<<<<< HEAD
 
-	/*
-	 * ha
-=======
+
 	/**
 	 * @summary convert list object UserGroup to list object User 
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param userGroups
 	 * @return List<User>
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 	 */
 	List<User> convertUserGroupsToUsers(List<UserGroup> userGroups);
 	
@@ -144,5 +140,8 @@ public interface UserService {
 	void removeRoleOfGroupFromUserRole(Group group,User user);
 	
 	UserRole upgradeUserToAdmin(Long userId);
+	
+	boolean activeUser(Long id);
+	
 
 }

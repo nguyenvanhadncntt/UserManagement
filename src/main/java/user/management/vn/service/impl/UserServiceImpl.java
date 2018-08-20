@@ -221,5 +221,17 @@ public class UserServiceImpl implements UserService {
 		UserRole userRole = new UserRole(user, adminRole);
 		return userRoleRepository.save(userRole);
 	}
+	
+	@Transactional
+	@Override
+	public boolean activeUser(Long id) {
+		// TODO Auto-generated method stub
+		Optional<User> optional = userRepository.findById(id);
+		if(!optional.isPresent()) {
+			return false;
+		}
+		userRepository.activeUser(id);
+		return true;
+	}
 
 }

@@ -55,5 +55,16 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @return Optional<User>
 	 */
 	Optional<User> findByEmail(String email);
+	
+	/**
+	* @summary active Account
+	* @date Aug 20, 2018
+	* @author ThaiLe
+	* @param id
+	* @return int
+	 */
+	@Modifying
+	@Query(value = "update user set enable = 1 where id=?1", nativeQuery = true)
+	int activeUser(Long id);
 
 }

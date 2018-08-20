@@ -51,31 +51,27 @@ public class RoleApiController {
 			return new ResponseEntity<>(listRole, HttpStatus.NOT_FOUND);
 		}
 		ListPaging<Role> listPaging = new ListPaging<>(listRole, size, pageIndex, fieldSort, request);
-<<<<<<< HEAD
-		return new ResponseEntity<>(listPaging, HttpStatus.OK);		
-=======
 		return new ResponseEntity<>(listPaging, HttpStatus.OK);
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 	}
 
 	@GetMapping("/sys")
 	public ResponseEntity<Object> getAllRoleScopeGroup() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.SYSTEM);
-		if(listRole.size() == 0) {
-			return new ResponseEntity<>("No data",HttpStatus.NO_CONTENT);
+		if (listRole.size() == 0) {
+			return new ResponseEntity<>("No data", HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(listRole,HttpStatus.OK);
+		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
-	
+
 	@GetMapping("/group")
 	public ResponseEntity<Object> getAllRoleScopeSystem() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
-		if(listRole.size() == 0) {
-			return new ResponseEntity<>("No data",HttpStatus.NO_CONTENT);
+		if (listRole.size() == 0) {
+			return new ResponseEntity<>("No data", HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<>(listRole,HttpStatus.OK);
+		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * @summary api get 1 role from database base on id of role
 	 * @date Aug 15, 2018

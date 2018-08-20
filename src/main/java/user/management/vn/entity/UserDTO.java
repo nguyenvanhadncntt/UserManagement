@@ -3,43 +3,45 @@ package user.management.vn.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-<<<<<<< HEAD
 
 import user.management.vn.validation.PasswordMatches;
-
-@PasswordMatches
-=======
+import user.management.vn.validation.Phone;
 /**
  * 
  * @author ThaiLe
  * get user infor from request
  *
  */
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
+@PasswordMatches
 public class UserDTO implements Serializable{
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;	
 	@Email
-	@NotNull
-	@NotEmpty
+	@NotBlank
 	private String email;
-	@NotNull
-	private String fullname;
-	private String phone;
+	@NotBlank
+	private String fullname;	
+	@Phone	
+	private String phone;	
+	
 	@NotNull
 	private Date birthday;
-	@NotNull
+	@NotBlank
 	private String address;
 	@NotNull
 	private Boolean gender;
-	@NotNull
-	@NotEmpty
+	@NotBlank
 	private String password;	
 	private String matchingPassword;
 	

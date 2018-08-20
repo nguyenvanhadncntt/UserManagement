@@ -8,10 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-<<<<<<< HEAD
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-=======
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
@@ -38,10 +34,6 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
-<<<<<<< HEAD
-=======
-
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 	
 	/**
 	 * 
@@ -65,11 +57,8 @@ public class UserApiController {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
 		ListPaging<UserResponse> listPaging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
-<<<<<<< HEAD
 		return new ResponseEntity<>(listPaging, HttpStatus.OK);		
-=======
-		return new ResponseEntity<>(listPaging, HttpStatus.OK);
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
+
 	}
 
 	/**
@@ -140,7 +129,6 @@ public class UserApiController {
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
 	}
 	
-<<<<<<< HEAD
 	@PostMapping(path = "/registration")
 	public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
 		if(rs.hasErrors()) {
@@ -155,7 +143,6 @@ public class UserApiController {
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
 											 
-=======
 	/**
 	 * @summary upgrade user to admin
 	 * @date Aug 17, 2018
@@ -176,5 +163,4 @@ public class UserApiController {
 		return new ResponseEntity<>(upgradeRole,HttpStatus.OK);
 	}
 
->>>>>>> 51d2335ca36818a73c1bf15c35d4e11fa894c37d
 }

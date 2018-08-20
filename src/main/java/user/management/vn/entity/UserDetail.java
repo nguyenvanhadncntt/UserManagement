@@ -17,6 +17,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import user.management.vn.validation.Phone;
+
 @Entity
 @Table(name="user_detail")
 public class UserDetail {
@@ -28,6 +30,7 @@ public class UserDetail {
 	@Column(name = "fullname", nullable = false)
 	private String fullname;
 
+	@Phone
 	@Column(name = "phone", columnDefinition = "VARCHAR(15)", nullable = false)
 	private String phone;
 
