@@ -102,6 +102,11 @@ public class ListPaging<T> implements Serializable{
 	public void setTypeSort(String typeSort) {
 		this.typeSort = typeSort;
 	}
-
+	
+	public static void clearSessionPaging(HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		session.removeAttribute("fieldSort");
+		session.removeAttribute("sortType");
+	}
 	
 }

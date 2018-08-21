@@ -115,6 +115,8 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 		userRepository.deleteUser(id);
+		deleteUserGroup(id);
+		deleteAllRoleOfUser(id);
 		return true;
 	}
 
@@ -232,6 +234,16 @@ public class UserServiceImpl implements UserService {
 		}
 		userRepository.activeUser(id);
 		return true;
+	}
+
+	@Override
+	public void deleteAllRoleOfUser(Long userId) {
+		userRoleRepository.deleteUserRoleByUserId(userId);
+	}
+
+	@Override
+	public void deleteUserGroup(Long userId) {
+		UserGroupRepository.deleteUserGroupByUserId(userId);
 	}
 
 }

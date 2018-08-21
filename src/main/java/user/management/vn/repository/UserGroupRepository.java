@@ -3,6 +3,8 @@ package user.management.vn.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,10 +22,15 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 			+ "and ug.group.nonDel = 1 and ug.user.nonDel = 1")
 	Optional<UserGroup> findUserById(Long groupId, Long userId);
 
+	@Transactional
 	@Modifying
 	@Query("delete from UserGroup ug where ug.group.id=?1 and ug.user.id=?2")
 	Integer deleteUserFromGroup(Long groupId, Long userId);
 	
 	boolean existsByGroupIdAndUserId(Long groupId,Long userId);	
 
+	@Transactional
+	@Modifying
+	@Query(value="delete from user_group where user_id=?1",nativeQuery=true)
+	void deleteUserGroupByUserId(Long userId);
 }

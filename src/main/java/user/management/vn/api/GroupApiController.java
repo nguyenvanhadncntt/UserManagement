@@ -49,11 +49,11 @@ public class GroupApiController {
 	@Autowired
 	private RoleGroupService roleGroupService;
 
-  @Autowired
+	@Autowired
 	private SearchService searchService;
 
 	/**
-	 * @summary api get all user of group base on group id 
+	 * @summary api get all user of group base on group id
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -78,14 +78,14 @@ public class GroupApiController {
 	}
 
 	/**
-	* @summary view list all group 
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param pageIndex
-	* @param size
-	* @param fieldSort
-	* @param request
-	* @return ResponseEntity<Object>
+	 * @summary view list all group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param pageIndex
+	 * @param size
+	 * @param fieldSort
+	 * @param request
+	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping
 	public ResponseEntity<Object> getAllGroup(
@@ -103,16 +103,16 @@ public class GroupApiController {
 
 	/**
 	 * 
-	* @summary get information of group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param id
-	* @param pageIndex
-	* @param size
-	* @param fieldSort
-	* @param request
-	* @return
-	* @return ResponseEntity<Object>
+	 * @summary get information of group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param id
+	 * @param pageIndex
+	 * @param size
+	 * @param fieldSort
+	 * @param request
+	 * @return
+	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Object> getGroup(@PathVariable("id") long id,
@@ -129,12 +129,12 @@ public class GroupApiController {
 
 	/**
 	 * 
-	* @summary create a group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param group
-	* @return
-	* @return ResponseEntity<Object>
+	 * @summary create a group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param group
+	 * @return
+	 * @return ResponseEntity<Object>
 	 */
 	@PostMapping
 	public ResponseEntity<Object> createGroup(@RequestBody Group group) {
@@ -145,16 +145,15 @@ public class GroupApiController {
 	}
 
 	/**
-	* @summary update a group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param group
-	* @param id
-	* @return ResponseEntity<Object>
+	 * @summary update a group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param group
+	 * @param id
+	 * @return ResponseEntity<Object>
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id) {
-
 		Optional<Group> groupOptional = groupService.viewGroup(id);
 		if (!groupOptional.isPresent()) {
 			throw new GroupNotFoundException("Group Not Found id: " + id);
@@ -168,11 +167,11 @@ public class GroupApiController {
 	}
 
 	/**
-	* @summary delete a group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param id
-	* @return ResponseEntity<Object>
+	 * @summary delete a group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param id
+	 * @return ResponseEntity<Object>
 	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Object> deleteGroup(@PathVariable("id") long id) {
@@ -184,15 +183,15 @@ public class GroupApiController {
 	}
 
 	/**
-	* @summary list all roles in a group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param id
-	* @param pageIndex
-	* @param size
-	* @param fieldSort
-	* @param request
-	* @return ResponseEntity<Object>
+	 * @summary list all roles in a group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param id
+	 * @param pageIndex
+	 * @param size
+	 * @param fieldSort
+	 * @param request
+	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/{id}/roles")
 	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id,
@@ -213,12 +212,12 @@ public class GroupApiController {
 	}
 
 	/**
-	* @summary add role in group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param groupId
-	* @param roleId
-	* @return ResponseEntity<Object>
+	 * @summary add role in group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return ResponseEntity<Object>
 	 */
 	@PostMapping("/{groupId}/roles/{roleId}")
 	public ResponseEntity<Object> creadRoleGroup(@PathVariable("groupId") long groupId,
@@ -229,7 +228,7 @@ public class GroupApiController {
 		}
 		return new ResponseEntity<>("add role successful", HttpStatus.CREATED);
 	}
-    
+
 	/**
 	 * @summary api add new user to group base on user id and group id
 	 * @date Aug 16, 2018
@@ -248,15 +247,13 @@ public class GroupApiController {
 		return new ResponseEntity<>("Add user successful", HttpStatus.CREATED);
 	}
 
-	
-
 	/**
-	* @summary Api delete role form group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param groupId
-	* @param roleId
-	* @return ResponseEntity<Object>
+	 * @summary Api delete role form group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return ResponseEntity<Object>
 	 */
 	@DeleteMapping("/{groupId}/roles/{roleId}")
 	public ResponseEntity<Object> removeRoleFromGroup(@PathVariable("groupId") long groupId,
@@ -265,10 +262,11 @@ public class GroupApiController {
 		if (!deleted) {
 			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>("delete successful",HttpStatus.OK);
+		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
+
 	/**
-	 * @summary api remove many user in group 
+	 * @summary api remove many user in group
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -280,6 +278,7 @@ public class GroupApiController {
 			@RequestBody ListIdWrapper listIdWapper) {
 		List<Long> userIds = listIdWapper.getIds();
 		Integer result = groupService.removeListUseFromGroup(groupId, userIds);
+		
 		if (result == 0) {
 			return new ResponseEntity<>("Group not found", HttpStatus.NOT_FOUND);
 		}
@@ -287,7 +286,7 @@ public class GroupApiController {
 	}
 
 	/**
-	 * @summary api remove one user in group 
+	 * @summary api remove one user in group
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -306,7 +305,7 @@ public class GroupApiController {
 	}
 
 	/**
-	 * @summary api find user not in group by fullname of email 
+	 * @summary api find user not in group by fullname of email
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -321,7 +320,7 @@ public class GroupApiController {
 	}
 
 	/**
-	 * @summary api search user in group base on any field 
+	 * @summary api search user in group base on any field
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -352,7 +351,7 @@ public class GroupApiController {
 	}
 
 	/**
-	 * @summary api get infor of user in group base on group id and user id 
+	 * @summary api get infor of user in group base on group id and user id
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -364,9 +363,9 @@ public class GroupApiController {
 			@PathVariable(name = "userId") Long userId) {
 		UserResponse user = groupService.getInforOfUser(groupId, userId);
 		if (user == null) {
-			return new ResponseEntity<>("user not found",HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>(user,HttpStatus.OK);
+		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
-	
+
 }

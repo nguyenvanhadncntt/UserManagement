@@ -87,24 +87,30 @@ public class RegistrationController {
 	}
 	
 	@GetMapping(path="activeAccount")
-	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) {
+	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
-			return new ResponseEntity<>("Register code is not true", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Token is not true", HttpStatus.NOT_FOUND);
 		}
-		Date nowDay = new Date();
-		if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
-			
-		}
-		User objUsers= tokenVerification.getUser();
+		User objUsers= tokenVerification.getUser();		
+		
 		if(objUsers != null) {
 			
-			boolean check = userService.activeUser(objUsers.getId());
-			if(check == true) {
-				tokenVerificationService.deleteTokenById(tokenVerification.getId());
-				return new ResponseEntity<>("Active user successfully", HttpStatus.OK);
+			Date nowDay = new Date();
+			if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
+				tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
+				tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
+				tokenVerificationService.editToken(tokenVerification);
+				mailService.sendMailActive(objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
+				return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
 			}else {
-				return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
+				boolean check = userService.activeUser(objUsers.getId());
+				if(check == true) {
+					tokenVerificationService.deleteTokenById(tokenVerification.getId());
+					return new ResponseEntity<>("Active user successfully", HttpStatus.OK);
+				}else {
+					return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
+				}
 			}
 			//userService.autoLogin(request, user.getEmail(), user.getPassword());
 			//model.addAttribute("msg","Your account active successful !!!");

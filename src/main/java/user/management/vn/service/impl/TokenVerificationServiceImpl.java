@@ -22,6 +22,7 @@ public class TokenVerificationServiceImpl implements TokenVerificationService {
 		return tokenVerificationRepository.save(tokenVerifition);
 	}
 
+	
 	@Override
 	public TokenVerifition editToken(TokenVerifition tokenVerifition) {
 		// TODO Auto-generated method stub
