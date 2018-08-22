@@ -141,13 +141,10 @@ public interface UserService {
 	
 	UserRole upgradeUserToAdmin(Long userId);
 	
-<<<<<<< HEAD
-	boolean activeUser(Long id);
-	
 
-=======
+	boolean activeUser(Long id);
+
 	void deleteAllRoleOfUser(Long userId);
 	
 	void deleteUserGroup(Long userId);
->>>>>>> 361fd1a8d4b2b95ece93144b7856019cbf6394f0
 }
