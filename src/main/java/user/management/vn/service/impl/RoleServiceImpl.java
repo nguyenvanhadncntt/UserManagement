@@ -9,19 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Role;
-import user.management.vn.entity.User;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.service.RoleService;
-import user.management.vn.service.UserService;
 
 @Service
 public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
-	
-	@Autowired
-	private UserService userService;
 	
 	@Override
 	public List<Role> getAllRoles() {

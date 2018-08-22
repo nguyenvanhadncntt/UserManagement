@@ -96,7 +96,7 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		if (!exist) {
 			return false;
 		}
-		Integer deleted = groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
+		groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
 		return true;
 	}
 

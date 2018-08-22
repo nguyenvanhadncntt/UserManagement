@@ -18,8 +18,8 @@ public class LoginController {
 		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			return "redirect:/home";
 		}
-		String error = (String) request.getSession().getAttribute("error");
-		if (error != null || "".equals(error)) {
+		Object error =  request.getSession().getAttribute("error");
+		if (error instanceof String && (error != null || "".equals(error))) {
 			request.getSession().removeAttribute("error");
 			model.addAttribute("error", error);
 		}

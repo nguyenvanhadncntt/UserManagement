@@ -15,7 +15,6 @@ import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.repository.GroupRepository;
-import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.repository.UserRoleRepository;
@@ -40,9 +39,6 @@ public class GroupServiceImpl implements GroupService {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private GroupRoleRepository groupRoleRepository;
-
 	@Override
 	public UserGroup addNewUserToGroup(Long groupId, Long userId) {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
