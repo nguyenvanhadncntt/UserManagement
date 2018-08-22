@@ -143,5 +143,18 @@ public interface UserService {
 	
 	boolean activeUser(Long id);
 	
+	/**
+	 * 
+	* @summary Save User
+	* @date Aug 21, 2018
+	* @author Tai
+	* @param user
+	* @return
+	* @return User
+	 */
+	User saveUser(User user);
+	
+	
+	
 
 }

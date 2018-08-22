@@ -1,7 +1,6 @@
 package user.management.vn.controller;
 
 import java.util.Date;
-import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,14 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import com.jayway.jsonpath.Option;
 
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
@@ -72,7 +68,7 @@ public class RegistrationController {
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
 			try {
-				mailService.sendMailActive(userModel.getEmail(),registCode,expireDate);
+				mailService.sendMailActive("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
 				tokenVerificationService.addToken(tokenVerifition);
@@ -87,16 +83,21 @@ public class RegistrationController {
 	}
 	
 	@GetMapping(path="activeAccount")
-	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) {
+	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token")String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
 			return new ResponseEntity<>("Register code is not true", HttpStatus.BAD_REQUEST);
 		}
 		Date nowDay = new Date();
-		if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
-			
-		}
 		User objUsers= tokenVerification.getUser();
+		if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
+			tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
+            tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
+            tokenVerificationService.editToken(tokenVerification);
+            mailService.sendMailActive("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
+            return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
+		}
+		
 		if(objUsers != null) {
 			
 			boolean check = userService.activeUser(objUsers.getId());
