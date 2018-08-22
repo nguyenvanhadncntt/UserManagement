@@ -45,8 +45,11 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		// disable csrf
 		http.csrf().disable();
 
-		// all request to /login auto permit, and request to url other must authen
-		http.authorizeRequests().antMatchers("/login**").permitAll().anyRequest().authenticated();
+		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd, /change-password auto permit 
+		// and request to url other must authen
+		http.authorizeRequests().antMatchers("/login**","/registerAccount**"
+				,"/activeAccount**","/forget-passowrd**","/change-password**").permitAll()
+				.anyRequest().authenticated();
 
 		// add filter for check time to unblock user
 		http.authorizeRequests().and().addFilterBefore(unBlockUserFilter, UsernamePasswordAuthenticationFilter.class)
