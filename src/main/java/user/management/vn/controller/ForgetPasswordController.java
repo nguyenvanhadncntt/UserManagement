@@ -190,7 +190,7 @@ public class ForgetPasswordController {
 		}
 		// check password trung
 		if (!checkPassword) {
-			modelMap.addAttribute("msg", "KHong trung password");
+			modelMap.addAttribute("msg", "You enter a mismatched password");
 			return "forget-password";
 		}
 
@@ -203,7 +203,7 @@ public class ForgetPasswordController {
 		// delete token
 		TokenVerifition tokenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
-		modelMap.addAttribute("msg", "Ban da dang thay doi password thanh cong");
+		modelMap.addAttribute("msg", "You have successfully changed your password");
 		return "forget-password";
 	}
 
