@@ -1,23 +1,32 @@
 package user.management.vn.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class LoginController {
-	
-	@GetMapping(path="/login")
-	public String login() {
+
+	@GetMapping(path = "/login")
+	public String login(Model model, HttpServletRequest request) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if(!(auth instanceof AnonymousAuthenticationToken)) {
+		if (!(auth instanceof AnonymousAuthenticationToken)) {
 			return "redirect:/home";
+		}
+		String error = (String) request.getSession().getAttribute("error");
+		if (error != null || "".equals(error)) {
+			request.getSession().removeAttribute("error");
+			model.addAttribute("error", error);
 		}
 		return "login";
 	}
-	@GetMapping(path="/home")
+
+	@GetMapping(path = "/home")
 	public String home() {
 		return "home";
 	}
