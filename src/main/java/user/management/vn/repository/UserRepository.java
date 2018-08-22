@@ -56,9 +56,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	 */
 	Optional<User> findByEmail(String email);
 	
-<<<<<<< HEAD
 	List<User> findByUserDetailFullnameContaining(String name);
-=======
 	/**
 	* @summary active Account
 	* @date Aug 20, 2018
@@ -69,6 +67,4 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Modifying
 	@Query(value = "update user set enable = 1 where id=?1", nativeQuery = true)
 	int activeUser(Long id);
->>>>>>> 2a1eee70597ff8e631db73bd693acc5876c9dce9
-
 }
