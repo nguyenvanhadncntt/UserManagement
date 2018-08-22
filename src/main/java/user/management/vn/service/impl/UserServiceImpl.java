@@ -1,5 +1,6 @@
 package user.management.vn.service.impl;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -125,14 +126,12 @@ public class UserServiceImpl implements UserService {
 		List<User> listUser = userRepository.findAll();
 		return convertUserToUserResponse(listUser);
 	}
-
-	@Override
-	public List<UserResponse> getUsersByName(String name) {
+	
+	public List<User> findAllUser() {
 		// TODO Auto-generated method stub
-		return null;
+		return userRepository.findAll();
 	}
-
-	@Override
+	
 	public UserResponse findUserById(Long userId) {
 		// TODO Auto-generated method stub
 		Optional<User> user = userRepository.findById(userId);
@@ -223,6 +222,24 @@ public class UserServiceImpl implements UserService {
 		}
 		UserRole userRole = new UserRole(user, adminRole);
 		return userRoleRepository.save(userRole);
+	}
+	
+	@Transactional
+	@Override
+	public boolean activeUser(Long id) {
+		// TODO Auto-generated method stub
+		Optional<User> optional = userRepository.findById(id);
+		if(!optional.isPresent()) {
+			return false;
+		}
+		userRepository.activeUser(id);
+		return true;
+	}
+
+	@Override
+	public User saveUser(User user) {
+		
+		return userRepository.save(user);
 	}
 
 	@Override

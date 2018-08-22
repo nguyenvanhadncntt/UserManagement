@@ -16,6 +16,7 @@ import org.springframework.data.jpa.repository.Modifying;
 @Repository
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long>{
+
 	Optional<User> findById(Long userId);
 
 	/**
@@ -54,5 +55,16 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @return Optional<User>
 	 */
 	Optional<User> findByEmail(String email);
-
+	
+	List<User> findByUserDetailFullnameContaining(String name);
+	/**
+	* @summary active Account
+	* @date Aug 20, 2018
+	* @author ThaiLe
+	* @param id
+	* @return int
+	 */
+	@Modifying
+	@Query(value = "update user set enable = 1 where id=?1", nativeQuery = true)
+	int activeUser(Long id);
 }

@@ -8,5 +8,13 @@ public class GroupQueryCondition {
 		builder.append(")");
 		return builder.toString();
 	}
+	public static String conditionSearchRoleInGroup(Long groupId) {
+		StringBuilder builder = new StringBuilder(
+				" id in (select distinct gr.role.id from GroupRole gr where gr.group.id=");
+		builder.append(groupId);
+		builder.append(")");
+		return builder.toString();
+	}
+	
 
 }
