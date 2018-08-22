@@ -71,6 +71,12 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
+	public List<Role> findByGroupRolesGroupId(long group) {
+		
+		return roleRepository.findByGroupRolesGroupId(group);
+	}
+	
+
 	public List<Role> getListRoleByScope(String scope) {
 		// TODO Auto-generated method stub
 		return roleRepository.findByScope(scope);
