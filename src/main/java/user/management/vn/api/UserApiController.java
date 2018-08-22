@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +34,6 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
-
 	
 	/**
 	 * 
@@ -57,7 +57,8 @@ public class UserApiController {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
 		ListPaging<UserResponse> listPaging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPaging, HttpStatus.OK);
+		return new ResponseEntity<>(listPaging, HttpStatus.OK);		
+
 	}
 
 	/**
@@ -128,6 +129,20 @@ public class UserApiController {
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
 	}
 	
+	@PostMapping(path = "/registration")
+	public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
+		if(rs.hasErrors()) {
+			System.out.println(rs.getAllErrors().toString());
+			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
+		}
+		if(userService.checkDuplicateEmail(userDTO.getEmail())) {
+			return new ResponseEntity<String> ("Email is existed", HttpStatus.CONFLICT);
+		}
+		System.out.println(userDTO.getPhone()+ ", "+ userDTO.getPassword() + ", "+ userDTO.getEmail());
+		userService.addUser(userDTO);
+		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
+	}
+											 
 	/**
 	 * @summary upgrade user to admin
 	 * @date Aug 17, 2018

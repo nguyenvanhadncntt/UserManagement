@@ -16,6 +16,8 @@ import user.management.vn.entity.response.UserResponse;
  *
  */
 public interface UserService {
+
+
 	/**
 	 * @summary convert list object UserGroup to list object User 
 	 * @date Aug 16, 2018
@@ -88,15 +90,7 @@ public interface UserService {
 	* @return List<UserResponse>
 	 */
 	List<UserResponse> getAllUsers();
-	
-	/**
-	* @summary get common information of a user
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param name
-	* @return List<UserResponse>
-	 */
-	List<UserResponse> getUsersByName(String name);
+
 	
 	/**
 	* @summary find a user base on id of user, return object of type UserResponse class
@@ -147,7 +141,26 @@ public interface UserService {
 	
 	UserRole upgradeUserToAdmin(Long userId);
 	
+<<<<<<< HEAD
 	void deleteAllRoleOfUser(Long userId);
 	
 	void deleteUserGroup(Long userId);
+=======
+	boolean activeUser(Long id);
+	
+	/**
+	 * 
+	* @summary Save User
+	* @date Aug 21, 2018
+	* @author Tai
+	* @param user
+	* @return
+	* @return User
+	 */
+	User saveUser(User user);
+	
+	
+	
+
+>>>>>>> 2a1eee70597ff8e631db73bd693acc5876c9dce9
 }

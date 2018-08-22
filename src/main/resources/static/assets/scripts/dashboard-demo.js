@@ -1,4 +1,8 @@
 $(function() {
+<<<<<<< HEAD
+=======
+    //  morris Area chart on dashboard///
+>>>>>>> 2a1eee70597ff8e631db73bd693acc5876c9dce9
     Morris.Area({
         element: 'morris-area-chart',
         data: [{
