@@ -4,3 +4,4 @@ public interface RoleScope {
     final static String SYSTEM = "SYSTEM";
     final static String GROUP = "GROUP";
 }
+

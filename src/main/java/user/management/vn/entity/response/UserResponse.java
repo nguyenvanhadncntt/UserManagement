@@ -1,12 +1,17 @@
 package user.management.vn.entity.response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
+import user.management.vn.entity.UserRole;
 
 public class UserResponse implements Serializable {
 
@@ -17,7 +22,7 @@ public class UserResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String email;	
+	private String email;
 	private Boolean enable;
 	private Boolean nonLocked;
 	private String fullname;
@@ -26,6 +31,9 @@ public class UserResponse implements Serializable {
 	private String address;
 	private Boolean gender;
 	private Date createdAt;
+
+	@JsonIgnoreProperties(value = { "userRoles", "groupRoles" })
+	private List<Role> listRole;
 
 	public UserResponse() {
 		super();
@@ -110,7 +118,15 @@ public class UserResponse implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
+	public List<Role> getListRole() {
+		return listRole;
+	}
 
+	public void setListRole(List<Role> listRole) {
+		this.listRole = listRole;
+	}
+	
 	public void addPropertiesFromUser(User user) {
 		UserDetail userDetail = user.getUserDetail();
 
@@ -124,6 +140,13 @@ public class UserResponse implements Serializable {
 		this.birthday = userDetail.getBirthDay();
 		this.gender = userDetail.getGender();
 		this.createdAt = userDetail.getCreatedAt();
+		
+		this.listRole = new ArrayList<>();
+		List<UserRole> listUR = user.getUserRoles();
+		for (UserRole userRole : listUR) {
+			this.listRole.add(userRole.getRole());
+		}
+		
 	}
 
 }

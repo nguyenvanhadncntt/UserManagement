@@ -20,8 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
+import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.exception.UserAlreadyAdminException;
+import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.service.UserService;
 
 @RestController
@@ -31,6 +34,7 @@ public class UserApiController {
 	@Autowired
 	private UserService userService;
 
+	
 	/**
 	 * 
 	 * @summary api get all user from database
@@ -101,7 +105,6 @@ public class UserApiController {
 		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
 			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
 		}
-		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
 		userService.addUser(userDTO);
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
@@ -123,6 +126,26 @@ public class UserApiController {
 		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
 		userService.updateUser(userDTO);
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
+	}
+	
+	/**
+	 * @summary upgrade user to admin
+	 * @date Aug 17, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return ResponseEntity<Object>
+	 */
+	@PutMapping("upgrade-to-admin/{userId}")
+	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId) {
+		UserRole upgradeRole = null;
+		try {
+			upgradeRole = userService.upgradeUserToAdmin(userId);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		} catch (UserAlreadyAdminException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>(upgradeRole,HttpStatus.OK);
 	}
 
 }

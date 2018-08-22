@@ -2,6 +2,7 @@ package user.management.vn.service;
 
 import java.util.List;
 
+import user.management.vn.entity.Group;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserGroup;
@@ -141,5 +142,12 @@ public interface UserService {
 	* @return User
 	 */
 	User getUserByEmail(String email);
-
+	
+	void removeRoleOfGroupFromUserRole(Group group,User user);
+	
+	UserRole upgradeUserToAdmin(Long userId);
+	
+	void deleteAllRoleOfUser(Long userId);
+	
+	void deleteUserGroup(Long userId);
 }

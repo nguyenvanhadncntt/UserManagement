@@ -29,6 +29,7 @@ import user.management.vn.service.RoleService;
 import user.management.vn.service.SearchService;
 import user.management.vn.util.EntityName;
 import user.management.vn.wrapper.ListIdWrapper;
+import user.management.vn.util.RoleScope;
 
 @RestController
 @RequestMapping("/api/roles")
@@ -67,6 +68,24 @@ public class RoleApiController {
 		return new ResponseEntity<>(listPaging, HttpStatus.OK);
 	}
 
+	@GetMapping("/sys")
+	public ResponseEntity<Object> getAllRoleScopeGroup() {
+		List<Role> listRole = roleService.getListRoleByScope(RoleScope.SYSTEM);
+		if(listRole.size() == 0) {
+			return new ResponseEntity<>("No data",HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(listRole,HttpStatus.OK);
+	}
+	
+	@GetMapping("/group")
+	public ResponseEntity<Object> getAllRoleScopeSystem() {
+		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
+		if(listRole.size() == 0) {
+			return new ResponseEntity<>("No data",HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(listRole,HttpStatus.OK);
+	}
+	
 	/**
 	 * @summary api get 1 role from database base on id of role
 	 * @date Aug 15, 2018

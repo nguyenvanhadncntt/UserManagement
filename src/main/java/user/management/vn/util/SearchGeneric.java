@@ -60,7 +60,8 @@ public class SearchGeneric {
 	 * @return List<T>
 	 */
 	@SuppressWarnings("unchecked")
-	public <T> List<T> searchGeneric(String tableName, String fieldSearch, String searchValue, String condition) {
+	public <T> List<T> searchGeneric(String tableName, String fieldSearch, 
+			String searchValue, String condition) {
 		StringBuilder sqlQuery = new StringBuilder();
 		sqlQuery.append("from ");
 		sqlQuery.append(tableName);

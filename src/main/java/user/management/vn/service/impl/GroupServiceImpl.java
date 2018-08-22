@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Group;
+import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
+import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.repository.GroupRepository;
 import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
+import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.GroupService;
 import user.management.vn.service.UserService;
 
@@ -32,24 +35,30 @@ public class GroupServiceImpl implements GroupService {
 	private UserRepository userRepository;
 	
 	@Autowired
+
 	private GroupRoleRepository groupRoleRepository;
 
+	private UserRoleRepository userRoleRepository;
 
 	@Autowired
 	private UserService userService;
-
+	
 	@Override
 	public UserGroup addNewUserToGroup(Long groupId, Long userId) {
 		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
-		if (!groupOptional.isPresent() || !userOptional.isPresent()) {
+		if (!groupOptional.isPresent() || !userOptional.get().getEnable()) {
 			return null;
+		}
+		if(!userOptional.isPresent() || !userOptional.get().getEnable()) {
+			
 		}
 		boolean checkExist = userGroupRepository.existsByGroupIdAndUserId(groupId, userId);
 		if (checkExist) {
 			return null;
 		}
 		UserGroup userGroup = new UserGroup(userOptional.get(), groupOptional.get());
+		addAllRoleOfGroupToUserRole(groupOptional.get(), userOptional.get());
 		return userGroupRepository.save(userGroup);
 	}
 
@@ -79,7 +88,6 @@ public class GroupServiceImpl implements GroupService {
 			return 0;
 		}
 		for (Long userId : userIds) {
-			System.out.println(userId);
 			userGroupRepository.deleteUserFromGroup(groupId, userId);
 		}
 		return 1;
@@ -98,6 +106,7 @@ public class GroupServiceImpl implements GroupService {
 			return 0;
 		}
 		userGroupRepository.deleteUserFromGroup(groupId, userId);
+		userService.removeRoleOfGroupFromUserRole(groupOptional.get(),userOptional.get());
 		return 1;
 	}
 
@@ -112,10 +121,10 @@ public class GroupServiceImpl implements GroupService {
 	public UserResponse getInforOfUser(Long groupId, Long userId) {
 		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
-		if (!groupOptional.isPresent()) {
+		if (!groupOptional.isPresent() || groupOptional.get().getNonDel() != true) {
 			return null;
 		}
-		if (!userOptional.isPresent()) {
+		if (!userOptional.isPresent() || userOptional.get().getNonDel() != true) {
 			return null;
 		}
 		Optional<UserGroup> userGroupOptional = userGroupRepository.findUserById(groupId, userId);
@@ -145,8 +154,17 @@ public class GroupServiceImpl implements GroupService {
 		
 		return Optional.ofNullable(groupRepository.save(group.get()));
 	}
-	
-	
-	
+
+	@Override
+	public void addAllRoleOfGroupToUserRole(Group group, User user) {
+		List<GroupRole> groupRoles = group.getGroupRoles();
+		for (GroupRole groupRole : groupRoles) {
+			Boolean checkExists = userRoleRepository.existsByUserIdAndRoleId(user.getId(), groupRole.getRole().getId());
+			if(!checkExists) {
+				UserRole ur = new UserRole(user, groupRole.getRole());  
+				userRoleRepository.save(ur);
+			}
+		}
+	}
 	
 }

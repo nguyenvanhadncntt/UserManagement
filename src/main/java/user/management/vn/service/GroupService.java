@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import user.management.vn.entity.Group;
+import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.response.UserResponse;
 
@@ -24,6 +25,17 @@ public interface GroupService {
 	 * @return UserGroup
 	 */
 	UserGroup addNewUserToGroup(Long groupId,Long userId);
+	
+	
+	/**
+	 * @summary add all role of group to user role 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param group
+	 * @param user
+	 * @return void
+	 */
+	void addAllRoleOfGroupToUserRole(Group group,User user);
 	
 	/**
 	 * @summary remove user in group 

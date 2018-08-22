@@ -77,7 +77,5 @@ public interface GroupRoleRepository extends JpaRepository<GroupRole, Long>{
 	@Modifying
 	@Query(value= "delete from role_group where role_id=?1",nativeQuery=true)
 	Integer deleteByRoleId(Long roleId);
-	
-	
-	
+
 }

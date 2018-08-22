@@ -106,8 +106,7 @@ public class GroupApiController {
 		ListPaging<Group> listPagging = new ListPaging<>(listGroup, size, pageIndex, fieldSort, request);
 		return new ResponseEntity<>(listPagging, HttpStatus.OK);
 	}
-	/**
-	 * 
+  /**
 	* @summary search role in group
 	* @date Aug 20, 2018
 	* @author Tai
@@ -119,7 +118,7 @@ public class GroupApiController {
 	* @param request
 	* @return
 	* @return ResponseEntity<Object>
-	 */
+	*/
 	@GetMapping(path = "/search")
 	public ResponseEntity<Object> findRoleInGroup(@RequestParam(name = "searchValue") String searchValue,
 			@RequestParam(name = "searchField") String fieldSearch,
@@ -189,7 +188,6 @@ public class GroupApiController {
 	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id) {
-
 		Optional<Group> groupOptional = groupService.viewGroup(id);
 		if (!groupOptional.isPresent()) {
 			throw new GroupNotFoundException("Group Not Found id: " + id);
@@ -299,7 +297,7 @@ public class GroupApiController {
 			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
-	}
+  }
 
 	/**
 	 * 
@@ -369,6 +367,7 @@ public class GroupApiController {
 			@RequestBody ListIdWrapper listIdWapper) {
 		List<Long> userIds = listIdWapper.getIds();
 		Integer result = groupService.removeListUseFromGroup(groupId, userIds);
+		
 		if (result == 0) {
 			return new ResponseEntity<>("Group not found", HttpStatus.NOT_FOUND);
 		}
@@ -457,4 +456,5 @@ public class GroupApiController {
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}
+
 }
