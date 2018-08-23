@@ -1,23 +1,58 @@
 package user.management.vn.service;
 
 import java.util.List;
-import java.util.Optional;
 
+import user.management.vn.entity.Group;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 
+/**
+ * 
+ * @summary handle service of user
+ * @author Thehap Rok
+ *
+ */
 public interface UserService {
-	/*
-	 * ha
+
+	/**
+	 * @summary convert list object UserGroup to list object User 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userGroups
+	 * @return List<User>
 	 */
 	List<User> convertUserGroupsToUsers(List<UserGroup> userGroups);
+	
+	/**
+	 * @summary convert list object UserRole to list object User
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userRoles
+	 * @return List<User>
+	 */
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
+	
+	/**
+	 * @summary convert list object User to list object UserResponse
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param listUser
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
+	
+	/**
+	 * @summary get all user of group from database 
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @return
+	 * @return List<UserResponse>
+	 */
 	List<UserResponse> getAllUserOfGroup(Long groupId);
-	List<User> findUserNotInGroupByName(Long groupId,String name);
    
 	/**
 	* @summary add one User into database
@@ -54,15 +89,7 @@ public interface UserService {
 	* @return List<UserResponse>
 	 */
 	List<UserResponse> getAllUsers();
-	
-	/**
-	* @summary get common information of a user
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param name
-	* @return List<UserResponse>
-	 */
-	List<UserResponse> getUsersByName(String name);
+
 	
 	/**
 	* @summary find a user base on id of user, return object of type UserResponse class
@@ -108,5 +135,71 @@ public interface UserService {
 	* @return User
 	 */
 	User getUserByEmail(String email);
+	
+	/**
+	 * @summary remove all role of group when reomve user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param group
+	 * @param user
+	 * @return void
+	 */
+	void removeRoleOfGroupFromUserRole(Group group,User user);
+	
+	/**
+	 * @summary upgrate role user to admin
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return
+	 * @return UserRole
+	 */
+	UserRole upgradeUserToAdmin(Long userId);
+	
+	/**
+	* @summary active User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param id
+	* @return boolean
+	 */
+	boolean activeUser(Long id);
+
+	 * @summary delete all role of user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
+	void deleteAllRoleOfUser(Long userId);
+	
+	/**
+	 * @summary delete all group of user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
+	void deleteUserGroup(Long userId);
+	
+	/**
+	* @summary edit User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param objUser
+	* @return User
+	 */
+	User editUser(User objUser);
+
+	/**
+	 * 
+	* @summary Save User
+	* @date Aug 21, 2018
+	* @author Tai
+	* @param user
+	* @return
+	* @return User
+	 */
+	User saveUser(User user);
 
 }
