@@ -16,6 +16,8 @@ import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="groups")
 public class Group {
@@ -38,9 +40,11 @@ public class Group {
 	@CreationTimestamp
 	private Date createdAt;
 
+	@JsonIgnoreProperties("group")
 	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<GroupRole> groupRoles;
 
+	@JsonIgnoreProperties("group")
 	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
@@ -54,13 +58,13 @@ public class Group {
 		this.description = describe;
 	}
 	
-	public Group(Long id, String name, Boolean nonDel, String describe, Date createdAt, List<GroupRole> groupRoles,
+	public Group(Long id, String name, Boolean nonDel, String description, Date createdAt, List<GroupRole> groupRoles,
 			List<UserGroup> userGroups) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.nonDel = nonDel;
-		this.description = describe;
+		this.description = description;
 		this.createdAt = createdAt;
 		this.groupRoles = groupRoles;
 		this.userGroups = userGroups;
@@ -90,12 +94,12 @@ public class Group {
 		this.nonDel = nonDel;
 	}
 
-	public String getDescribe() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescribe(String describe) {
-		this.description = describe;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Date getCreatedAt() {

@@ -1,9 +1,15 @@
 Manifest-Version: 1.0
 Implementation-Title: UserManagement
 Implementation-Version: 0.0.1-SNAPSHOT
+<<<<<<< HEAD
+Built-By: bom
+Implementation-Vendor-Id: internship.asiantech.vn
+Build-Jdk: 1.8.0_152
+=======
 Built-By: PC
 Implementation-Vendor-Id: internship.asiantech.vn
 Build-Jdk: 1.8.0_181
+>>>>>>> ad1d5e0fee09f228b80106fbc1c70b9e88d5c60c
 Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
  ot-starter-parent/UserManagement
 Created-By: Maven Integration for Eclipse

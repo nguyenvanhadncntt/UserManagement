@@ -32,7 +32,7 @@ public class BlockUser {
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "block_time", nullable = false)
+	@Column(name = "block_time", nullable = true)
 	private Date blockTime;
 
 	@Column(name = "number_fail", nullable = false)
