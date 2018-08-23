@@ -235,7 +235,7 @@ public class UserServiceImpl implements UserService {
 		userRepository.activeUser(id);
 		return true;
 	}
-
+  
 	@Override
 	public User saveUser(User user) {
 		
@@ -252,4 +252,10 @@ public class UserServiceImpl implements UserService {
 		UserGroupRepository.deleteUserGroupByUserId(userId);
 	}
 
+	@Override
+	public User editUser(User objUser) {
+		// TODO Auto-generated method stub
+		return userRepository.save(objUser);
+	}
+	
 }

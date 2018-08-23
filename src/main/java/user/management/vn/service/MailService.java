@@ -21,17 +21,21 @@ public class MailService {
 			"    .custom-class:hover { background-color:Red; }" + 
 			"</style>";
 	
+
 	public void sendMail(String title, String href, String userMail, String registCode, Date expireDate) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper;
 		helper = new MimeMessageHelper(message);
+
 		helper.setSubject(title);
 		helper.setText(mailContent(registCode, expireDate,href), true);
+
 		helper.setTo(userMail);
 		helper.setFrom("noreply@hanv.com");
 		mailSender.send(message);
 	}
+
 
 	public String mailContent(String registCode, Date expireDate,String href) {
 		StringBuilder mailContent = new StringBuilder("<h4>Date-Time Expire: "+expireDate+"</h4>");

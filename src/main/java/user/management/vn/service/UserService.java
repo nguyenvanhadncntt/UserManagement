@@ -157,6 +157,14 @@ public interface UserService {
 	UserRole upgradeUserToAdmin(Long userId);
 	
 	/**
+	* @summary active User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param id
+	* @return boolean
+	 */
+	boolean activeUser(Long id);
+
 	 * @summary delete all role of user 
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
@@ -173,17 +181,16 @@ public interface UserService {
 	 * @return void
 	 */
 	void deleteUserGroup(Long userId);
-
-	/**
-	 * 
-	 * @summary active for user 
-	 * @date Aug 23, 2018
-	 * @author Thaile
-	 * @param id
-	 * @return boolean
-	 */
-	boolean activeUser(Long id);
 	
+	/**
+	* @summary edit User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param objUser
+	* @return User
+	 */
+	User editUser(User objUser);
+
 	/**
 	 * 
 	* @summary Save User
@@ -194,5 +201,5 @@ public interface UserService {
 	* @return User
 	 */
 	User saveUser(User user);
-	
+
 }

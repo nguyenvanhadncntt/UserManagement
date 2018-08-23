@@ -83,6 +83,7 @@ public class RoleApiController {
 		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
 
+
 	/**
 	 * 
 	 * @summary get all role have scope `system`

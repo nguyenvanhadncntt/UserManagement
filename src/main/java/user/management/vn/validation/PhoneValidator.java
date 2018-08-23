@@ -3,6 +3,10 @@ package user.management.vn.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * @summary validate phone number
+ * @author THAILE
+ */
 public class PhoneValidator implements ConstraintValidator<Phone, String>{
 
 	public void initialize(Phone paramA) {

@@ -5,6 +5,10 @@ import javax.validation.ConstraintValidatorContext;
 
 import user.management.vn.entity.UserDTO;
 
+/**
+ * @summary check match password and repassword
+ * @author THAILE
+ */
 public class PasswordMatchesValidator 
 implements ConstraintValidator<PasswordMatches, Object> { 
    
