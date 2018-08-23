@@ -75,12 +75,12 @@ public class GroupServiceImpl implements GroupService {
 		return groupRepository.save(group);
 	}
 	
-
 	@Override
 	public Optional<Group> viewGroup(Long groupId) {
 		// TODO Auto-generated method stub
 		return groupRepository.findByIdAndNonDel(groupId, true);
-  }
+	}
+	
 	@Transactional
 	public Integer removeListUseFromGroup(Long groupId, List<Long> userIds) {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
@@ -150,7 +150,7 @@ public class GroupServiceImpl implements GroupService {
 		
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 		group.get().setNonDel(false);
-		long deleteRoleGroup = groupRoleRepository.deleteByGroupId(groupId);
+		groupRoleRepository.deleteByGroupId(groupId);
 		
 		return Optional.ofNullable(groupRepository.save(group.get()));
 	}

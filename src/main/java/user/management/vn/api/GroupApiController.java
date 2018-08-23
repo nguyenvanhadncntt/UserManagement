@@ -1,6 +1,5 @@
 package user.management.vn.api;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
@@ -31,7 +29,6 @@ import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.query.GroupQueryCondition;
 import user.management.vn.service.GroupService;
 import user.management.vn.service.RoleGroupService;
-import user.management.vn.service.RoleService;
 import user.management.vn.service.SearchService;
 import user.management.vn.service.UserService;
 import user.management.vn.util.EntityName;
@@ -46,9 +43,6 @@ public class GroupApiController {
 
 	@Autowired
 	private GroupService groupService;
-
-	@Autowired
-	private RoleService roleService;
 
 	@Autowired
 	private RoleGroupService roleGroupService;
@@ -172,9 +166,7 @@ public class GroupApiController {
 	 */
 	@PostMapping
 	public ResponseEntity<Object> createGroup(@RequestBody Group group) {
-		Group savedGroup = groupService.addGroup(group);
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedGroup.getId())
-				.toUri();
+		groupService.addGroup(group);
 		return new ResponseEntity<>("Cread group successful", HttpStatus.CREATED);
 	}
 

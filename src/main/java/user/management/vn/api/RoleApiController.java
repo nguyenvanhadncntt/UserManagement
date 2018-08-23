@@ -68,6 +68,12 @@ public class RoleApiController {
 		return new ResponseEntity<>(listPaging, HttpStatus.OK);
 	}
 
+	/**
+	 * @summary get all role have scope `group` 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping("/sys")
 	public ResponseEntity<Object> getAllRoleScopeGroup() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.SYSTEM);
@@ -77,6 +83,14 @@ public class RoleApiController {
 		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
 
+	/**
+	 * 
+	 * @summary get all role have scope `system`
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @return
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping("/group")
 	public ResponseEntity<Object> getAllRoleScopeSystem() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);

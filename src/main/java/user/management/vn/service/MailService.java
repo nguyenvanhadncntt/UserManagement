@@ -21,7 +21,7 @@ public class MailService {
 			"    .custom-class:hover { background-color:Red; }" + 
 			"</style>";
 	
-	public void sendMailActive(String title, String href, String userMail, String registCode, Date expireDate) throws MessagingException {
+	public void sendMail(String title, String href, String userMail, String registCode, Date expireDate) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper;

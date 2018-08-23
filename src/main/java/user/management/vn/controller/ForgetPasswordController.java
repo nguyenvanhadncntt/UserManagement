@@ -108,7 +108,7 @@ public class ForgetPasswordController {
 					modelMap.addAttribute("msg", "Sent email please check email");
 				} else {
 					// goi email
-					mailService.sendMailActive("FORGET PASSWORD", "/change-password", email,
+					mailService.sendMail("FORGET PASSWORD", "/change-password", email,
 							registCode, expireDate);
 					TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 1);
 					tokenVerificationService.addToken(tokenVerifition);

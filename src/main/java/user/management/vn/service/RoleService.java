@@ -93,13 +93,4 @@ public interface RoleService {
 	 */
 	List<Role> getListRoleByScope(String scope);
 	
-	/**
-	 * @summary update user to admin 
-	 * @date Aug 17, 2018
-	 * @author Thehap Rok
-	 * @param userId
-	 * @return
-	 * @return Integer
-	 */
-
 }

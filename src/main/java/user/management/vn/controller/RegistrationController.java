@@ -28,8 +28,6 @@ import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
 
-
-
 @Controller
 public class RegistrationController {
 	
@@ -68,7 +66,7 @@ public class RegistrationController {
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
 			try {
-				mailService.sendMailActive("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
+				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
 				tokenVerificationService.addToken(tokenVerifition);
@@ -94,7 +92,7 @@ public class RegistrationController {
 			tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
             tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
             tokenVerificationService.editToken(tokenVerification);
-            mailService.sendMailActive("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
+            mailService.sendMail("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
             return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
 		}
 		
@@ -107,12 +105,8 @@ public class RegistrationController {
 			}else {
 				return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
 			}
-			//userService.autoLogin(request, user.getEmail(), user.getPassword());
-			//model.addAttribute("msg","Your account active successful !!!");
 			//return "activeAccount";
-			
 		}		
-		//model.addAttribute("msg","Regist code not exist check your mail agian !!!");
 		//return "activeAccount";
 	    return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
 	}

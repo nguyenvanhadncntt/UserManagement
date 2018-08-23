@@ -12,7 +12,14 @@ import user.management.vn.entity.TokenVerifition;
 public interface TokenVerificationRepository extends JpaRepository<TokenVerifition, Long>{
 	Optional<TokenVerifition> findByTokenCode(String tokenCode);
 	
+	/**
+	 * @summary delete token by id
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param id
+	 * @return int
+	 */
 	@Modifying
 	@Query(value = "delete   from token_verfication where id = ?1", nativeQuery = true)
-	int  deleteTokenById(Long id);
+	int deleteTokenById(Long id);
 }

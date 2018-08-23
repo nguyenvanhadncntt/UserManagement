@@ -17,7 +17,6 @@ import user.management.vn.entity.response.UserResponse;
  */
 public interface UserService {
 
-
 	/**
 	 * @summary convert list object UserGroup to list object User 
 	 * @date Aug 16, 2018
@@ -137,14 +136,52 @@ public interface UserService {
 	 */
 	User getUserByEmail(String email);
 	
+	/**
+	 * @summary remove all role of group when reomve user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param group
+	 * @param user
+	 * @return void
+	 */
 	void removeRoleOfGroupFromUserRole(Group group,User user);
 	
+	/**
+	 * @summary upgrate role user to admin
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return
+	 * @return UserRole
+	 */
 	UserRole upgradeUserToAdmin(Long userId);
 	
+	/**
+	 * @summary delete all role of user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
 	void deleteAllRoleOfUser(Long userId);
 	
+	/**
+	 * @summary delete all group of user 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
 	void deleteUserGroup(Long userId);
 
+	/**
+	 * 
+	 * @summary active for user 
+	 * @date Aug 23, 2018
+	 * @author Thaile
+	 * @param id
+	 * @return boolean
+	 */
 	boolean activeUser(Long id);
 	
 	/**

@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service;
 
 import user.management.vn.service.SearchService;
 import user.management.vn.util.SearchGeneric;
-
+/**
+ * 
+ * @summary all functional of search implement
+ * @author Thehap Rok
+ *
+ */
 @Service
 public class SearchServiceImpl implements SearchService {
 

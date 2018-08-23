@@ -4,12 +4,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import user.management.vn.entity.Group;
 import user.management.vn.entity.Role;
 
 @Repository
@@ -22,16 +20,16 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 	//@summary find role by id
 	Optional<Role> findByIdAndNonDel(long id,boolean nonDel);
 	
-	
-  
+	//@summary find role by id
 	Optional<Role> findById(Long roleId);
 	
+	//@summary find by non del
 	List<Role> findByNonDel(Boolean nonDel);
 	
-	
-  
+	//@summary find by role name containing
 	List<Role> findByRoleNameContaining(String name);
 
+	//@summary find by role
 	Role findByRoleName(String roleName);
 
 	/**
