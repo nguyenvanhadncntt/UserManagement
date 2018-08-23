@@ -246,4 +246,11 @@ public class UserServiceImpl implements UserService {
 		UserGroupRepository.deleteUserGroupByUserId(userId);
 	}
 
+	@Override
+	public User editUser(User objUser) {
+		// TODO Auto-generated method stub
+		return userRepository.save(objUser);
+	}
+
+	
 }

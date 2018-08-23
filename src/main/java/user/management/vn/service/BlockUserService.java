@@ -3,11 +3,29 @@ package user.management.vn.service;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import user.management.vn.entity.BlockUser;
+
 public interface BlockUserService {
-	BlockUserService addBlockUserService(BlockUserService blockUserService);
-	BlockUserService editBlockUserService(BlockUserService blockUserService);
+	/**
+	 * 
+	* @summary add BlockUser object
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param blockUser
+	* @return BlockUser
+	 */
+	BlockUser addBlockUser(BlockUser blockUser);
 	
-	@Modifying
-	@Query(value = "delete from block_user where id = ?1", nativeQuery = true)
-	int deleteBlockUser(Long id);
+	/**
+	 * 
+	* @summary edit BlockUser object
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param blockUser
+	* @return BlockUser
+	 */
+	BlockUser editBlockUser(BlockUser blockUser);
+	
+	
+	boolean deleteBlockUser(Long id);
 }

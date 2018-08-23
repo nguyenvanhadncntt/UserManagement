@@ -1,29 +1,39 @@
 package user.management.vn.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import user.management.vn.entity.BlockUser;
 import user.management.vn.repository.BlockUserRepository;
 import user.management.vn.service.BlockUserService;
 
+@Service
 public class BlockUserServiceImpl implements BlockUserService{
 	@Autowired
 	private BlockUserRepository blockUserRepository;
 	@Override
-	public BlockUserService addBlockUserService(BlockUserService blockUserService) {
+	public BlockUser addBlockUser(BlockUser blockUser) {
 		// TODO Auto-generated method stub
-		return null;
+		return blockUserRepository.save(blockUser);
 	}
 
 	@Override
-	public BlockUserService editBlockUserService(BlockUserService blockUserService) {
+	public BlockUser editBlockUser(BlockUser blockUser) {
 		// TODO Auto-generated method stub
-		return null;
+		return blockUserRepository.save(blockUser);
 	}
 
 	@Override
-	public int deleteBlockUser(Long id) {
+	public boolean deleteBlockUser(Long id) {
 		// TODO Auto-generated method stub
-		return 0;
+		Optional<BlockUser> optionalBlockUser = blockUserRepository.findById(id);
+		if(!optionalBlockUser.isPresent()) {
+			return false;
+		}
+		blockUserRepository.deleteBlockUserById(id);
+		return true;
 	}
 
 }

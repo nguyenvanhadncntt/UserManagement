@@ -18,6 +18,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Autowired
+	private FailureLoginHandler failureLoginHandle;
+	
+	@Autowired
+	private SuccessLoginHandler successLoginHandle;
+	
+	@Autowired
 	private UserDetailsService userDetailsService;
 
 	@Bean
@@ -34,15 +40,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		
-		http.authorizeRequests().antMatchers("/login**").permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/login**","/registerAccount**","/activeAccount**").permitAll().anyRequest().authenticated();
 		
 		http.authorizeRequests()
 				.and().formLogin()
 				.loginPage("/login").permitAll()
 				.usernameParameter("email").passwordParameter("password")
 				.loginProcessingUrl("/login")
-				.successHandler(new SuccessLoginHandler())
-				.failureHandler(new FailureLoginHandler())
+				.successHandler(successLoginHandle)
+				.failureHandler(failureLoginHandle)
 				.and().logout().logoutUrl("/logout").permitAll()
 				.deleteCookies("JSESSIONID").logoutSuccessUrl("/login?logout").permitAll().and().httpBasic();
 //		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
@@ -53,9 +59,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		web.ignoring().antMatchers("/assets/**");
 	}
-<<<<<<< HEAD:src/main/java/user/management/vn/config/WebSecurity.java
 
-=======
-	
->>>>>>> 9456c98db96b913ae35a8be77dad5167d2a63c35:src/main/java/user/management/vn/security/WebSecurity.java
+
 }

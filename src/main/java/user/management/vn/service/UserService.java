@@ -141,10 +141,25 @@ public interface UserService {
 	
 	UserRole upgradeUserToAdmin(Long userId);
 	
-
+	/**
+	* @summary active User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param id
+	* @return boolean
+	 */
 	boolean activeUser(Long id);
 
 	void deleteAllRoleOfUser(Long userId);
 	
 	void deleteUserGroup(Long userId);
+	
+	/**
+	* @summary edit User
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	* @param objUser
+	* @return User
+	 */
+	User editUser(User objUser);
 }
