@@ -26,8 +26,9 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Autowired
 	private VerificationUtil veritificationUtil;
 	/**
-	 * check login 5 fails
-	 * @author THAILE
+	* @summary handle login fails
+	* @date Aug 22, 2018
+	* @author ThaiLe
 	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,

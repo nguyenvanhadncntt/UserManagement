@@ -30,10 +30,15 @@ public class SuccessLoginHandler implements AuthenticationSuccessHandler{
 	@Autowired
 	private BlockUserService blockUserService;
 	
+	/**
+	* @summary handle login success
+	* @date Aug 22, 2018
+	* @author ThaiLe
+	 */
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
 		Object principal = authentication.getPrincipal();
 		String email = null;
 		if (principal instanceof UserDetails) {

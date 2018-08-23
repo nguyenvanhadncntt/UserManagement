@@ -24,18 +24,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.jayway.jsonpath.Option;
 
+import user.management.vn.entity.Role;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
+import user.management.vn.entity.UserRole;
+import user.management.vn.repository.UserRepository;
 import user.management.vn.service.MailService;
+import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
+import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
+import user.management.vn.util.RoleScope;
+import user.management.vn.util.RoleSystem;
 import user.management.vn.util.VerificationUtil;
 
 
 
 @Controller
 public class RegistrationController {
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	@Autowired
 	private MailService mailService;
@@ -107,6 +120,10 @@ public class RegistrationController {
 				boolean check = userService.activeUser(objUsers.getId());
 				if(check == true) {
 					tokenVerificationService.deleteTokenById(tokenVerification.getId());
+					Role role = roleService.findByRoleName(RoleSystem.USER);
+					User user = userService.findUserByUserId(objUsers.getId());
+					UserRole userRole = new UserRole(user, role);
+					userRoleService.addUserWithRole(userRole);
 					return new ResponseEntity<>("Active user successfully", HttpStatus.OK);
 				}else {
 					return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);

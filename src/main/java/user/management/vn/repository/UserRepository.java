@@ -35,10 +35,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	List<User> findUserNotInGroupByNameOrEmail(@Param("groupId") Long groupId, @Param("param") String nameOrEmail);
 
 	/**
-	 * 
 	* @summary
 	* @date Aug 13, 2018
-	* @author Thai
+	* @author THAILE
 	* @param id
 	* @return int
 	 */
@@ -47,10 +46,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	int deleteUser(Long id);
 	
 	/**
-	 * 
 	* @summary
 	* @date Aug 13, 2018
-	* @author Thai
+	* @author THAILE
 	* @param email
 	* @return Optional<User>
 	 */
@@ -59,7 +57,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	/**
 	* @summary active Account
 	* @date Aug 20, 2018
-	* @author ThaiLe
+	* @author THAILE
 	* @param id
 	* @return int
 	 */
