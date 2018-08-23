@@ -12,6 +12,7 @@ public class VerificationUtil {
 	@Autowired
 	PasswordEncoder encoder;
 	
+
 	/**
 	* @summary generate TokenCode
 	* @date Aug 23, 2018
@@ -25,7 +26,7 @@ public class VerificationUtil {
 		input.append(now.getTime());
         return encoder.encode(input.toString());
 	}
-    
+
 	/**
 	* @summary calculate expire time
 	* @date Aug 23, 2018

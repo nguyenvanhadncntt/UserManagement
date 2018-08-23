@@ -54,7 +54,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	 */
 	Optional<User> findByEmail(String email);
 	
-	/**
+
+	List<User> findByUserDetailFullnameContaining(String name);
+		/**
 	* @summary active Account
 	* @date Aug 20, 2018
 	* @author THAILE

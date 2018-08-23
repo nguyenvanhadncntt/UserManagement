@@ -11,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import user.management.vn.filter.UnBlockUserFilter;
 
 
 @Configuration
@@ -18,11 +21,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	private FailureLoginHandler failureLoginHandle;
+	private UnBlockUserFilter unBlockUserFilter;
 	
 	@Autowired
-	private SuccessLoginHandler successLoginHandle;
-	
+	private SuccessLoginHandler successLoginHandle;;
+
+	@Autowired
+	private FailureLoginHandler failLoginHandle;
+
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -38,19 +44,28 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+		// disable csrf
 		http.csrf().disable();
-		
-		http.authorizeRequests().antMatchers("/login**","/registerAccount**","/activeAccount**").permitAll().anyRequest().authenticated();
-		
-		http.authorizeRequests()
-				.and().formLogin()
-				.loginPage("/login").permitAll()
-				.usernameParameter("email").passwordParameter("password")
-				.loginProcessingUrl("/login")
-				.successHandler(successLoginHandle)
-				.failureHandler(failureLoginHandle)
-				.and().logout().logoutUrl("/logout").permitAll()
-				.deleteCookies("JSESSIONID").logoutSuccessUrl("/login?logout").permitAll().and().httpBasic();
+
+		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd, /change-password auto permit 
+		// and request to url other must authen
+		http.authorizeRequests().antMatchers("/login**","/registerAccount**"
+				,"/activeAccount**","/forget-passowrd**","/change-password**").permitAll()
+				.anyRequest().authenticated();
+
+		// add filter for check time to unblock user
+		http.authorizeRequests().and().addFilterBefore(unBlockUserFilter, UsernamePasswordAuthenticationFilter.class)
+				.formLogin().loginPage("/login").permitAll().usernameParameter("email")
+				.passwordParameter("password").loginProcessingUrl("/login").successHandler(successLoginHandle)
+				.failureHandler(failLoginHandle)
+				// setting remember me
+				.and().rememberMe().rememberMeParameter("remember-me")
+				// setting logout
+				.and().logout()
+				.logoutUrl("/logout").permitAll()
+				//delete cookies when logout
+				.deleteCookies("JSESSIONID", "remember-me")
+				.logoutSuccessUrl("/login?logout").permitAll().and().httpBasic();
 //		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 
@@ -59,6 +74,5 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 			throws Exception {
 		web.ignoring().antMatchers("/assets/**");
 	}
-
 
 }

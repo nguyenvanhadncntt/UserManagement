@@ -23,12 +23,11 @@ public class TokenVerifition {
 	private static final int EXPIRATION = 60*24;
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", unique = true, nullable = false,
-		foreignKey = @ForeignKey(name = "ref_user_token"))
+	@JoinColumn(name = "user_id", unique = true, nullable = false, foreignKey = @ForeignKey(name = "ref_user_token"))
 	private User user;
 
 	@Column(name = "token_code", nullable = false)

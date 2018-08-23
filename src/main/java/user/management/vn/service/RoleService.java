@@ -74,6 +74,17 @@ public interface RoleService {
 	Role findByRoleName(String roleName);
 	
 	/**
+	* 
+	* @summary List all Role co group id
+	* @date Aug 17, 2018
+	* @author Tai
+	* @param group
+	* @return
+	* @return List<Role>
+	 */
+	List<Role> findByGroupRolesGroupId(long group);
+  
+  /**
 	 * @summary get list role base on scope 
 	 * @date Aug 17, 2018
 	 * @author Thehap Rok
@@ -82,12 +93,4 @@ public interface RoleService {
 	 */
 	List<Role> getListRoleByScope(String scope);
 	
-	/**
-	 * @summary update user to admin 
-	 * @date Aug 17, 2018
-	 * @author Thehap Rok
-	 * @param userId
-	 * @return
-	 * @return Integer
-	 */
 }

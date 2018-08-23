@@ -11,20 +11,28 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
+
 import user.management.vn.entity.BlockUser;
 import user.management.vn.entity.User;
 import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
+
+import user.management.vn.util.LoginErrorMessage;
+
 /**
  * @summary handle authentication fail
  * @author Thehap Rok
  */
+
+
 @Component
 public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
-	@Autowired 
+
+  @Autowired 
 	private UserService userSevice;	
 	@Autowired
 	private VerificationUtil veritificationUtil;
+  
 	/**
 	* @summary handle login fails
 	* @date Aug 22, 2018
@@ -33,8 +41,9 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) throws IOException, ServletException {
-		request.getSession().setAttribute("error", exception.getMessage());
-		
+
+		String messageError = LoginErrorMessage.loginErrorMessage(exception);
+		request.getSession().setAttribute("error", messageError);
 		String email = request.getParameter("email");
 		if(email != null) {
 			User objUser = userSevice.getUserByEmail(email);
@@ -75,7 +84,6 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 			}
 		}
 		getRedirectStrategy().sendRedirect(request, response, "/login?error");
-		
 	}
 
 }

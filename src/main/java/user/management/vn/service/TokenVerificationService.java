@@ -3,6 +3,7 @@ package user.management.vn.service;
 import user.management.vn.entity.TokenVerifition;
 
 public interface TokenVerificationService {
+
 	/**
 	* @summary add TokenVerfition
 	* @date Aug 23, 2018

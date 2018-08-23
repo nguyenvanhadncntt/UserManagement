@@ -2,11 +2,9 @@ package user.management.vn.controller;
 
 import java.util.Date;
 import java.util.Optional;
-
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import com.jayway.jsonpath.Option;
-
 import user.management.vn.entity.Role;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
@@ -38,8 +34,13 @@ import user.management.vn.service.UserService;
 import user.management.vn.util.RoleScope;
 import user.management.vn.util.RoleSystem;
 import user.management.vn.util.VerificationUtil;
-
-
+import user.management.vn.entity.TokenVerifition;
+import user.management.vn.entity.User;
+import user.management.vn.entity.UserDTO;
+import user.management.vn.service.MailService;
+import user.management.vn.service.TokenVerificationService;
+import user.management.vn.service.UserService;
+import user.management.vn.util.VerificationUtil;
 
 @Controller
 public class RegistrationController {
@@ -85,7 +86,8 @@ public class RegistrationController {
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
 			try {
-				mailService.sendMailActive(userModel.getEmail(),registCode,expireDate);
+
+				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
 				tokenVerificationService.addToken(tokenVerifition);
@@ -114,7 +116,7 @@ public class RegistrationController {
 				tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
 				tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
 				tokenVerificationService.editToken(tokenVerification);
-				mailService.sendMailActive(objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
+				mailService.sendMail("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
 				return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
 			}else {
 				boolean check = userService.activeUser(objUsers.getId());

@@ -10,6 +10,7 @@ import antlr.Token;
 import user.management.vn.entity.TokenVerifition;
 
 public interface TokenVerificationRepository extends JpaRepository<TokenVerifition, Long>{
+
 	/**
 	* @summary find Token by TokenCode
 	* @date Aug 23, 2018
@@ -30,4 +31,5 @@ public interface TokenVerificationRepository extends JpaRepository<TokenVerifiti
 	@Modifying
 	@Query(value = "delete   from token_verfication where id = ?1", nativeQuery = true)
 	int  deleteTokenById(Long id);
+
 }

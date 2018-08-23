@@ -21,24 +21,30 @@ public class MailService {
 			"    .custom-class:hover { background-color:Red; }" + 
 			"</style>";
 	
-	public void sendMailActive(String userMail, String registCode, Date expireDate) throws MessagingException {
+
+	public void sendMail(String title, String href, String userMail, String registCode, Date expireDate) throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 
 		MimeMessageHelper helper;
 		helper = new MimeMessageHelper(message);
-		helper.setSubject("Active Account");
-		helper.setText(mailContent(registCode, expireDate), true);
+
+		helper.setSubject(title);
+		helper.setText(mailContent(registCode, expireDate,href), true);
+
 		helper.setTo(userMail);
 		helper.setFrom("noreply@hanv.com");
 		mailSender.send(message);
 	}
 
-	public String mailContent(String registCode, Date expireDate) {
+
+	public String mailContent(String registCode, Date expireDate,String href) {
 		StringBuilder mailContent = new StringBuilder("<h4>Date-Time Expire: "+expireDate+"</h4>");
 		mailContent.append(cssLinkActive);
-		mailContent.append("<a class='custom-class' href='http://localhost:8080/activeAccount?registCode=");
+		mailContent.append("<a class='custom-class' href='http://localhost:8080");
+		mailContent.append(href);
+		mailContent.append("?token=");
 		mailContent.append(registCode);
-		mailContent.append("'>Active your account</a>");
+		mailContent.append("'>Checkout your account</a>");
 		return mailContent.toString();
 	}
 }

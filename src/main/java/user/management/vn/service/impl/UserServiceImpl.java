@@ -235,6 +235,12 @@ public class UserServiceImpl implements UserService {
 		userRepository.activeUser(id);
 		return true;
 	}
+  
+	@Override
+	public User saveUser(User user) {
+		
+		return userRepository.save(user);
+	}
 
 	@Override
 	public void deleteAllRoleOfUser(Long userId) {
@@ -251,6 +257,5 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userRepository.save(objUser);
 	}
-
 	
 }

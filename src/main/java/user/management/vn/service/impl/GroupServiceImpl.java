@@ -35,17 +35,17 @@ public class GroupServiceImpl implements GroupService {
 	private UserRepository userRepository;
 	
 	@Autowired
+
+	private GroupRoleRepository groupRoleRepository;
+
 	private UserRoleRepository userRoleRepository;
 
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private GroupRoleRepository groupRoleRepository;
-
 	@Override
 	public UserGroup addNewUserToGroup(Long groupId, Long userId) {
-		Optional<Group> groupOptional = groupRepository.findById(groupId);
+		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent() || !userOptional.get().getEnable()) {
 			return null;
@@ -75,12 +75,12 @@ public class GroupServiceImpl implements GroupService {
 		return groupRepository.save(group);
 	}
 	
-
 	@Override
 	public Optional<Group> viewGroup(Long groupId) {
 		// TODO Auto-generated method stub
 		return groupRepository.findByIdAndNonDel(groupId, true);
-  }
+	}
+	
 	@Transactional
 	public Integer removeListUseFromGroup(Long groupId, List<Long> userIds) {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
@@ -119,7 +119,7 @@ public class GroupServiceImpl implements GroupService {
 
 	@Override
 	public UserResponse getInforOfUser(Long groupId, Long userId) {
-		Optional<Group> groupOptional = groupRepository.findById(groupId);
+		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent() || groupOptional.get().getNonDel() != true) {
 			return null;
@@ -150,6 +150,7 @@ public class GroupServiceImpl implements GroupService {
 		
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 		group.get().setNonDel(false);
+		groupRoleRepository.deleteByGroupId(groupId);
 		
 		return Optional.ofNullable(groupRepository.save(group.get()));
 	}
