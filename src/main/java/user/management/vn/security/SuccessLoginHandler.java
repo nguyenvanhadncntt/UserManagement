@@ -8,12 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import user.management.vn.entity.BlockUser;
@@ -53,7 +49,6 @@ public class SuccessLoginHandler implements AuthenticationSuccessHandler{
 		BlockUser blockUser = objUser.getBlockUser();
 		if(blockUser != null) {
 			blockUserService.deleteBlockUser(blockUser.getId());			
-			System.out.println("blloci user login successs");
 		}		
 		response.sendRedirect("/home");
 	}

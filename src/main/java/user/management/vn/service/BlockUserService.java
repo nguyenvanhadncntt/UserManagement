@@ -1,8 +1,5 @@
 package user.management.vn.service;
 
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-
 import user.management.vn.entity.BlockUser;
 
 public interface BlockUserService {

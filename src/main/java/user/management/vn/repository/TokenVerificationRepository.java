@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
-import antlr.Token;
 import user.management.vn.entity.TokenVerifition;
 
 public interface TokenVerificationRepository extends JpaRepository<TokenVerifition, Long>{

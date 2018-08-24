@@ -2,7 +2,6 @@ package user.management.vn.api;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserRole;
-import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.UserAlreadyAdminException;
 import user.management.vn.exception.UserNotFoundException;
@@ -34,30 +31,20 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
-	
+
 	/**
-	 * 
 	 * @summary api get all user from database
 	 * @date Aug 13, 2018
 	 * @author ThaiLe
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping
-	public ResponseEntity<Object> getAllUser(
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+	public ResponseEntity<Object> getAllUser() {
 		List<UserResponse> listUser = userService.getAllUsers();
 		if (listUser.size() == 0) {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<UserResponse> listPaging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPaging, HttpStatus.OK);		
+		return new ResponseEntity<>(listUser, HttpStatus.OK);
 
 	}
 
@@ -128,21 +115,29 @@ public class UserApiController {
 		userService.updateUser(userDTO);
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
 	}
-	
+
+	/**
+	 * @summary user register
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userDTO
+	 * @param rs
+	 * @return ResponseEntity<String>
+	 */
 	@PostMapping(path = "/registration")
 	public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
-		if(rs.hasErrors()) {
+		if (rs.hasErrors()) {
 			System.out.println(rs.getAllErrors().toString());
 			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
 		}
-		if(userService.checkDuplicateEmail(userDTO.getEmail())) {
-			return new ResponseEntity<String> ("Email is existed", HttpStatus.CONFLICT);
+		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
+			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
 		}
-		System.out.println(userDTO.getPhone()+ ", "+ userDTO.getPassword() + ", "+ userDTO.getEmail());
+		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
 		userService.addUser(userDTO);
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
-											 
+
 	/**
 	 * @summary upgrade user to admin
 	 * @date Aug 17, 2018
@@ -156,11 +151,11 @@ public class UserApiController {
 		try {
 			upgradeRole = userService.upgradeUserToAdmin(userId);
 		} catch (UserNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		} catch (UserAlreadyAdminException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>(upgradeRole,HttpStatus.OK);
+		return new ResponseEntity<>(upgradeRole, HttpStatus.OK);
 	}
 
 }

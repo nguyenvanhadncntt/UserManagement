@@ -16,7 +16,6 @@ import user.management.vn.entity.response.UserResponse;
  *
  */
 public interface UserService {
-
 	/**
 	 * @summary convert list object UserGroup to list object User 
 	 * @date Aug 16, 2018
@@ -164,7 +163,8 @@ public interface UserService {
 	* @return boolean
 	 */
 	boolean activeUser(Long id);
-
+	
+	/**
 	 * @summary delete all role of user 
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
@@ -202,4 +202,5 @@ public interface UserService {
 	 */
 	User saveUser(User user);
 
+	
 }
