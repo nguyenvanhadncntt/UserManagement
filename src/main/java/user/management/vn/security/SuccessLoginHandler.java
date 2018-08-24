@@ -42,7 +42,6 @@ public class SuccessLoginHandler implements AuthenticationSuccessHandler{
 		} else {
 		     email = principal.toString();
 		}
-		System.out.println(email);
 		
 		User objUser = userSevice.getUserByEmail(email);
 		System.out.println(objUser.getEmail());

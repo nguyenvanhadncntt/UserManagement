@@ -24,6 +24,7 @@ import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.repository.UserGroupRepository;
+import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.impl.UserServiceImpl;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -37,6 +38,9 @@ public class UserServiceImplTest {
 	
 	@Autowired
 	UserGroupRepository userGroupRepository2;
+	
+	@Autowired
+	UserRoleRepository userRoleRepository; 
 	
 	List<User> listUser;
 	
@@ -120,7 +124,6 @@ public class UserServiceImplTest {
 		listUserResponse.add(ur2);
 		listUserResponse.add(ur3);
 
-		
 	}
 
 	/**
@@ -190,5 +193,23 @@ public class UserServiceImplTest {
 		}
 	}
 	
+	public void addUserFake() {
+//		userRoleRepository.save();
+	}
+	
+	public void deleteUserFake() {
+		
+	}
+	
+	@Test
+	public void upgradeUserToAdminTest() {
+		UserDetail ud1 = new UserDetail("ha", "01223546613", "125 Ngo Gia Thanh", false, new Date("22/02/1996"));
+		User ha = new User("Ha@gmail.com", "123");
+		ha.setUserDetail(ud1);
+		Role adminRole = new Role("ADMIN", "SYSTEM");
+		Role userRole = new Role("USER", "SYSTEM");
+		UserRole usr = new UserRole(ha, userRole);
+//		userServiceImplMock.
+	}
 	
 }

@@ -58,7 +58,7 @@ public class ForgetPasswordController {
 	* @return
 	* @return String
 	 */
-	@GetMapping("/forget-passowrd")
+	@GetMapping("/forget-password")
 	public String creadEmailDto(ModelMap modelMap) {
 		EmailDTO email = new EmailDTO();
 		modelMap.addAttribute("emailDTO", email);
@@ -76,7 +76,7 @@ public class ForgetPasswordController {
 	* @return
 	* @return String
 	 */
-	@PostMapping("/forget-passowrd")
+	@PostMapping("/forget-password")
 	public String checkOutEmailAndSendMail(@Valid @ModelAttribute("emailDTO") EmailDTO emailDTO,
 			BindingResult bindingResult, ModelMap modelMap) {
 		String email = emailDTO.getEmail();

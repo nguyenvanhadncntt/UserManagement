@@ -141,7 +141,7 @@ public class GroupApiController {
 	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id) {
 		Optional<Group> groupOptional = groupService.viewGroup(id);
 		if (!groupOptional.isPresent()) {
-			return new ResponseEntity<>("Group Not Found id: " + id,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		group.setUserGroups(groupOptional.get().getUserGroups());
 		group.setGroupRoles(groupOptional.get().getGroupRoles());
@@ -162,7 +162,7 @@ public class GroupApiController {
 	public ResponseEntity<Object> deleteGroup(@PathVariable("id") long id) {
 		Optional<Group> deletedGroup = groupService.deleteGroup(id);
 		if (!deletedGroup.isPresent()) {
-			return new ResponseEntity<Object>("Group Not Found id: " + id,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Object>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("Dedelte group successful", HttpStatus.OK);
 	}
@@ -177,7 +177,7 @@ public class GroupApiController {
 	@GetMapping("/{id}/roles")
 	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id) {
 		if (roleGroupService.existsByGroup(id)) {
-			return new ResponseEntity<>("Group Not Found id: " + id,HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		List<GroupRole> list = roleGroupService.findAllRoleByGroup(id);
 		List<Role> listRole = roleGroupService.convertGroupRoleToRole(list);
@@ -221,9 +221,9 @@ public class GroupApiController {
 			if (userGroup == null) {
 				return new ResponseEntity<>("user not in group", HttpStatus.NOT_FOUND);
 			}
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		} catch(GroupNotFoundException e) {
+		} catch (GroupNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("Add user successful", HttpStatus.CREATED);
@@ -302,9 +302,9 @@ public class GroupApiController {
 		try {
 			List<Long> userIds = listIdWapper.getIds();
 			groupService.removeListUseFromGroup(groupId, userIds);
-		} catch(UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		} catch(GroupNotFoundException e) {
+		} catch (GroupNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
@@ -323,9 +323,9 @@ public class GroupApiController {
 			@PathVariable("userId") Long userId) {
 		try {
 			groupService.removeUserFromGroup(groupId, userId);
-		}catch (UserNotFoundException e) {
+		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		}catch(GroupNotFoundException e) {
+		} catch (GroupNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
@@ -382,13 +382,13 @@ public class GroupApiController {
 		UserResponse user = null;
 		try {
 			user = groupService.getInforOfUser(groupId, userId);
-			if(user == null) {
-				return new ResponseEntity<>("User not in group!!!",HttpStatus.NOT_FOUND);
+			if (user == null) {
+				return new ResponseEntity<>("User not in group!!!", HttpStatus.NOT_FOUND);
 			}
-		}catch(UserNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
-		}catch(GroupNotFoundException e) {
-			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

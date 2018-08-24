@@ -1,5 +1,7 @@
 package user.management.vn.controller;
 
+import java.security.Principal;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -8,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import user.management.vn.util.RoleSystem;
 
 @Controller
 public class LoginController {
@@ -42,6 +46,12 @@ public class LoginController {
 	 */
 	@GetMapping(path = "/home")
 	public String home() {
-		return "home";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		boolean isAdmin = authentication.getAuthorities().stream()
+		          .anyMatch(r -> r.getAuthority().equals(RoleSystem.ADMIN));
+		if(isAdmin) {
+			return "admin-home";
+		}
+		return "user-home";
 	}
 }
