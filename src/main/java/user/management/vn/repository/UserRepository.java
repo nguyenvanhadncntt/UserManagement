@@ -17,6 +17,12 @@ import org.springframework.data.jpa.repository.Modifying;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long>{
 
+	/**
+	 * @summary find user by id
+	 * @author ThaiLe
+	 * @param userId
+	 * @return Optional<User>
+	 */
 	Optional<User> findById(Long userId);
 
 	/**

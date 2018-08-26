@@ -145,7 +145,7 @@ public class UserApiController {
 	 * @param userId
 	 * @return ResponseEntity<Object>
 	 */
-	@PutMapping("upgrade-to-admin/{userId}")
+	@PutMapping("/upgrade-to-admin/{userId}")
 	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId) {
 		UserRole upgradeRole = null;
 		try {

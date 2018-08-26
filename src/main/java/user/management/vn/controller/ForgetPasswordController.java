@@ -26,11 +26,9 @@ import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
 
 /**
- * 
  * @summary forget password 
  * @date Aug 22, 2018
  * @author Tai
- * @return
  */
 @Controller
 public class ForgetPasswordController {
@@ -50,12 +48,10 @@ public class ForgetPasswordController {
 	private TokenVerificationService tokenVerificationService;
 
 	/**
-	 * 
 	* @summary return page view chek email
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@GetMapping("/forget-password")
@@ -66,14 +62,12 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary Processing email confirmation password change
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param emailDTO
 	* @param bindingResult
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@PostMapping("/forget-password")
@@ -123,13 +117,11 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary create password change page
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param token
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@GetMapping("/change-password")
@@ -159,14 +151,12 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary save new password
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param changePasswordDTO
 	* @param bindingResult
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@PostMapping("/change-password")

@@ -1,6 +1,5 @@
 package user.management.vn.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -23,12 +22,12 @@ public class GroupRole {
 	private Long id;
 
 	@JsonIgnoreProperties({"groupRoles","userRoles"})
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "ref_role_group"))
 	private Role role;
 
 	@JsonIgnoreProperties({"groupRoles","userGroups"})
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "group_id", nullable = false, foreignKey = @ForeignKey(name = "ref_group_role"))
 	private Group group;
 

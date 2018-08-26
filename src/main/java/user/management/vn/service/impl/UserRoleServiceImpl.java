@@ -11,6 +11,13 @@ import user.management.vn.service.UserRoleService;
 public class UserRoleServiceImpl implements UserRoleService{
 	@Autowired
 	private UserRoleRepository userRoleRepository;
+	
+	/**
+	 * @summary add user with role
+	 * @author TaiTruong
+	 * @param userRole
+	 * @return UserRole
+	 */
 	@Override
 	public UserRole addUserWithRole(UserRole userRole) {
 		// TODO Auto-generated method stub

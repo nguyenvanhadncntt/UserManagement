@@ -16,6 +16,9 @@ import user.management.vn.entity.UserRole;
 import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.UserService;
 
+/**
+ * @author Thehap Rok
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -25,6 +28,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	@Autowired
 	private UserRoleRepository userRoleRepository;
 
+	/**
+	 * @summary load User By Username
+	 * @author Thehap Rok
+	 * @param username
+	 * @return UserDetails
+	 */
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		try {
@@ -37,6 +46,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		}
 	}
 
+	/**
+	 * @summary get all role of user
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return List<GrantedAuthority>
+	 */
 	public List<GrantedAuthority> getAllRoleOfUser(Long userId) {
 		List<GrantedAuthority> listGrantedAuthority = new ArrayList<>();
 		List<UserRole> listUserRole = userRoleRepository.findByUserId(userId);

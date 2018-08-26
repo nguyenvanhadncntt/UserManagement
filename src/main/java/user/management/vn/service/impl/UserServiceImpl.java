@@ -1,6 +1,5 @@
 package user.management.vn.service.impl;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +46,14 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * @summary get all user of group from database
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param groupId
+	 * @return
+	 * @return List<UserResponse>
+	 */
 	@Override
 	public List<UserResponse> getAllUserOfGroup(Long groupId) {
 		List<UserGroup> userGroups = UserGroupRepository.findAllUserOfGroupId(groupId);
@@ -54,6 +61,13 @@ public class UserServiceImpl implements UserService {
 		return convertUserToUserResponse(listUser);
 	}
 
+	/**
+	 * @summary convert list object UserGroup to list object User
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userGroups
+	 * @return List<User>
+	 */
 	@Override
 	public List<User> convertUserGroupsToUsers(List<UserGroup> userGroups) {
 		List<User> listUser = new ArrayList<User>();
@@ -63,6 +77,13 @@ public class UserServiceImpl implements UserService {
 		return listUser;
 	}
 
+	/**
+	 * @summary convert list object UserRole to list object User
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param userRoles
+	 * @return List<User>
+	 */
 	@Override
 	public List<User> convertUserRolesToUsers(List<UserRole> userRoles) {
 		List<User> listUser = new ArrayList<User>();
@@ -72,6 +93,13 @@ public class UserServiceImpl implements UserService {
 		return listUser;
 	}
 
+	/**
+	 * @summary convert list object User to list object UserResponse
+	 * @date Aug 16, 2018
+	 * @author Thehap Rok
+	 * @param listUser
+	 * @return List<UserResponse>
+	 */
 	@Override
 	public List<UserResponse> convertUserToUserResponse(List<User> listUser) {
 		List<UserResponse> listUserResponse = new ArrayList<>();
@@ -83,6 +111,13 @@ public class UserServiceImpl implements UserService {
 		return listUserResponse;
 	}
 
+	/**
+	 * @summary add one User into database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return User
+	 */
 	@Override
 	public User addUser(UserDTO userDTO) {
 		User user = this.convertUserDtoToUser(userDTO);
@@ -90,6 +125,14 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
+	/**
+	 * @summary update infomation of a User based on id of user
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return
+	 * @return User
+	 */
 	@Override
 	public User updateUser(UserDTO userDTO) {
 		User oldUser = this.getUserByEmail(userDTO.getEmail());
@@ -106,10 +149,16 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(oldUser);
 	}
 
+	/**
+	 * @summary delete User from database based on id of user
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param id
+	 * @return boolean
+	 */
 	@Transactional
 	@Override
 	public boolean deleteUserById(Long id) {
-		// TODO Auto-generated method stub
 		Optional<User> optionalUser = userRepository.findById(id);
 		if (!optionalUser.isPresent()) {
 			return false;
@@ -120,20 +169,31 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
+	/**
+	 * @summary return list of all user from database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @return List<UserResponse>
+	 */
 	@Override
 	public List<UserResponse> getAllUsers() {
-		// TODO Auto-generated method stub
 		List<User> listUser = userRepository.findAll();
 		return convertUserToUserResponse(listUser);
 	}
 	
 	public List<User> findAllUser() {
-		// TODO Auto-generated method stub
 		return userRepository.findAll();
 	}
 	
+	/**
+	 * @summary find a user base on id of user, return object of type UserResponse
+	 *          class
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userId
+	 * @return UserResponse
+	 */
 	public UserResponse findUserById(Long userId) {
-		// TODO Auto-generated method stub
 		Optional<User> user = userRepository.findById(userId);
 		if (!user.isPresent()) {
 			return null;
@@ -143,18 +203,30 @@ public class UserServiceImpl implements UserService {
 		return userResponse;
 	}
 
+	/**
+	 * @summary check whether duplicate email existed of a user in database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param email
+	 * @return boolean
+	 */
 	@Override
 	public boolean checkDuplicateEmail(String email) {
-		// TODO Auto-generated method stub
 		Optional<User> optionalUser = userRepository.findByEmail(email);
 		if (optionalUser.isPresent())
 			return true;
 		return false;
 	}
 
+	/**
+	 * @summary find a user base on id of user, return object of type User class
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userID
+	 * @return User
+	 */
 	@Override
 	public User findUserByUserId(Long userID) {
-		// TODO Auto-generated method stub
 		Optional<User> optionalUser = userRepository.findById(userID);
 		if (!optionalUser.isPresent()) {
 			return null;
@@ -162,6 +234,13 @@ public class UserServiceImpl implements UserService {
 		return optionalUser.get();
 	}
 
+	/**
+	 * @summary convert UserDTO object to User object
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return User
+	 */
 	@Override
 	public User convertUserDtoToUser(UserDTO userDTO) {
 		User user = new User();
@@ -175,6 +254,13 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	/**
+	 * @summary return User base email of User
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param email
+	 * @return User
+	 */
 	@Override
 	public User getUserByEmail(String email) {
 		Optional<User> optionalUser = userRepository.findByEmail(email);
@@ -184,6 +270,14 @@ public class UserServiceImpl implements UserService {
 		return optionalUser.get();
 	}
 
+	/**
+	 * @summary remove all role of group when reomve user
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param group
+	 * @param user
+	 * @return void
+	 */
 	@Override
 	public void removeRoleOfGroupFromUserRole(Group group, User user) {
 		List<UserGroup> userGroups = user.getUserGroups();
@@ -205,6 +299,13 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	/**
+	 * @summary upgrate role user to admin
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return UserRole
+	 */
 	@Override
 	public UserRole upgradeUserToAdmin(Long userId) 
 			throws UserNotFoundException, UserAlreadyAdminException {
@@ -213,7 +314,6 @@ public class UserServiceImpl implements UserService {
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("User not found!!!");
 		}
-		
 		User user = userOptional.get();
 
 		Boolean checkExist = userRoleRepository.existsByUserIdAndRoleId(user.getId(), adminRole.getId());
@@ -224,10 +324,16 @@ public class UserServiceImpl implements UserService {
 		return userRoleRepository.save(userRole);
 	}
 	
+	/**
+	 * @summary active User
+	 * @date Aug 22, 2018
+	 * @author ThaiLe
+	 * @param id
+	 * @return boolean
+	 */
 	@Transactional
 	@Override
 	public boolean activeUser(Long id) {
-		// TODO Auto-generated method stub
 		Optional<User> optional = userRepository.findById(id);
 		if(!optional.isPresent()) {
 			return false;
@@ -236,24 +342,51 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
   
+	/**
+	 * @summary Save User
+	 * @date Aug 21, 2018
+	 * @author Tai
+	 * @param user
+	 * @return User
+	 */
 	@Override
 	public User saveUser(User user) {
 		return userRepository.save(user);
 	}
 
+	/**
+	 * @summary delete all role of user
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
 	@Override
 	public void deleteAllRoleOfUser(Long userId) {
 		userRoleRepository.deleteUserRoleByUserId(userId);
 	}
 
+	/**
+	 * @summary delete all group of user
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
 	@Override
 	public void deleteUserGroup(Long userId) {
 		UserGroupRepository.deleteUserGroupByUserId(userId);
 	}
 
+	/**
+	 * @summary edit User
+	 * @date Aug 22, 2018
+	 * @author ThaiLe
+	 * @param objUser
+	 * @return User
+	 */
 	@Override
 	public User editUser(User objUser) {
-		// TODO Auto-generated method stub
 		return userRepository.save(objUser);
 	}
 	

@@ -18,18 +18,38 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	private RoleRepository roleRepository;
 	
+	/**
+	* @summary return list of all role in database
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @return List<Role>
+	*/
 	@Override
 	public List<Role> getAllRoles() {
 		// TODO Auto-generated method stub
 		return roleRepository.findAll();
 	}
 
+	/**
+	* @summary return list of role base on roleName
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param roleName
+	* @return List<Role>
+	*/
 	@Override
 	public List<Role> getRolesByNameContaining(String roleName) {
 		// TODO Auto-generated method stub
 		return roleRepository.findByRoleNameContaining(roleName);
 	}
 
+	/**
+	* @summary delete role base id
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param id
+	* @return boolean
+	*/
 	@Transactional
 	@Override
 	public boolean deleteRoleById(Long id) {
@@ -42,18 +62,39 @@ public class RoleServiceImpl implements RoleService {
 		return true;
 	}
 
+	/**
+	* @summary add a role into database
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param role
+	* @return Role
+	 */
 	@Override
 	public Role addRole(Role role) {
 		// TODO Auto-generated method stub
 		return roleRepository.save(role);
 	}
 
+	/**
+	* @summary edit a role from database
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param role
+	* @return Role
+	 */	
 	@Override
 	public Role editRole(Role role) {
 		// TODO Auto-generated method stub
 		return roleRepository.save(role);
 	}
 
+	/**
+	* @summary return Role base on id of role
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param id
+	* @return Role
+	 */
 	@Override
 	public Role getRoleById(Long id) {
 		// TODO Auto-generated method stub
@@ -64,21 +105,40 @@ public class RoleServiceImpl implements RoleService {
 		return optionalRole.get();
 	}
 
+	/**
+	* @summary find Role base roleName of role
+	* @date Aug 15, 2018
+	* @author ThaiLe
+	* @param roleName
+	* @return Role
+	 */
 	@Override
 	public Role findByRoleName(String roleName) {
 		// TODO Auto-generated method stub
 		return roleRepository.findByRoleName(roleName);
 	}
 
+	/**
+	* @summary List all Role by group id
+	* @date Aug 17, 2018
+	* @author Tai
+	* @param group
+	* @return List<Role>
+	 */
 	@Override
 	public List<Role> findByGroupRolesGroupId(long group) {
-		
 		return roleRepository.findByGroupRolesGroupId(group);
 	}
 	
-
+	/**
+	 * @summary get list role base on scope
+	 * @date Aug 17, 2018
+	 * @author Thehap Rok
+	 * @param scope
+	 * @return List<Role>
+	 */
+	@Override
 	public List<Role> getListRoleByScope(String scope) {
-		// TODO Auto-generated method stub
 		return roleRepository.findByScope(scope);
 	}
 }

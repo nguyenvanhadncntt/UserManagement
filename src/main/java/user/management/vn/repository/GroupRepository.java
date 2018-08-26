@@ -14,6 +14,11 @@ import user.management.vn.entity.Group;
 @Transactional
 public interface GroupRepository extends JpaRepository<Group, Long> {
 
+	/**
+	 * @summary find group by id
+	 * @param groupId
+	 * @return Optional<Group>
+	 */
 	Optional<Group> findById(Long groupId);
 
 	/**

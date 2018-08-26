@@ -16,15 +16,16 @@ import user.management.vn.entity.response.UserResponse;
  *
  */
 public interface UserService {
+	
 	/**
-	 * @summary convert list object UserGroup to list object User 
+	 * @summary convert list object UserGroup to list object User
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param userGroups
 	 * @return List<User>
 	 */
 	List<User> convertUserGroupsToUsers(List<UserGroup> userGroups);
-	
+
 	/**
 	 * @summary convert list object UserRole to list object User
 	 * @date Aug 16, 2018
@@ -33,7 +34,7 @@ public interface UserService {
 	 * @return List<User>
 	 */
 	List<User> convertUserRolesToUsers(List<UserRole> userRoles);
-	
+
 	/**
 	 * @summary convert list object User to list object UserResponse
 	 * @date Aug 16, 2018
@@ -41,10 +42,10 @@ public interface UserService {
 	 * @param listUser
 	 * @return List<UserResponse>
 	 */
-	List<UserResponse> convertUserToUserResponse(List<User> listUser);	
-	
+	List<UserResponse> convertUserToUserResponse(List<User> listUser);
+
 	/**
-	 * @summary get all user of group from database 
+	 * @summary get all user of group from database
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -52,155 +53,151 @@ public interface UserService {
 	 * @return List<UserResponse>
 	 */
 	List<UserResponse> getAllUserOfGroup(Long groupId);
-   
+
 	/**
-	* @summary add one User into database
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param userDTO
-	* @return User
+	 * @summary add one User into database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return User
 	 */
 	User addUser(UserDTO userDTO);
-	
+
 	/**
-	* @summary update infomation of a User based on id of user
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param userDTO
-	* @return
-	* @return User
+	 * @summary update infomation of a User based on id of user
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return
+	 * @return User
 	 */
 	User updateUser(UserDTO userDTO);
-	
+
 	/**
-	* @summary delete User from database  based on id of user
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param id
-	* @return boolean
+	 * @summary delete User from database based on id of user
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param id
+	 * @return boolean
 	 */
 	boolean deleteUserById(Long id);
-	
+
 	/**
-	* @summary return list of all user from database
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @return List<UserResponse>
+	 * @summary return list of all user from database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @return List<UserResponse>
 	 */
 	List<UserResponse> getAllUsers();
 
-	
 	/**
-	* @summary find a user base on id of user, return object of type UserResponse class
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param userId
-	* @return UserResponse
+	 * @summary find a user base on id of user, return object of type UserResponse
+	 *          class
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userId
+	 * @return UserResponse
 	 */
 	UserResponse findUserById(Long userId);
-	
+
 	/**
-	* @summary find a user base on id of user, return object of type User class
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param userID
-	* @return User
+	 * @summary find a user base on id of user, return object of type User class
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userID
+	 * @return User
 	 */
 	User findUserByUserId(Long userID);
-	
+
 	/**
-	* @summary check whether duplicate email existed of a user in database
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param email
-	* @return boolean
+	 * @summary check whether duplicate email existed of a user in database
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param email
+	 * @return boolean
 	 */
 	boolean checkDuplicateEmail(String email);
-	
+
 	/**
-	* @summary convert UserDTO object to User object
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param userDTO
-	* @return User
+	 * @summary convert UserDTO object to User object
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param userDTO
+	 * @return User
 	 */
 	User convertUserDtoToUser(UserDTO userDTO);
-	
+
 	/**
-	* @summary return User base email of User
-	* @date Aug 15, 2018
-	* @author ThaiLe
-	* @param email
-	* @return User
+	 * @summary return User base email of User
+	 * @date Aug 15, 2018
+	 * @author ThaiLe
+	 * @param email
+	 * @return User
 	 */
 	User getUserByEmail(String email);
-	
+
 	/**
-	 * @summary remove all role of group when reomve user 
+	 * @summary remove all role of group when reomve user
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @param group
 	 * @param user
 	 * @return void
 	 */
-	void removeRoleOfGroupFromUserRole(Group group,User user);
-	
+	void removeRoleOfGroupFromUserRole(Group group, User user);
+
 	/**
 	 * @summary upgrate role user to admin
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @param userId
-	 * @return
 	 * @return UserRole
 	 */
 	UserRole upgradeUserToAdmin(Long userId);
-	
+
 	/**
-	* @summary active User
-	* @date Aug 22, 2018
-	* @author ThaiLe
-	* @param id
-	* @return boolean
+	 * @summary active User
+	 * @date Aug 22, 2018
+	 * @author ThaiLe
+	 * @param id
+	 * @return boolean
 	 */
 	boolean activeUser(Long id);
-	
+
 	/**
-	 * @summary delete all role of user 
+	 * @summary delete all role of user
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @param userId
 	 * @return void
 	 */
 	void deleteAllRoleOfUser(Long userId);
-	
+
 	/**
-	 * @summary delete all group of user 
+	 * @summary delete all group of user
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @param userId
 	 * @return void
 	 */
 	void deleteUserGroup(Long userId);
-	
+
 	/**
-	* @summary edit User
-	* @date Aug 22, 2018
-	* @author ThaiLe
-	* @param objUser
-	* @return User
+	 * @summary edit User
+	 * @date Aug 22, 2018
+	 * @author ThaiLe
+	 * @param objUser
+	 * @return User
 	 */
 	User editUser(User objUser);
 
 	/**
-	 * 
-	* @summary Save User
-	* @date Aug 21, 2018
-	* @author Tai
-	* @param user
-	* @return
-	* @return User
+	 * @summary Save User
+	 * @date Aug 21, 2018
+	 * @author Tai
+	 * @param user
+	 * @return User
 	 */
 	User saveUser(User user);
 
-	
 }

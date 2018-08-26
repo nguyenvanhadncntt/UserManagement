@@ -57,12 +57,26 @@ public class RegistrationController {
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
 	
+	/**
+	 * @summary show regist page
+	 * @author ThaiLe
+	 * @param model
+	 * @return String
+	 */
 	@RequestMapping(path="showRegistPage",method = RequestMethod.GET)
 	public String showRegisterPage(Model model) {
 		model.addAttribute("userDTO", new UserDTO());
 		return "regist-page";
 	}
 	
+	/**
+	 * @summary register account
+	 * @author ThaiLe
+	 * @param userModel
+	 * @param rs
+	 * @param model
+	 * @return ResponseEntity<String>
+	 */
 	@PostMapping(path="registerAccount")	
 	public  ResponseEntity<String> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult rs,Model model) {
 		if(rs.hasErrors()) {
@@ -92,6 +106,15 @@ public class RegistrationController {
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
 	
+	/**
+	 * @summary active account
+	 * @author ThaiLe
+	 * @param request
+	 * @param registCode
+	 * @param model
+	 * @throws MessagingException
+	 * @return ResponseEntity<String>
+	 */
 	@GetMapping(path="activeAccount")
 	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
