@@ -1,7 +1,5 @@
 package user.management.vn.controller;
 
-import java.security.Principal;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
