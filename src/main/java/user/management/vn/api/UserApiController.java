@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserRole;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.UserAlreadyAdminException;
 import user.management.vn.exception.UserNotFoundException;

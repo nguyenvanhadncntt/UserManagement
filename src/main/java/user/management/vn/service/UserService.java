@@ -4,9 +4,9 @@ import java.util.List;
 
 import user.management.vn.entity.Group;
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
 
 /**

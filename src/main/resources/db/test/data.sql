@@ -1,0 +1,1 @@
+INSERT INTO `user` VALUES (2,'iasds',1,0,1,'siduas'),(3,'ha123',1,1,1,'$2a$10$hbxecwitQQ.dDT4JOFzQAulNySFwEpaFLw38jda6Td.Y/cOiRzDFu'),(4,'ha.nguyen2@asiantech.vn',1,1,1,'$2a$10$N59M3X1I0ybWWy3h9S0mJ.efgCxqCPNGYIrdAnK0H9C9KYuk0BoYq');

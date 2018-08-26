@@ -2,6 +2,9 @@ package user.management.vn.service;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -154,6 +158,7 @@ public class UserServiceImplTest {
 	public void convertUserGroupsToUsersTest() {
 		setUp();
 		List<User> listUr=userServiceImplMock.convertUserGroupsToUsers(userGroups);
+		
 		for (int i = 0; i < listUr.size(); i++) {
 			User urTest = listUr.get(i);
 			User urRoot = listUser.get(i);

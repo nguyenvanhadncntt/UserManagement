@@ -1,4 +1,4 @@
-package user.management.vn.entity;
+package user.management.vn.entity.dto;
 
 import java.io.Serializable;
 import java.util.Date;

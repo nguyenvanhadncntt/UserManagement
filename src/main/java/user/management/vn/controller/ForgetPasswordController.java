@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import user.management.vn.entity.ChangePasswordDTO;
-import user.management.vn.entity.EmailDTO;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
+import user.management.vn.entity.dto.ChangePasswordDTO;
+import user.management.vn.entity.dto.EmailDTO;
 import user.management.vn.service.MailService;
 import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserService;
