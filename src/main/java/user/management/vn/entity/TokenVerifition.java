@@ -56,7 +56,7 @@ public class TokenVerifition {
 		this.expireTime = expireTime;
 		this.type = type;
 	}
-	
+
 	public Long getId() {
 		return id;
 	}

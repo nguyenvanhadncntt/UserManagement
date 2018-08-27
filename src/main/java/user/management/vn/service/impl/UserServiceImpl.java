@@ -1,6 +1,7 @@
 package user.management.vn.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -378,6 +379,28 @@ public class UserServiceImpl implements UserService {
 		UserGroupRepository.deleteUserGroupByUserId(userId);
 	}
 
+	@Override
+	public User saveUser(UserResponse userResponse) {
+		
+		if (userResponse ==null) {
+			return null;
+		}
+		String fullname = userResponse.getFullname();
+		Boolean gender = userResponse.getGender();
+		String address = userResponse.getAddress();
+		Date birthDay = userResponse.getBirthday();
+		String phone = userResponse.getPhone();
+		String email = userResponse.getEmail();
+		
+		User user = getUserByEmail(email);
+		user.getUserDetail().setAddress(address);
+		user.getUserDetail().setBirthDay(birthDay);
+		user.getUserDetail().setFullname(fullname);
+		user.getUserDetail().setGender(gender);
+		user.getUserDetail().setPhone(phone);
+		return userRepository.save(user);
+	}
+
 	/**
 	 * @summary edit User
 	 * @date Aug 22, 2018
@@ -389,5 +412,5 @@ public class UserServiceImpl implements UserService {
 	public User editUser(User objUser) {
 		return userRepository.save(objUser);
 	}
-	
+
 }

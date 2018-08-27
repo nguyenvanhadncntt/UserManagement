@@ -50,6 +50,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		
 		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd, /change-password auto permit 
 		// and request to url other must authen
+
 		http.authorizeRequests().antMatchers("/forget-password**","/h2-console/**","/login**","/registerAccount**"
 				,"/activeAccount**","/change-password**").permitAll()
 				.anyRequest().authenticated();
