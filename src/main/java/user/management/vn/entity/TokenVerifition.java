@@ -20,7 +20,6 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "token_verfication")
 public class TokenVerifition {
-	private static final int EXPIRATION = 60*24;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -60,12 +59,6 @@ public class TokenVerifition {
 		this.tokenCode = tokenCode;
 		this.expireTime = expireTime;
 		this.type = type;
-	}
-	private Date calculateExpiryDate(int expireTime) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Timestamp(cal.getTime().getTime()));
-		cal.add(Calendar.MINUTE, expireTime);
-		return new Date(cal.getTime().getTime());
 	}
 	public Long getId() {
 		return id;
