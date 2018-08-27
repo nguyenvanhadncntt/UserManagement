@@ -9,12 +9,9 @@ import javax.persistence.Query;
 import org.springframework.stereotype.Component;
 
 /**
- * 
  * @summary search for all field,all entity
  * @author HaNguyen
- *
  */
-
 @Component
 public class SearchGeneric {
 

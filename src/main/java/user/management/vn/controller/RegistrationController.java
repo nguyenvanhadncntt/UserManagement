@@ -20,18 +20,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import user.management.vn.entity.Role;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
+import user.management.vn.entity.UserRole;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.service.MailService;
+import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
+import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
+import user.management.vn.util.RoleSystem;
 import user.management.vn.util.VerificationUtil;
-
-
 
 @Controller
 public class RegistrationController {
+	
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 	
 	@Autowired
 	private MailService mailService;
@@ -48,12 +57,26 @@ public class RegistrationController {
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
 	
+	/**
+	 * @summary show regist page
+	 * @author ThaiLe
+	 * @param model
+	 * @return String
+	 */
 	@RequestMapping(path="showRegistPage",method = RequestMethod.GET)
 	public String showRegisterPage(Model model) {
 		model.addAttribute("userDTO", new UserDTO());
 		return "regist-page";
 	}
 	
+	/**
+	 * @summary register account
+	 * @author ThaiLe
+	 * @param userModel
+	 * @param rs
+	 * @param model
+	 * @return ResponseEntity<String>
+	 */
 	@PostMapping(path="registerAccount")	
 	public  ResponseEntity<String> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult rs,Model model) {
 		if(rs.hasErrors()) {
@@ -68,7 +91,8 @@ public class RegistrationController {
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
 			try {
-				mailService.sendMailActive("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
+
+				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
 				tokenVerificationService.addToken(tokenVerifition);
@@ -82,30 +106,44 @@ public class RegistrationController {
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
 	
+	/**
+	 * @summary active account
+	 * @author ThaiLe
+	 * @param request
+	 * @param registCode
+	 * @param model
+	 * @throws MessagingException
+	 * @return ResponseEntity<String>
+	 */
 	@GetMapping(path="activeAccount")
-	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token")String registCode,Model model) throws MessagingException {
+	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
-			return new ResponseEntity<>("Register code is not true", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<String>("Token is not true", HttpStatus.NOT_FOUND);
 		}
-		Date nowDay = new Date();
-		User objUsers= tokenVerification.getUser();
-		if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
-			tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
-            tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
-            tokenVerificationService.editToken(tokenVerification);
-            mailService.sendMailActive("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
-            return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
-		}
+		User objUsers= tokenVerification.getUser();		
 		
 		if(objUsers != null) {
 			
-			boolean check = userService.activeUser(objUsers.getId());
-			if(check == true) {
-				tokenVerificationService.deleteTokenById(tokenVerification.getId());
-				return new ResponseEntity<>("Active user successfully", HttpStatus.OK);
+			Date nowDay = new Date();
+			if(tokenVerification.getExpireTime().getTime() < nowDay.getTime()) {
+				tokenVerification.setExpireTime(veritificationUtil.calculatorExpireTime());
+				tokenVerification.setTokenCode(veritificationUtil.generateVerificationCode(objUsers.getEmail() + objUsers.getPassword()));
+				tokenVerificationService.editToken(tokenVerification);
+				mailService.sendMail("Active Account","/activeAccount",objUsers.getEmail(),tokenVerification.getTokenCode(),tokenVerification.getExpireTime());
+				return new ResponseEntity<>("We sent you a new token", HttpStatus.OK);
 			}else {
-				return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
+				boolean check = userService.activeUser(objUsers.getId());
+				if(check == true) {
+					tokenVerificationService.deleteTokenById(tokenVerification.getId());
+					Role role = roleService.findByRoleName(RoleSystem.USER);
+					User user = userService.findUserByUserId(objUsers.getId());
+					UserRole userRole = new UserRole(user, role);
+					userRoleService.addUserWithRole(userRole);
+					return new ResponseEntity<>("Active user successfully", HttpStatus.OK);
+				}else {
+					return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
+				}
 			}
 			//userService.autoLogin(request, user.getEmail(), user.getPassword());
 			//model.addAttribute("msg","Your account active successful !!!");

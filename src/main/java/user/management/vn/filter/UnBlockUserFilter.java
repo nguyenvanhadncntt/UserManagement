@@ -14,10 +14,12 @@ import org.springframework.web.filter.GenericFilterBean;
 
 import user.management.vn.entity.BlockUser;
 import user.management.vn.entity.User;
+import user.management.vn.service.BlockUserService;
 import user.management.vn.service.UserService;
 
 /**
- * @summary un block for user when user login again and time login more than expire time
+ * @summary un block for user when user login again and time login more than
+ *          expire time
  * @author Thehap Rok
  *
  */
@@ -26,6 +28,9 @@ public class UnBlockUserFilter extends GenericFilterBean {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private BlockUserService blockUserService;
 
 	/**
 	 * Get email from request check time expire and now to un block user
@@ -42,8 +47,7 @@ public class UnBlockUserFilter extends GenericFilterBean {
 					Date now = new Date();
 					Date expireTimeBlock = blockUser.getBlockTime();
 					if (expireTimeBlock.getTime() < now.getTime()) {
-						user.setBlockUser(null);
-//					userService.updateUser(userDTO)
+						blockUserService.deleteBlockUser(blockUser.getId());
 					}
 				}
 			}

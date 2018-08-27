@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+
 import user.management.vn.entity.EmailDTO;
 import user.management.vn.entity.PasswordDTO;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
+import user.management.vn.entity.dto.ChangePasswordDTO;
+import user.management.vn.entity.dto.EmailDTO;
 import user.management.vn.service.MailService;
 import user.management.vn.service.PasswordService;
 import user.management.vn.service.TokenVerificationService;
@@ -28,11 +31,9 @@ import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
 
 /**
- * 
  * @summary forget password 
  * @date Aug 22, 2018
  * @author Tai
- * @return
  */
 @Controller
 public class ForgetPasswordController {
@@ -55,15 +56,13 @@ public class ForgetPasswordController {
 	private PasswordService passwordService;
 
 	/**
-	 * 
 	* @summary return page view chek email
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param modelMap
-	* @return
 	* @return String
 	 */
-	@GetMapping("/forget-passowrd")
+	@GetMapping("/forget-password")
 	public String creadEmailDto(ModelMap modelMap) {
 		EmailDTO email = new EmailDTO();
 		modelMap.addAttribute("emailDTO", email);
@@ -71,17 +70,15 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary Processing email confirmation password change
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param emailDTO
 	* @param bindingResult
 	* @param modelMap
-	* @return
 	* @return String
 	 */
-	@PostMapping("/forget-passowrd")
+	@PostMapping("/forget-password")
 	public String checkOutEmailAndSendMail(@Valid @ModelAttribute("emailDTO") EmailDTO emailDTO,
 			BindingResult bindingResult, ModelMap modelMap) {
 		String email = emailDTO.getEmail();
@@ -113,7 +110,7 @@ public class ForgetPasswordController {
 					modelMap.addAttribute("msg", "Sent email please check email");
 				} else {
 					// goi email
-					mailService.sendMailActive("FORGET PASSWORD", "/change-password", email,
+					mailService.sendMail("FORGET PASSWORD", "/change-password", email,
 							registCode, expireDate);
 					TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 1);
 					tokenVerificationService.addToken(tokenVerifition);
@@ -128,13 +125,11 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary create password change page
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param token
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@GetMapping("/change-password")
@@ -174,14 +169,12 @@ public class ForgetPasswordController {
 	}
 
 	/**
-	 * 
 	* @summary save new password
 	* @date Aug 22, 2018
 	* @author Tai
 	* @param passwordDTO
 	* @param bindingResult
 	* @param modelMap
-	* @return
 	* @return String
 	 */
 	@PostMapping("/change-password")

@@ -9,9 +9,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import user.management.vn.util.RoleSystem;
+
 @Controller
 public class LoginController {
 
+	/**
+	 * @summary login page
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @param model
+	 * @param request
+	 * @return String
+	 */
 	@GetMapping(path = "/login")
 	public String login(Model model, HttpServletRequest request) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -26,8 +36,20 @@ public class LoginController {
 		return "login";
 	}
 
+	/**
+	 * @summary home page 
+	 * @date Aug 23, 2018
+	 * @author Thehap Rok
+	 * @return String
+	 */
 	@GetMapping(path = "/home")
 	public String home() {
-		return "home";
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		boolean isAdmin = authentication.getAuthorities().stream()
+		          .anyMatch(r -> r.getAuthority().equals(RoleSystem.ADMIN));
+		if(isAdmin) {
+			return "admin-home";
+		}
+		return "user-home";
 	}
 }

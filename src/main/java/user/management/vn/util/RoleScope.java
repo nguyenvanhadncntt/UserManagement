@@ -1,7 +1,12 @@
 package user.management.vn.util;
 
+/**
+ * @summary name scope role
+ * @author Thehap Rok
+ *
+ */
 public interface RoleScope {
-    final static String SYSTEM = "SYSTEM";
-    final static String GROUP = "GROUP";
+    String SYSTEM = "SYSTEM";
+    String GROUP = "GROUP";
 }
 

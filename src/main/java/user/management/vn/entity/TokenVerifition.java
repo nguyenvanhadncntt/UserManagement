@@ -1,10 +1,7 @@
 package user.management.vn.entity;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -22,12 +19,11 @@ import javax.persistence.TemporalType;
 public class TokenVerifition {
 	@Id
 	@Column(name = "id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "user_id", unique = true, nullable = false,
-		foreignKey = @ForeignKey(name = "ref_user_token"))
+	@OneToOne
+	@JoinColumn(name = "user_id", unique = true, nullable = false, foreignKey = @ForeignKey(name = "ref_user_token"))
 	private User user;
 
 	@Column(name = "token_code", nullable = false)
@@ -60,6 +56,7 @@ public class TokenVerifition {
 		this.expireTime = expireTime;
 		this.type = type;
 	}
+
 	public Long getId() {
 		return id;
 	}

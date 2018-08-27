@@ -17,6 +17,12 @@ import org.springframework.data.jpa.repository.Modifying;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long>{
 
+	/**
+	 * @summary find user by id
+	 * @author ThaiLe
+	 * @param userId
+	 * @return Optional<User>
+	 */
 	Optional<User> findById(Long userId);
 
 	/**
@@ -35,10 +41,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	List<User> findUserNotInGroupByNameOrEmail(@Param("groupId") Long groupId, @Param("param") String nameOrEmail);
 
 	/**
-	 * 
 	* @summary
 	* @date Aug 13, 2018
-	* @author Thai
+	* @author THAILE
 	* @param id
 	* @return int
 	 */
@@ -47,24 +52,25 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	int deleteUser(Long id);
 	
 	/**
-	 * 
 	* @summary
 	* @date Aug 13, 2018
-	* @author Thai
+	* @author THAILE
 	* @param email
 	* @return Optional<User>
 	 */
 	Optional<User> findByEmail(String email);
 	
+
 	List<User> findByUserDetailFullnameContaining(String name);
-	/**
+		/**
 	* @summary active Account
 	* @date Aug 20, 2018
-	* @author ThaiLe
+	* @author THAILE
 	* @param id
 	* @return int
 	 */
 	@Modifying
 	@Query(value = "update user set enable = 1 where id=?1", nativeQuery = true)
 	int activeUser(Long id);
+
 }

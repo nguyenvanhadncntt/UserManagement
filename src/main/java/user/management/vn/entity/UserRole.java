@@ -1,6 +1,5 @@
 package user.management.vn.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -11,7 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -24,12 +22,12 @@ public class UserRole {
 	private Long id;
 	
 	@JsonIgnoreProperties("userRoles")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_role"))
 	private User user;
 
 	@JsonIgnoreProperties("userRoles")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "role_id", nullable = false,foreignKey=@ForeignKey(name="ref_role_user"))
 	private Role role;
 
