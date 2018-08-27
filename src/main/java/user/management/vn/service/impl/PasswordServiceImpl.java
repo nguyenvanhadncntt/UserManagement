@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import user.management.vn.entity.PasswordDTO;
 import user.management.vn.entity.User;
+import user.management.vn.entity.dto.PasswordDTO;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.service.PasswordService;
 import user.management.vn.service.UserService;

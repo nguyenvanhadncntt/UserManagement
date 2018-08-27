@@ -7,7 +7,6 @@ import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,13 +16,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-import user.management.vn.entity.EmailDTO;
-import user.management.vn.entity.PasswordDTO;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
-import user.management.vn.entity.dto.ChangePasswordDTO;
 import user.management.vn.entity.dto.EmailDTO;
+import user.management.vn.entity.dto.PasswordDTO;
 import user.management.vn.service.MailService;
 import user.management.vn.service.PasswordService;
 import user.management.vn.service.TokenVerificationService;
@@ -45,9 +41,6 @@ public class ForgetPasswordController {
 
 	@Autowired
 	private VerificationUtil veritificationUtil;
-
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
@@ -135,7 +128,6 @@ public class ForgetPasswordController {
 	@GetMapping("/change-password")
 	public String viewChangePassword(@RequestParam("token") String token, ModelMap modelMap) {
 		TokenVerifition checkToKenVerifition = tokenVerificationService.findTokenByTokenCode(token);
-//		TokenVerifition checkExpireTimeTokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		// kiem tra token da duoc su dung hay chua
 		if (checkToKenVerifition == null) {
 			modelMap.addAttribute("msg", "ma code nay k con gia tri");
@@ -144,15 +136,14 @@ public class ForgetPasswordController {
 			Date nowDate = new Date();
 			// kiem tra het thoi gian qua han
 			if (checkToKenVerifition.getExpireTime().getTime() < nowDate.getTime()) {
-//				checkToKenVerifition.setExpireTime(veritificationUtil.calculatorExpireTime());
-//				checkToKenVerifition.setTokenCode(veritificationUtil.generateVerificationCode(checkToKenVerifition.getUser().getEmail()));
-//	            tokenVerificationService.editToken(checkToKenVerifition);
-//	            try {
-//					mailService.sendMailActive("FORGET PASSWORD","/change-password",checkToKenVerifition.getUser().getEmail(),checkToKenVerifition.getTokenCode(),checkToKenVerifition.getExpireTime());
-//				} catch (MessagingException e) {
-//					
-//					e.printStackTrace();
-//				}
+				checkToKenVerifition.setExpireTime(veritificationUtil.calculatorExpireTime());
+				checkToKenVerifition.setTokenCode(veritificationUtil.generateVerificationCode(checkToKenVerifition.getUser().getEmail()));
+	            tokenVerificationService.editToken(checkToKenVerifition);
+	            try {
+					mailService.sendMail("FORGET PASSWORD","/change-password",checkToKenVerifition.getUser().getEmail(),checkToKenVerifition.getTokenCode(),checkToKenVerifition.getExpireTime());
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
 				modelMap.addAttribute("msg", "thoi gian xac nhan da qua han!!!");
 				return "errorMessege";
 			}
