@@ -1,10 +1,7 @@
 package user.management.vn.entity;
 
-import java.sql.Timestamp;
-import java.util.Calendar;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -20,13 +17,12 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "token_verfication")
 public class TokenVerifition {
-	private static final int EXPIRATION = 60*24;
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_id", unique = true, nullable = false, foreignKey = @ForeignKey(name = "ref_user_token"))
 	private User user;
 
@@ -60,12 +56,7 @@ public class TokenVerifition {
 		this.expireTime = expireTime;
 		this.type = type;
 	}
-	private Date calculateExpiryDate(int expireTime) {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(new Timestamp(cal.getTime().getTime()));
-		cal.add(Calendar.MINUTE, expireTime);
-		return new Date(cal.getTime().getTime());
-	}
+	
 	public Long getId() {
 		return id;
 	}

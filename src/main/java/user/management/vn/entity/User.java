@@ -3,7 +3,6 @@ package user.management.vn.entity;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -45,23 +44,23 @@ public class User implements Serializable{
 	private Boolean nonLocked = true;
 
 	@JsonIgnoreProperties("user")
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user",orphanRemoval=true)
 	private UserDetail userDetail;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user",orphanRemoval=true)
 	private TokenVerifition tokenVerifition;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user", orphanRemoval=true)
 	private BlockUser blockUser;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "user",orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
 	@JsonIgnoreProperties("user")
-	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "user",orphanRemoval=true)
 	private List<UserRole> userRoles;
 
 	public User() {

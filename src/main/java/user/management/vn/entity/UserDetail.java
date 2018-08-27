@@ -2,7 +2,6 @@ package user.management.vn.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -49,7 +48,7 @@ public class UserDetail {
 	@CreationTimestamp
 	private Date createdAt;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = false)
+	@OneToOne(optional = false)
 	@PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name="ref_user_detail"))
 	private User user;
 

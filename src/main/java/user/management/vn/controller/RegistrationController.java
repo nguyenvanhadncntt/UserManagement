@@ -1,10 +1,11 @@
 package user.management.vn.controller;
 
 import java.util.Date;
-import java.util.Optional;
+
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,33 +14,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.jayway.jsonpath.Option;
+
 import user.management.vn.entity.Role;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserRole;
-import user.management.vn.repository.UserRepository;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.service.MailService;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
-import user.management.vn.util.RoleScope;
 import user.management.vn.util.RoleSystem;
-import user.management.vn.util.VerificationUtil;
-import user.management.vn.entity.TokenVerifition;
-import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
-import user.management.vn.service.MailService;
-import user.management.vn.service.TokenVerificationService;
-import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
 
 @Controller
@@ -66,12 +57,26 @@ public class RegistrationController {
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
 	
+	/**
+	 * @summary show regist page
+	 * @author ThaiLe
+	 * @param model
+	 * @return String
+	 */
 	@RequestMapping(path="showRegistPage",method = RequestMethod.GET)
 	public String showRegisterPage(Model model) {
 		model.addAttribute("userDTO", new UserDTO());
 		return "regist-page";
 	}
 	
+	/**
+	 * @summary register account
+	 * @author ThaiLe
+	 * @param userModel
+	 * @param rs
+	 * @param model
+	 * @return ResponseEntity<String>
+	 */
 	@PostMapping(path="registerAccount")	
 	public  ResponseEntity<String> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult rs,Model model) {
 		if(rs.hasErrors()) {
@@ -101,6 +106,15 @@ public class RegistrationController {
 		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
 	}
 	
+	/**
+	 * @summary active account
+	 * @author ThaiLe
+	 * @param request
+	 * @param registCode
+	 * @param model
+	 * @throws MessagingException
+	 * @return ResponseEntity<String>
+	 */
 	@GetMapping(path="activeAccount")
 	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);

@@ -3,10 +3,8 @@ package user.management.vn.service;
 import java.util.List;
 
 /**
- * 
- * Search interface
+ * @summary Search interface
  * @author Thehap Rok
- *
  */
 public interface SearchService {
 	/**

@@ -1,8 +1,13 @@
-package user.management.vn.entity;
+package user.management.vn.entity.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+/**
+ * 
+ * @author TaiTruong
+ *
+ */
 public class EmailDTO {
 
 	@Email

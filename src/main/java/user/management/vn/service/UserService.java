@@ -4,9 +4,9 @@ import java.util.List;
 
 import user.management.vn.entity.Group;
 import user.management.vn.entity.User;
-import user.management.vn.entity.UserDTO;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
 
 /**
@@ -16,7 +16,7 @@ import user.management.vn.entity.response.UserResponse;
  *
  */
 public interface UserService {
-
+	
 	/**
 	 * @summary convert list object UserGroup to list object User
 	 * @date Aug 16, 2018
@@ -151,7 +151,6 @@ public interface UserService {
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @param userId
-	 * @return
 	 * @return UserRole
 	 */
 	UserRole upgradeUserToAdmin(Long userId);
@@ -193,12 +192,18 @@ public interface UserService {
 	User editUser(User objUser);
 
 	/**
+<<<<<<< HEAD
 	 * 
+=======
+>>>>>>> c67610a2cdb8fc7f6c18791b84e035e016eff1e4
 	 * @summary Save User
 	 * @date Aug 21, 2018
 	 * @author Tai
 	 * @param user
+<<<<<<< HEAD
 	 * @return
+=======
+>>>>>>> c67610a2cdb8fc7f6c18791b84e035e016eff1e4
 	 * @return User
 	 */
 	User saveUser(User user);

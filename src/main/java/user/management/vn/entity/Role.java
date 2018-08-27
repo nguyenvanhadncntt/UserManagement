@@ -2,7 +2,6 @@ package user.management.vn.entity;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,11 +31,11 @@ public class Role {
 	private String scope;
 	
 	@JsonIgnoreProperties({"role","user"})
-	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "role")
 	private List<UserRole> userRoles;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "role",cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "role")
 	private List<GroupRole> groupRoles;
 
 	public Role() {

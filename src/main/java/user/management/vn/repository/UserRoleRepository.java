@@ -13,15 +13,41 @@ import user.management.vn.entity.UserRole;
 
 @Repository
 public interface UserRoleRepository extends JpaRepository<UserRole, Long>{
+	/**
+	 * @summary check user have role by userId And roleId
+	 * @author TaiTruong
+	 * @param userId
+	 * @param roleId
+	 * @return Boolean
+	 */
 	Boolean existsByUserIdAndRoleId(Long userId,Long roleId);
 	
+	/**
+	 * @summary find role user by userId
+	 * @author TaiTruong
+	 * @param userId
+	 * @return List<UserRole>
+	 */
 	List<UserRole> findByUserId(Long userId);
 	
+	/**
+	 * @summary delete role of user by userId and roleId
+	 * @author Thehap Rok
+	 * @param userId
+	 * @param roleId
+	 * @return Integer
+	 */
 	@Transactional
 	@Modifying
 	@Query(value= "delete from user_role where user_id=?1 and role_id =?2",nativeQuery=true)
 	Integer deleteByUserIdAndRoleId(Long userId,Long roleId);
 	
+	/**
+	 * @summary delete role of User by userId and roleId
+	 * @author Thehap Rok
+	 * @param userId
+	 * @return void
+	 */
 	@Transactional
 	@Modifying
 	@Query(value="delete from user_role where user_id=?1",nativeQuery=true)

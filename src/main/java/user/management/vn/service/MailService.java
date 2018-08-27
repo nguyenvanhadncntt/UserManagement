@@ -1,6 +1,9 @@
 package user.management.vn.service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -9,42 +12,55 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
+
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 
 @Service
 public class MailService {
 
 	@Autowired
 	JavaMailSender mailSender;
-	
-	String cssLinkActive="<style type='text/css'>" + 
-			"    .custom-class { background-color: #2cd22c;text-decoration: none;display: inline-block;width: 224px;height: 35px;text-align: center;border-radius: 7px;font-size: 25px;}" + 
-			"    .custom-class:hover { background-color:Red; }" + 
-			"</style>";
-	
 
-	public void sendMail(String title, String href, String userMail, String registCode, Date expireDate) throws MessagingException {
+	@Autowired
+	private Configuration freemarkerConfigg;
+
+	/**
+	 * @summary send mail
+	 * @author Thehap Rok
+	 * @param title
+	 * @param href
+	 * @param userMail
+	 * @param registCode
+	 * @param expireDate
+	 * @throws MessagingException
+	 * @return void
+	 */
+	public void sendMail(String title, String href, String userMail, String registCode, Date expireDate)
+			throws MessagingException {
 		MimeMessage message = mailSender.createMimeMessage();
 
-		MimeMessageHelper helper;
-		helper = new MimeMessageHelper(message);
+		MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
 
-		helper.setSubject(title);
-		helper.setText(mailContent(registCode, expireDate,href), true);
+		try {
+			freemarkerConfigg.setClassForTemplateLoading(this.getClass(), "/templates");
+			Template t = freemarkerConfigg.getTemplate("email-template.ftl");
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("expireDate", expireDate.toString());
+			model.put("href", href);
+			model.put("token", registCode);
+			String mailContent = FreeMarkerTemplateUtils.processTemplateIntoString(t, model);
+			helper.setSubject(title);
+			helper.setText(mailContent, true);
+			helper.setTo(userMail);
+			mailSender.send(message);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		helper.setTo(userMail);
-		helper.setFrom("noreply@hanv.com");
-		mailSender.send(message);
 	}
 
-
-	public String mailContent(String registCode, Date expireDate,String href) {
-		StringBuilder mailContent = new StringBuilder("<h4>Date-Time Expire: "+expireDate+"</h4>");
-		mailContent.append(cssLinkActive);
-		mailContent.append("<a class='custom-class' href='http://localhost:8080");
-		mailContent.append(href);
-		mailContent.append("?token=");
-		mailContent.append(registCode);
-		mailContent.append("'>Checkout your account</a>");
-		return mailContent.toString();
-	}
 }

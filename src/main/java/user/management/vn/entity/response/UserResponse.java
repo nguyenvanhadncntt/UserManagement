@@ -13,6 +13,11 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserRole;
 
+/**
+ * 
+ * @author Thehap Rok
+ *
+ */
 public class UserResponse implements Serializable {
 
 	/**
@@ -127,6 +132,10 @@ public class UserResponse implements Serializable {
 		this.listRole = listRole;
 	}
 	
+	/**
+	 * @summary add properties of user to user response
+	 * @param user
+	 */
 	public void addPropertiesFromUser(User user) {
 		UserDetail userDetail = user.getUserDetail();
 

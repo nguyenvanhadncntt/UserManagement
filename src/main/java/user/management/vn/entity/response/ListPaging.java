@@ -11,7 +11,10 @@ import org.springframework.beans.support.PagedListHolder;
 import org.springframework.beans.support.PropertyComparator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+/**
+ * @author Thehap Rok
+ * @param <T>
+ */
 public class ListPaging<T> implements Serializable{
 	/**
 	 * 
@@ -33,6 +36,14 @@ public class ListPaging<T> implements Serializable{
 		super();
 	}
 
+	/**
+	 * @summary constructor handle paging and save data to session
+	 * @param list
+	 * @param size
+	 * @param pageIndex
+	 * @param fieldSort
+	 * @param request
+	 */
 	public ListPaging(List<T> list,int size
 			,int pageIndex
 			,String fieldSort,HttpServletRequest request) {
@@ -103,6 +114,10 @@ public class ListPaging<T> implements Serializable{
 		this.typeSort = typeSort;
 	}
 	
+	/**
+	 * @summary clear session of paging
+	 * @param request
+	 */
 	public static void clearSessionPaging(HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		session.removeAttribute("fieldSort");

@@ -3,8 +3,6 @@ package user.management.vn.api;
 import java.util.List;
 import java.util.Optional;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +21,9 @@ import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
-import user.management.vn.entity.response.ListPaging;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.GroupNotFoundException;
+import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.query.GroupQueryCondition;
 import user.management.vn.service.GroupService;
 import user.management.vn.service.RoleGroupService;
@@ -55,78 +53,49 @@ public class GroupApiController {
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping(path = "/{groupId}/users")
-	public ResponseEntity<Object> getListUserInGroup(@PathVariable(name = "groupId") Long groupId,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+	public ResponseEntity<Object> getListUserInGroup(@PathVariable(name = "groupId") Long groupId) {
 		List<UserResponse> listUser = userService.getAllUserOfGroup(groupId);
 		if (listUser.size() == 0) {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<UserResponse> listPagging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(listUser, HttpStatus.OK);
 	}
-	
-	
 
 	/**
 	 * @summary view list all group
 	 * @date Aug 16, 2018
 	 * @author Tai
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping
-	public ResponseEntity<Object> getAllGroup(
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+	public ResponseEntity<Object> getAllGroup() {
 		List<Group> listGroup = groupService.viewAllGroup();
 		if (listGroup.size() == 0) {
 			return new ResponseEntity<>(listGroup, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<Group> listPagging = new ListPaging<>(listGroup, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(listGroup, HttpStatus.OK);
 	}
-  /**
-	* @summary search role in group
-	* @date Aug 20, 2018
-	* @author Tai
-	* @param searchValue
-	* @param fieldSearch
-	* @param pageIndex
-	* @param size
-	* @param fieldSort
-	* @param request
-	* @return
-	* @return ResponseEntity<Object>
-	*/
+
+	/**
+	 * @summary search role in group
+	 * @date Aug 20, 2018
+	 * @author Tai
+	 * @param searchValue
+	 * @param fieldSearch
+	 * @return ResponseEntity<Object>
+	 */
 	@GetMapping(path = "/search")
 	public ResponseEntity<Object> findRoleInGroup(@RequestParam(name = "searchValue") String searchValue,
-			@RequestParam(name = "searchField") String fieldSearch,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+			@RequestParam(name = "searchField") String fieldSearch) {
 		List<Group> groups = searchService.search(EntityName.GROUP, fieldSearch, searchValue);
 
 		if (groups.size() == 0) {
 			return new ResponseEntity<>(groups, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<Group> listPagging = new ListPaging<>(groups, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(groups, HttpStatus.OK);
 	}
 
 	/**
@@ -135,22 +104,13 @@ public class GroupApiController {
 	 * @date Aug 16, 2018
 	 * @author Tai
 	 * @param id
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/{id}")
-	public ResponseEntity<Object> getGroup(@PathVariable("id") long id,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+	public ResponseEntity<Object> getGroup(@PathVariable("id") long id) {
 		Optional<Group> group = groupService.viewGroup(id);
 		if (!group.isPresent()) {
-			throw new GroupNotFoundException("Group Not Found id: " + id);
+			return new ResponseEntity<>(group, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(group, HttpStatus.OK);
 	}
@@ -161,13 +121,12 @@ public class GroupApiController {
 	 * @date Aug 16, 2018
 	 * @author Tai
 	 * @param group
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@PostMapping
 	public ResponseEntity<Object> createGroup(@RequestBody Group group) {
 		groupService.addGroup(group);
-		return new ResponseEntity<>("Cread group successful", HttpStatus.CREATED);
+		return new ResponseEntity<>("Create group successful", HttpStatus.CREATED);
 	}
 
 	/**
@@ -182,7 +141,7 @@ public class GroupApiController {
 	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id) {
 		Optional<Group> groupOptional = groupService.viewGroup(id);
 		if (!groupOptional.isPresent()) {
-			throw new GroupNotFoundException("Group Not Found id: " + id);
+			return new ResponseEntity<>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		group.setUserGroups(groupOptional.get().getUserGroups());
 		group.setGroupRoles(groupOptional.get().getGroupRoles());
@@ -203,7 +162,7 @@ public class GroupApiController {
 	public ResponseEntity<Object> deleteGroup(@PathVariable("id") long id) {
 		Optional<Group> deletedGroup = groupService.deleteGroup(id);
 		if (!deletedGroup.isPresent()) {
-			throw new GroupNotFoundException("Group Not Found id: " + id);
+			return new ResponseEntity<Object>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("Dedelte group successful", HttpStatus.OK);
 	}
@@ -213,28 +172,19 @@ public class GroupApiController {
 	 * @date Aug 16, 2018
 	 * @author Tai
 	 * @param id
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/{id}/roles")
-	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+	public ResponseEntity<Object> viewRolesOfGroup(@PathVariable("id") long id) {
 		if (roleGroupService.existsByGroup(id)) {
-			throw new GroupNotFoundException("Group Not Found id: " + id);
+			return new ResponseEntity<>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
 		List<GroupRole> list = roleGroupService.findAllRoleByGroup(id);
 		List<Role> listRole = roleGroupService.convertGroupRoleToRole(list);
 		if (list.isEmpty()) {
 			return new ResponseEntity<>("no role", HttpStatus.NOT_FOUND);
 		}
-		ListPaging<Role> listPagging = new ListPaging<>(listRole, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
 
 	/**
@@ -266,9 +216,15 @@ public class GroupApiController {
 	@PostMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> addUserToGroup(@PathVariable(name = "groupId") Long groupId,
 			@PathVariable(name = "userId") Long userId) {
-		UserGroup userGroup = groupService.addNewUserToGroup(groupId, userId);
-		if (userGroup == null) {
-			return new ResponseEntity<>("user or group not found", HttpStatus.NOT_FOUND);
+		try {
+			UserGroup userGroup = groupService.addNewUserToGroup(groupId, userId);
+			if (userGroup == null) {
+				return new ResponseEntity<>("user not in group", HttpStatus.NOT_FOUND);
+			}
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("Add user successful", HttpStatus.CREATED);
 	}
@@ -289,15 +245,13 @@ public class GroupApiController {
 			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
-  }
+	}
 
 	/**
-	 * 
 	 * @summary delete All Role in Group
 	 * @date Aug 17, 2018
 	 * @author Tai
 	 * @param groupId
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@DeleteMapping("/{groupId}/roles")
@@ -313,36 +267,24 @@ public class GroupApiController {
 	}
 
 	/**
-	 * 
 	 * @summary find Role In Group
 	 * @date Aug 17, 2018
 	 * @author Tai
 	 * @param groupId
 	 * @param searchValue
 	 * @param fieldSearch
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping(path = "/{groupId}/roles/search")
 	public ResponseEntity<Object> findRoleInGroup(@PathVariable(name = "groupId") Long groupId,
 			@RequestParam(name = "searchValue") String searchValue,
-			@RequestParam(name = "searchField") String fieldSearch,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+			@RequestParam(name = "searchField") String fieldSearch) {
 		List<Role> roles = searchService.search(EntityName.ROLE, fieldSearch, searchValue,
 				GroupQueryCondition.conditionSearchRoleInGroup(groupId));
-
 		if (roles.size() == 0) {
 			return new ResponseEntity<>(roles, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<Role> listPagging = new ListPaging<>(roles, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(roles, HttpStatus.OK);
 	}
 
 	/**
@@ -357,11 +299,13 @@ public class GroupApiController {
 	@DeleteMapping(path = "/{groupId}/users")
 	public ResponseEntity<Object> removeListUserFromGroup(@PathVariable("groupId") Long groupId,
 			@RequestBody ListIdWrapper listIdWapper) {
-		List<Long> userIds = listIdWapper.getIds();
-		Integer result = groupService.removeListUseFromGroup(groupId, userIds);
-		
-		if (result == 0) {
-			return new ResponseEntity<>("Group not found", HttpStatus.NOT_FOUND);
+		try {
+			List<Long> userIds = listIdWapper.getIds();
+			groupService.removeListUseFromGroup(groupId, userIds);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
@@ -372,15 +316,17 @@ public class GroupApiController {
 	 * @author Thehap Rok
 	 * @param groupId
 	 * @param userId
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@DeleteMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> removeUserFromGroup(@PathVariable("groupId") Long groupId,
 			@PathVariable("userId") Long userId) {
-		Integer result = groupService.removeUserFromGroup(groupId, userId);
-		if (result == 0) {
-			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
+		try {
+			groupService.removeUserFromGroup(groupId, userId);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
 	}
@@ -407,28 +353,19 @@ public class GroupApiController {
 	 * @param groupId
 	 * @param searchValue
 	 * @param fieldSearch
-	 * @param pageIndex
-	 * @param size
-	 * @param fieldSort
-	 * @param request
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping(path = "/{groupId}/users/search")
 	public ResponseEntity<Object> findUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@RequestParam(name = "searchValue") String searchValue,
-			@RequestParam(name = "searchField") String fieldSearch,
-			@RequestParam(name = "index", required = false, defaultValue = "0") int pageIndex,
-			@RequestParam(name = "size", required = false, defaultValue = "5") int size,
-			@RequestParam(name = "fieldSort", required = false, defaultValue = "null") String fieldSort,
-			HttpServletRequest request) {
+			@RequestParam(name = "searchField") String fieldSearch) {
 		List<User> users = searchService.search(EntityName.USER, fieldSearch, searchValue,
 				GroupQueryCondition.conditionSearchUserInGroup(groupId));
 		List<UserResponse> listUser = userService.convertUserToUserResponse(users);
 		if (listUser.size() == 0) {
 			return new ResponseEntity<>(listUser, HttpStatus.NOT_FOUND);
 		}
-		ListPaging<UserResponse> listPagging = new ListPaging<>(listUser, size, pageIndex, fieldSort, request);
-		return new ResponseEntity<>(listPagging, HttpStatus.OK);
+		return new ResponseEntity<>(listUser, HttpStatus.OK);
 	}
 
 	/**
@@ -442,9 +379,16 @@ public class GroupApiController {
 	@GetMapping(path = "/{groupId}/users/{userId}")
 	public ResponseEntity<Object> getInforUserInGroup(@PathVariable(name = "groupId") Long groupId,
 			@PathVariable(name = "userId") Long userId) {
-		UserResponse user = groupService.getInforOfUser(groupId, userId);
-		if (user == null) {
-			return new ResponseEntity<>("user not found", HttpStatus.NOT_FOUND);
+		UserResponse user = null;
+		try {
+			user = groupService.getInforOfUser(groupId, userId);
+			if (user == null) {
+				return new ResponseEntity<>("User not in group!!!", HttpStatus.NOT_FOUND);
+			}
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
 	}

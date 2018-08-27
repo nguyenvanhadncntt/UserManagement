@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import user.management.vn.filter.UnBlockUserFilter;
 
@@ -47,26 +46,28 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		// disable csrf
 		http.csrf().disable();
 
+		http.headers().frameOptions().sameOrigin();
+		
 		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd, /change-password auto permit 
 		// and request to url other must authen
-		http.authorizeRequests().antMatchers("/login**","/registerAccount**"
-				,"/activeAccount**","/forget-passowrd**","/change-password**").permitAll()
+		http.authorizeRequests().antMatchers("/forget-password**","/h2-console/**","/login**","/registerAccount**"
+				,"/activeAccount**","/change-password**").permitAll()
 				.anyRequest().authenticated();
 
 		// add filter for check time to unblock user
-		http.authorizeRequests().and().addFilterBefore(unBlockUserFilter, UsernamePasswordAuthenticationFilter.class)
-				.formLogin().loginPage("/login").permitAll().usernameParameter("email")
-				.passwordParameter("password").loginProcessingUrl("/login").successHandler(successLoginHandle)
-				.failureHandler(failLoginHandle)
-				// setting remember me
-				.and().rememberMe().rememberMeParameter("remember-me")
-				// setting logout
-				.and().logout()
-				.logoutUrl("/logout").permitAll()
-				//delete cookies when logout
-				.deleteCookies("JSESSIONID", "remember-me")
-				.logoutSuccessUrl("/login?logout").permitAll().and().httpBasic();
-//		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+//		http.authorizeRequests().and().addFilterBefore(unBlockUserFilter, UsernamePasswordAuthenticationFilter.class)
+//				.formLogin().loginPage("/login").permitAll().usernameParameter("email")
+//				.passwordParameter("password").loginProcessingUrl("/login").successHandler(successLoginHandle)
+//				.failureHandler(failLoginHandle)
+//				// setting remember me
+//				.and().rememberMe().rememberMeParameter("remember-me")
+//				// setting logout
+//				.and().logout()
+//				.logoutUrl("/logout").permitAll()
+//				//delete cookies when logout
+//				.deleteCookies("JSESSIONID", "remember-me")
+//				.logoutSuccessUrl("/login?logout").permitAll().and().httpBasic();
+		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 
 	@Override

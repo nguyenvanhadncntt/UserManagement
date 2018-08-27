@@ -31,7 +31,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 	@Autowired
 	GroupRoleRepository groupRoleRepository;
 
-
+	/**
+	 * @summary check group have role ?
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @return boolean
+	 */
 	@Override
 	public Boolean existsByGroup(Long groupId) {
 		Optional<Group> exist = groupRepository.findByIdAndNonDel(groupId, false);
@@ -41,7 +47,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return true;
 	}
 
-
+	/**
+	 * @summary search all role in group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @return List<GroupRole>
+	 */
 	@Override
 	public List<GroupRole> findAllRoleByGroup(Long groupId) {
 		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
@@ -52,6 +64,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return list;
 	}
 
+	/**
+	 * @summary convert list groupRole object to role object
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupRole
+	 * @return List<Role>
+	 */
 	@Override
 	public List<Role> convertGroupRoleToRole(List<GroupRole> groupRole) {
 
@@ -62,6 +81,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return role;
 	}
 
+	/**
+	 * @summary check role have in group ?
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return boolean
+	 */
 	@Override
 	public Boolean existsByGroupAndRole(Long groupId, Long roleId) {
 		Optional<GroupRole> exist = groupRoleRepository.findByGroupIdAndRoleId(groupId, roleId);
@@ -71,6 +98,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return true;
 	}
 
+	/**
+	 * @summary add role to group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return GroupRole
+	 */
 	@Override
 	public GroupRole addRoleToGroup(Long groupId, Long roleId) {
 		Optional<GroupRole> exist = groupRoleRepository.findByGroupIdAndRoleId(groupId, roleId);
@@ -96,6 +131,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return groupRoleRepository.save(groupRole);
 	}
 
+	/**
+	 * @summary delete role in group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return boolean
+	 */
 	@Override
 	public Boolean deleteRoleFormGroup(Long groupId, Long roleId) {
 		Boolean exist = existsByGroupAndRole(groupId, roleId);
@@ -106,7 +149,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return true;
 	}
 
-
+	/**
+	 * @summary delete all role in group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return Integer
+	 */
 	@Override
 	@Transactional
 	public Boolean deleteAllRoleFromGroup(Long groupId, List<Role> role) {
@@ -121,7 +171,14 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return true;
 	}
 
-
+	/**
+	 * @summary delete list role from group
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleIds
+	 * @return Integer
+	 */
 	@Override
 	public Integer deleteListRoleFromGroup(Long groupId, List<Long> roleIds) {
 		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId,true);
@@ -135,7 +192,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return 1;
 	}
 
-
+	/**
+	 * @summary search all group in role
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param roleId
+	 * @return List<GroupRole>
+	 */
 	@Override
 	public List<GroupRole> findAllGroupByRole(Long roleId) {
 		Optional<Role> roleOptional = roleRepository.findByIdAndNonDel(roleId,true);
@@ -147,7 +210,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		
 	}
 
-
+	/**
+	 * @summary check role have group ?
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param roleId
+	 * @return Boolean
+	 */
 	@Override
 	public Boolean existsByRole(long roleId) {
 		Optional<Role> exist = roleRepository.findByIdAndNonDel(roleId, false);
@@ -157,7 +226,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return true;
 	}
 
-
+	/**
+	 * @summary convert list groupRole object to group object
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param groupRole
+	 * @return List<Group>
+	 */
 	@Override
 	public List<Group> convertGroupRoleToGroup(List<GroupRole> groupRole) {
 		List<Group> group = new ArrayList<>();
@@ -167,20 +242,40 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		return group;
 	}
 
-
+	/**
+	 * @summary add group to role
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return GroupRole
+	 */
 	@Override
 	public GroupRole addGroupToRole(Long groupId, Long roleId) {
 		return addRoleToGroup(groupId, roleId);
 	}
 
-
+	/**
+	 * @summary delete role in group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @param roleId
+	 * @return boolean
+	 */
 	@Override
 	public Boolean deleteGroupFormRole(Long groupId, Long roleId) {
-		
 		return deleteRoleFormGroup(groupId, roleId);
 	}
 
-
+	/**
+	 * @summary delete list group from group
+	 * @date Aug 22, 2018
+	 * @author Tai
+	 * @param roleId
+	 * @param groupIds
+	 * @return Integer
+	 */
 	@Override
 	public Integer deleteListGroupFromRole(Long roleId, List<Long> groupIds) {
 		Optional<Role> roleOptional = roleRepository.findByIdAndNonDel(roleId,true);
@@ -193,7 +288,5 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		}
 		return 1;
 	}
-
-	
 
 }

@@ -3,7 +3,7 @@ package user.management.vn.validation;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import user.management.vn.entity.UserDTO;
+import user.management.vn.entity.dto.UserDTO;
 
 /**
  * @summary check match password and repassword

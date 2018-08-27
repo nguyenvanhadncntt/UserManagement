@@ -3,7 +3,6 @@ package user.management.vn.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -41,11 +40,11 @@ public class Group {
 	private Date createdAt;
 
 	@JsonIgnoreProperties("group")
-	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "group",orphanRemoval=true)
 	private List<GroupRole> groupRoles;
 
 	@JsonIgnoreProperties("group")
-	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "group",orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
 	public Group() {
