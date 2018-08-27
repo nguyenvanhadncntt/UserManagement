@@ -11,7 +11,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
-
 import user.management.vn.entity.BlockUser;
 import user.management.vn.entity.User;
 import user.management.vn.service.UserService;
@@ -24,19 +23,19 @@ import user.management.vn.util.LoginErrorMessage;
  * @author Thehap Rok
  */
 
-
 @Component
 public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 
-  @Autowired 
-	private UserService userSevice;	
+	@Autowired
+	private UserService userSevice;
+
 	@Autowired
 	private VerificationUtil veritificationUtil;
-  
+
 	/**
-	* @summary handle login fails
-	* @date Aug 22, 2018
-	* @author ThaiLe
+	 * @summary handle login fails
+	 * @date Aug 22, 2018
+	 * @author ThaiLe
 	 */
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
@@ -45,26 +44,26 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 		String messageError = LoginErrorMessage.loginErrorMessage(exception);
 		request.getSession().setAttribute("error", messageError);
 		String email = request.getParameter("email");
-		if(email != null) {
+		if (email != null) {
 			User objUser = userSevice.getUserByEmail(email);
-			if(objUser == null) {
+			if (objUser == null) {
 				getRedirectStrategy().sendRedirect(request, response, "/login?error");
 				return;
 			}
-			if(objUser.getNonLocked()) {
+			if (objUser.getNonLocked()) {
 				BlockUser blockUser = objUser.getBlockUser();
-				if(blockUser == null) {
+				if (blockUser == null) {
 					BlockUser newBlockuser = new BlockUser(objUser, null, 1);
 					objUser.setBlockUser(newBlockuser);
 					System.out.println("blockUser null");
-					userSevice.editUser(objUser);		
+					userSevice.editUser(objUser);
 					getRedirectStrategy().sendRedirect(request, response, "/login?error");
 					return;
 				}
 				System.out.println("dfdfd");
 				int num_fails = blockUser.getNumberFail();
 				num_fails = num_fails + 1;
-				if(num_fails >= 5) {
+				if (num_fails >= 5) {
 					System.out.println("Numfails >= 5");
 					objUser.setNonLocked(false);
 					blockUser.setNumberFail(num_fails);
@@ -73,7 +72,7 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 					userSevice.editUser(objUser);
 					getRedirectStrategy().sendRedirect(request, response, "/login?error");
 					return;
-				}else {
+				} else {
 					System.out.println("Numfials < 5");
 					blockUser.setNumberFail(num_fails);
 					objUser.setBlockUser(blockUser);

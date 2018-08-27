@@ -2,8 +2,6 @@ package user.management.vn.service;
 
 import java.security.Principal;
 
-import org.springframework.stereotype.Service;
-
 import user.management.vn.entity.User;
 import user.management.vn.entity.response.UserResponse;
 

@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.User;
-import user.management.vn.entity.dto.PasswordDTO;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.service.PasswordService;
 import user.management.vn.service.UserService;
@@ -17,6 +16,7 @@ public class PasswordServiceImpl implements PasswordService  {
 	
 	@Autowired
 	UserService userService;
+	
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
@@ -37,19 +37,16 @@ public class PasswordServiceImpl implements PasswordService  {
 
 	@Override
 	public Boolean checkDuplicatePasswordCurrent(String existingPassword, String dbPassword) {
-		
 		return passwordEncoder.matches(existingPassword, dbPassword);
 	}
 
 	@Override
 	public Boolean checkDuplicateNewPasswords(String newPassword, String existingPassword) {
-		
 		return newPassword.equals(existingPassword);
 	}
 
 	@Override
 	public Boolean checkDuplicateMatchingPassword(String newPassword, String newMatchingPassword) {
-		
 		return newPassword.equals(newMatchingPassword);
 	}
 
