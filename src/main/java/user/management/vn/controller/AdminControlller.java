@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminControlller {
 	
-	@GetMapping("group/{groupId}")
+	@GetMapping("/group/{groupId}")
 	public String showUserInGroup() {
-		return "";
+		return "group";
 	}
 }
