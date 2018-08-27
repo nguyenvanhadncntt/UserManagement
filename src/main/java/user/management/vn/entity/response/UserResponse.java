@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -12,6 +15,7 @@ import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserRole;
+import user.management.vn.validation.Phone;
 
 /**
  * 
@@ -30,10 +34,20 @@ public class UserResponse implements Serializable {
 	private String email;
 	private Boolean enable;
 	private Boolean nonLocked;
+	
+	@NotBlank
 	private String fullname;
+	
+	@Phone
 	private String phone;
+	
+	@NotNull
 	private Date birthday;
+	
+	@NotBlank
 	private String address;
+	
+	@NotNull
 	private Boolean gender;
 	private Date createdAt;
 

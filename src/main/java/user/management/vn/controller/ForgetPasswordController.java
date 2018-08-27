@@ -3,10 +3,10 @@ package user.management.vn.controller;
 import java.util.Date;
 import java.util.List;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
-import user.management.vn.entity.dto.ChangePasswordDTO;
 import user.management.vn.entity.dto.EmailDTO;
+import user.management.vn.entity.dto.PasswordDTO;
 import user.management.vn.service.MailService;
+import user.management.vn.service.PasswordService;
 import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserService;
 import user.management.vn.util.VerificationUtil;
@@ -42,10 +43,10 @@ public class ForgetPasswordController {
 	private VerificationUtil veritificationUtil;
 
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-
-	@Autowired
 	private TokenVerificationService tokenVerificationService;
+	
+	@Autowired
+	private PasswordService passwordService;
 
 	/**
 	* @summary return page view chek email
@@ -135,16 +136,24 @@ public class ForgetPasswordController {
 			Date nowDate = new Date();
 			// kiem tra het thoi gian qua han
 			if (checkToKenVerifition.getExpireTime().getTime() < nowDate.getTime()) {
+				checkToKenVerifition.setExpireTime(veritificationUtil.calculatorExpireTime());
+				checkToKenVerifition.setTokenCode(veritificationUtil.generateVerificationCode(checkToKenVerifition.getUser().getEmail()));
+	            tokenVerificationService.editToken(checkToKenVerifition);
+	            try {
+					mailService.sendMail("FORGET PASSWORD","/change-password",checkToKenVerifition.getUser().getEmail(),checkToKenVerifition.getTokenCode(),checkToKenVerifition.getExpireTime());
+				} catch (MessagingException e) {
+					e.printStackTrace();
+				}
 				modelMap.addAttribute("msg", "thoi gian xac nhan da qua han!!!");
 				return "errorMessege";
 			}
 			modelMap.addAttribute("emailToken", checkToKenVerifition.getUser().getEmail());
 			
 			// set email cua nguoi kich hoat 
-			ChangePasswordDTO changePasswordDTO = new ChangePasswordDTO();
-			changePasswordDTO.setEmail(checkToKenVerifition.getUser().getEmail());
-			changePasswordDTO.setToken(token);
-			modelMap.addAttribute("changePasswordDTO", changePasswordDTO);
+			PasswordDTO passwordDTO = new PasswordDTO();
+			passwordDTO.setEmail(checkToKenVerifition.getUser().getEmail());
+			passwordDTO.setToken(token);
+			modelMap.addAttribute("changePasswordDTO", passwordDTO);
 			return "forget-password";
 		}
 
@@ -154,20 +163,25 @@ public class ForgetPasswordController {
 	* @summary save new password
 	* @date Aug 22, 2018
 	* @author Tai
-	* @param changePasswordDTO
+	* @param passwordDTO
 	* @param bindingResult
 	* @param modelMap
 	* @return String
 	 */
 	@PostMapping("/change-password")
-	public String toDoChangePassword(@Valid @ModelAttribute("changePasswordDTO") ChangePasswordDTO changePasswordDTO,
+	public String toDoChangePassword(@Valid @ModelAttribute("changePasswordDTO") PasswordDTO passwordDTO,
 			BindingResult bindingResult, ModelMap modelMap) {
-		// kiem tra trung password
-		Boolean checkPassword = changePasswordDTO.getPassword().equals(changePasswordDTO.getMatchingPassword());
-		// lay lai email cua nguoi da kich hoat
-		String email = changePasswordDTO.getEmail();
-		String token = changePasswordDTO.getToken();
-
+		String email = passwordDTO.getEmail();
+		String token = passwordDTO.getToken();
+		User user = userService.getUserByEmail(email);
+		
+		String dbPassword = user.getPassword(); 
+		String newPassword = passwordDTO.getNewPassword();
+		String newMatchingPassword= passwordDTO.getNewMatchingPassword();
+		
+		boolean checkDuplicatePasswordCurrent= passwordService.checkDuplicatePasswordCurrent(newPassword, dbPassword);
+		boolean checkDuplicateMatchingPassword = passwordService.checkDuplicateMatchingPassword(newPassword, newMatchingPassword);
+	
 		// not bank
 		if (bindingResult.hasErrors()) {
 			System.out.println(bindingResult.getAllErrors().toString());
@@ -175,26 +189,28 @@ public class ForgetPasswordController {
 			for (ObjectError objectError : list) {
 				System.out.println(objectError);
 			}
-			modelMap.addAttribute("changePasswordDTO", changePasswordDTO);
+			modelMap.addAttribute("changePasswordDTO", passwordDTO);
 			return "forget-password";
 		}
 		// check password trung
-		if (!checkPassword) {
+		if (checkDuplicatePasswordCurrent) {
+			modelMap.addAttribute("msg", "The password you entered is the same as your current password");
+			return "forget-password";
+		}
+		if (!checkDuplicateMatchingPassword) {
 			modelMap.addAttribute("msg", "You enter a mismatched password");
 			return "forget-password";
 		}
 
 		// save change
-		User user = userService.getUserByEmail(email);
-		String passwordEC = passwordEncoder.encode(changePasswordDTO.getPassword());
-		user.setPassword(passwordEC);
-		userService.saveUser(user);
+		passwordService.saveNewPasswords(user, newPassword);
 
 		// delete token
 		TokenVerifition tokenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
+		
 		modelMap.addAttribute("msg", "You have successfully changed your password");
-		return "forget-password";
+		return "redirect:/login";
 	}
 
 }

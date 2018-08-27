@@ -14,7 +14,6 @@ public class VerificationUtil {
 
 	@Autowired
 	PasswordEncoder encoder;
-	
 
 	/**
 	* @summary generate TokenCode
