@@ -5,15 +5,18 @@ import java.util.Date;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import javax.ws.rs.Consumes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,10 +66,9 @@ public class RegistrationController {
 	 * @param model
 	 * @return String
 	 */
-	@RequestMapping(path="showRegistPage",method = RequestMethod.GET)
-	public String showRegisterPage(Model model) {
-		model.addAttribute("userDTO", new UserDTO());
-		return "regist-page";
+	@GetMapping(path="registerAccount")
+	public String showRegisterPage() {		
+		return "add-user";
 	}
 	
 	/**
@@ -77,6 +79,7 @@ public class RegistrationController {
 	 * @param model
 	 * @return ResponseEntity<String>
 	 */
+	
 	@PostMapping(path="registerAccount")	
 	public  ResponseEntity<String> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult rs,Model model) {
 		if(rs.hasErrors()) {
@@ -116,7 +119,7 @@ public class RegistrationController {
 	 * @return ResponseEntity<String>
 	 */
 	@GetMapping(path="activeAccount")
-	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("registCode")String registCode,Model model) throws MessagingException {
+	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token") String registCode,Model model) throws MessagingException {
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
 			return new ResponseEntity<String>("Token is not true", HttpStatus.NOT_FOUND);
@@ -154,5 +157,7 @@ public class RegistrationController {
 		//return "activeAccount";
 	    return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
 	}
+	
+	
 	
 }

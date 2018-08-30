@@ -3,26 +3,29 @@ package user.management.vn.entity.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import user.management.vn.validation.PasswordMatches;
 import user.management.vn.validation.Phone;
+import user.management.vn.validation.ValidEmail;
 /**
  * 
  * @author ThaiLe
  * get user infor from request
  *
  */
+
 @PasswordMatches
 public class UserDTO implements Serializable{
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;	
-	@Email
+	@ValidEmail
 	@NotBlank
 	private String email;
 	@NotBlank

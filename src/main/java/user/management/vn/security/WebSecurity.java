@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
-
+//
 //	@Autowired
 //	private UnBlockUserFilter unBlockUserFilter;
 //
@@ -58,7 +58,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 //				// delete cookies when logout
 //				.deleteCookies("JSESSIONID", "remember-me").logoutSuccessUrl("/login?logout").permitAll().and()
 //				.httpBasic();
-		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+//		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 
 	@Override
