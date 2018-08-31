@@ -3,43 +3,44 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<!-- Meta, title, CSS, favicons, etc. -->
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<!-- Meta, title, CSS, favicons, etc. -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>User In Group</title>
+	
+	<!-- Bootstrap -->
+	<link href="/util/vendors/bootstrap/dist/css/bootstrap.min.css"
+		rel="stylesheet">
+	<!-- Font Awesome -->
+	<link href="/util/vendors/font-awesome/css/font-awesome.min.css"
+		rel="stylesheet">
+	<!-- NProgress -->
+	<link href="/util/vendors/nprogress/nprogress.css" rel="stylesheet">
+	<!-- iCheck -->
+	<link href="/util/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+	<!-- Datatables -->
+	<link
+		href="/util/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="/util/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="/util/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="/util/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
+		rel="stylesheet">
+	<link
+		href="/util/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
+		rel="stylesheet">
+	<link href="/css/user-group.css" rel="stylesheet">
+	<!-- Custom Theme Style -->
+	<link href="/util/build/css/custom.min.css" rel="stylesheet">
 
-<title>User In Group</title>
-
-<!-- Bootstrap -->
-<link href="/util/vendors/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
-<!-- Font Awesome -->
-<link href="/util/vendors/font-awesome/css/font-awesome.min.css"
-	rel="stylesheet">
-<!-- NProgress -->
-<link href="/util/vendors/nprogress/nprogress.css" rel="stylesheet">
-<!-- iCheck -->
-<link href="/util/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-<!-- Datatables -->
-<link
-	href="/util/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="/util/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="/util/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="/util/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="/util/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
-	rel="stylesheet">
-<link href="/css/user-group.css" rel="stylesheet">
-<!-- Custom Theme Style -->
-<link href="/util/build/css/custom.min.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -298,19 +299,85 @@
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">ADD
-															NEW USER</h5>
+														<h5 class="modal-title" id="exampleModalLabel">ADD NEW USER</h5>
+														<div id='notification-addUser'></div>
 														<button type="button" class="close" data-dismiss="modal"
 															aria-label="Close">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
-													<div class="modal-body">...</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-primary">Save
-															changes</button>
+													<div class="modal-body">
+				                    <form id="form-add-user" class="form-horizontal form-label-left">				
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Email</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="text" name="email"class="form-control" placeholder="email">
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">FullName</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="text" name="fullname"class="form-control" placeholder="fullname">
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Phone Number</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="text" name="phone"class="form-control" placeholder="phone">
+				                        </div>
+				                      </div>				                      
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Birth Day</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="date" name="birthday"class="form-control" placeholder="birthday">
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Address</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="text" name="address"class="form-control" placeholder="address">
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="col-md-3 col-sm-3 col-xs-12 control-label">Gender
+				                          <br>				                         
+				                        </label>
+				
+				                        <div class="col-md-9 col-sm-9 col-xs-12">				                          
+				                          <div class="radio">
+				                            <label>
+				                              <input type="radio" checked value="true" id="optionsRadios1" name="gender"> Male
+				                             
+				                            </label>
+				                          </div>
+				                          <div class="radio">
+				                            <label>
+				                              <input type="radio" value="false" id="optionsRadios2" name="gender">Female
+				                            </label>
+				                          </div>
+				                        </div>
+				                      </div>						                      
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Password</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="password" name="password" class="form-control" value="">
+				                        </div>
+				                      </div>
+				                      <div class="form-group">
+				                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Confirm Password</label>
+				                        <div class="col-md-9 col-sm-9 col-xs-12">
+				                          <input type="password" name="matchingPassword" class="form-control" value="">
+				                        </div>
+				                      </div>
+				                      <div class="ln_solid"></div>
+				                      <div class="form-group">
+				                        <div class="col-md-9 col-sm-9 col-xs-12 col-md-offset-3">
+				                          <button type="button" class="btn btn-primary">Cancel</button>
+				                          <button type="reset" class="btn btn-primary">Reset</button>
+				                          <button type="button" class="btn btn-success" onclick='addUser()'>Submit</button>
+				                        </div>
+				                      </div>				
+				                    </form>													
 													</div>
 												</div>
 											</div>
@@ -406,8 +473,9 @@
 
 	<!-- Custom Theme Scripts -->
 	<script src="/util/build/js/custom.min.js"></script>
+	<script src="/js/jquery.serializejson.js"></script>
+	<script src="/js/user.js"></script>	
 
-	<script src="/js/user.js"></script>
 </body>
 </html>
 

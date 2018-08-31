@@ -62,7 +62,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	
 
 	List<User> findByUserDetailFullnameContaining(String name);
-		/**
+	/**
 	* @summary active Account
 	* @date Aug 20, 2018
 	* @author THAILE
@@ -72,5 +72,15 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	@Modifying
 	@Query(value = "update user set enable = 1 where id=?1", nativeQuery = true)
 	int activeUser(Long id);
+	
+	
+	/**
+	* @summary find all user not deleted
+	* @date Aug 31, 2018
+	* @author ThaiLe
+	* @return List<User>
+	 */
+	@Query(value = "select u from User u where u.nonDel = true")
+	List<User> findAllUserNotDeleted();
 
 }

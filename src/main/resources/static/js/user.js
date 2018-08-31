@@ -2,13 +2,7 @@ loadTable();
 $(document).ready(function(){
 	$('#delete-all').on('click',function(){
 		deleteAll();
-	});
-	
-	var x = document.getElementById('#check-all');
-//	x.addEventListener("click", function(){
-//		console.log('a');
-//	});
-	
+	});	
 });
 
 function loadTable(){
@@ -51,12 +45,12 @@ function viewOnDataTable(list){
 
 function removeUser(userId){
 	
-	selected = confirm("Are you really delete User have ID : "+userId);
+	selected = confirm("Are you really delete User have ID : " + userId);
 	if(selected){
 		$.ajax({
-			url:'/api/groups/'+group_id+'/users/'+userId,
-		type:'delete',
-		complete: function(res){
+			url: '/api/users/'+ userId,
+			type:'delete',
+			complete: function(res){
 			if(res.status===200){
 				showMessage(res.responseText,true);
 			}else{
@@ -84,4 +78,34 @@ function deleteAll(){
 	$('.checkbox-delete:checkbox:checked').each(function(i,element){
 		console.log($(element).val());
 	})
+}
+
+function addUser() {
+	var userInfo = $('#form-add-user').serializeJSON({parseBooleans: true});
+	var jsonUserInfo = JSON.stringify(userInfo);
+	console.log(jsonUserInfo);		
+	$.ajax({
+		type : 'POST',
+		contentType : 'application/json',
+		url : '/api/users',
+		dataType : 'json',
+		data : jsonUserInfo,
+		complete : function(response) {
+			if(response.status===200){
+				showMessageAddUser(response.responseText, true);
+			}else{
+				showMessageAddUser(response.responseText, false);
+			}			
+		}
+	});
+}	
+
+function showMessageAddUser(msg, isSuccess) {
+	if(isSuccess){
+		$('#notification-addUser').prop('class', 'alert alert-success');
+		$('#notification-addUser').html('<strong>Add user sucesss </strong>');
+	}else{
+		$('#notification-addUser').prop('class', 'alert alert-danger');
+		$('#notification-addUser').html('<strong>Fail </strong>' + msg);		
+	}
 }

@@ -192,18 +192,10 @@ public interface UserService {
 	User editUser(User objUser);
 
 	/**
-<<<<<<< HEAD
-	 * 
-=======
->>>>>>> c67610a2cdb8fc7f6c18791b84e035e016eff1e4
 	 * @summary Save User
 	 * @date Aug 21, 2018
 	 * @author Tai
 	 * @param user
-<<<<<<< HEAD
-	 * @return
-=======
->>>>>>> c67610a2cdb8fc7f6c18791b84e035e016eff1e4
 	 * @return User
 	 */
 	User saveUser(User user);

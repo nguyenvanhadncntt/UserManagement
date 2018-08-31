@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Group;
@@ -47,6 +48,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * @summary get all user of group from database
@@ -173,14 +177,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @summary return list of all user from database
+	 * @summary return list of all user not deleted from database
 	 * @date Aug 15, 2018
 	 * @author ThaiLe
 	 * @return List<UserResponse>
 	 */
 	@Override
 	public List<UserResponse> getAllUsers() {
-		List<User> listUser = userRepository.findAll();
+		List<User> listUser = userRepository.findAllUserNotDeleted();
 		return convertUserToUserResponse(listUser);
 	}
 	

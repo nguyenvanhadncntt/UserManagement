@@ -89,7 +89,11 @@ public class UserApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PostMapping
-	public ResponseEntity<String> createNewUser(@Valid @RequestBody UserDTO userDTO) {
+	public ResponseEntity<String> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
+		if(rs.hasErrors()) {
+			System.out.println(rs.getAllErrors().toString());
+			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
+		}
 		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
 			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
 		}
