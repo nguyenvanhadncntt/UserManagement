@@ -247,4 +247,28 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 
+	/**
+	 * @summary add User To Group By Email
+	 * @author Thehap Rok
+	 * @param email
+	 * @return UserGroup
+	 */
+	@Override
+	public UserGroup addUserToGroupByEmail(Long groupId,String email) {
+		Optional<Group> group = groupRepository.findById(groupId);
+		if(!group.isPresent()) {
+			throw new GroupNotFoundException("Group not found !!!");
+		}
+		Optional<User> user = userRepository.findByEmail(email);
+		if(!user.isPresent()) {
+			throw new UserNotFoundException("User not found!!!");
+		}
+		boolean checkUserInGroup = userGroupRepository.existsByGroupIdAndUserId(group.get().getId(),user.get().getId());
+		if(checkUserInGroup){
+			throw new RuntimeException("User is exist in group!!!");
+		}
+		UserGroup userGroup = new UserGroup(user.get(), group.get());
+		return userGroupRepository.save(userGroup);
+	}
+
 }

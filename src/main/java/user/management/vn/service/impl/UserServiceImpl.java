@@ -121,8 +121,7 @@ public class UserServiceImpl implements UserService {
 	 */
 	@Override
 	public User addUser(UserDTO userDTO) {
-		User user = this.convertUserDtoToUser(userDTO);
-		System.out.println(user.getEmail() + ", " + user.getPassword());
+		User user = convertUserDtoToUser(userDTO);
 		return userRepository.save(user);
 	}
 
@@ -251,7 +250,6 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(userDTO.getPassword());
 		userDetail.setUser(user);
 		user.setUserDetail(userDetail);
-		System.out.println("convert: " + user.getEmail() + user.getUserDetail().getFullname());
 		return user;
 	}
 

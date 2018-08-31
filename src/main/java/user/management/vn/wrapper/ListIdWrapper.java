@@ -19,6 +19,11 @@ public class ListIdWrapper implements Serializable {
 	 */
 	private List<Long> ids;
 
+	public ListIdWrapper(List<Long> ids) {
+		super();
+		this.ids = ids;
+	}
+
 	public ListIdWrapper() {
 		super();
 	}

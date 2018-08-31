@@ -1,5 +1,6 @@
 package user.management.vn.entity;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -9,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -26,7 +31,15 @@ public class Role {
 
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
 	private Boolean nonDel = true;
+	
+	@Column(name = "description",nullable = true)
+	private String description;
 
+	@Column(name="created_at",nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	@CreationTimestamp
+	private Date createdAt;
+	
 	@Column(name = "scope",nullable = false)
 	private String scope;
 	
@@ -42,18 +55,15 @@ public class Role {
 		super();
 	}
 
-	public Role(String roleName,String scope) {
-		super();
-		this.roleName = roleName;
-		this.scope = scope;
-	}
-	
-	
-	public Role(Long id, String roleName, Boolean nonDel, List<UserRole> userRoles, List<GroupRole> groupRoles) {
+	public Role(Long id, String roleName, Boolean nonDel, String description, Date createdAt, String scope,
+			List<UserRole> userRoles, List<GroupRole> groupRoles) {
 		super();
 		this.id = id;
 		this.roleName = roleName;
 		this.nonDel = nonDel;
+		this.description = description;
+		this.createdAt = createdAt;
+		this.scope = scope;
 		this.userRoles = userRoles;
 		this.groupRoles = groupRoles;
 	}
@@ -82,6 +92,30 @@ public class Role {
 		this.nonDel = nonDel;
 	}
 
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getScope() {
+		return scope;
+	}
+
+	public void setScope(String scope) {
+		this.scope = scope;
+	}
+
 	public List<UserRole> getUserRoles() {
 		return userRoles;
 	}
@@ -96,14 +130,6 @@ public class Role {
 
 	public void setGroupRoles(List<GroupRole> groupRoles) {
 		this.groupRoles = groupRoles;
-	}
-
-	public String getScope() {
-		return scope;
-	}
-
-	public void setScope(String scope) {
-		this.scope = scope;
 	}
 
 }

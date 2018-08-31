@@ -157,6 +157,9 @@ public class RoleApiController {
 		if (oldRole == null) {
 			return new ResponseEntity<String>("Not found role", HttpStatus.NOT_FOUND);
 		}
+		role.setGroupRoles(oldRole.getGroupRoles());
+		role.setUserRoles(oldRole.getUserRoles());
+		role.setCreatedAt(oldRole.getCreatedAt());
 		Role editRole = null;
 		try {
 			editRole = roleService.editRole(role);

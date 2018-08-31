@@ -110,8 +110,6 @@ public class UserApiController {
 		if (oldUser == null) {
 			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
 		}
-
-		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
 		userService.updateUser(userDTO);
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
 	}
