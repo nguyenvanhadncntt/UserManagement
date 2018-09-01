@@ -55,6 +55,15 @@ public class Role {
 		super();
 	}
 
+	public Role(String roleName, String description, String scope) {
+		super();
+		this.roleName = roleName;
+		this.description = description;
+		this.scope = scope;
+	}
+
+
+
 	public Role(Long id, String roleName, Boolean nonDel, String description, Date createdAt, String scope,
 			List<UserRole> userRoles, List<GroupRole> groupRoles) {
 		super();

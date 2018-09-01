@@ -82,8 +82,8 @@ public class UserServiceImplTest {
 	 */
 	@Before
 	public void setUp() {
-		Role adminRole = new Role("ADMIN", "SYSTEM");
-		Role userRole = new Role("USER", "SYSTEM");
+		Role adminRole = new Role("ADMIN","Admin of system" ,"SYSTEM");
+		Role userRole = new Role("USER","user of system", "SYSTEM");
 
 		List<Role> listRole = new ArrayList<Role>();
 		listRole.add(userRole);
