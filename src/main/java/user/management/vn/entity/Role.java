@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -26,12 +27,14 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank(message="Not Empty!!!")
 	@Column(name = "role_name", nullable = false)
 	private String roleName;
 
 	@Column(name = "non_del", columnDefinition = "TINYINT(1) default 1", nullable = false)
 	private Boolean nonDel = true;
 	
+	@NotBlank(message="Not Empty!!!")
 	@Column(name = "description",nullable = true)
 	private String description;
 
@@ -62,7 +65,11 @@ public class Role {
 		this.scope = scope;
 	}
 
-
+	public Role(String roleName, String description) {
+		super();
+		this.roleName = roleName;
+		this.description = description;
+	}
 
 	public Role(Long id, String roleName, Boolean nonDel, String description, Date createdAt, String scope,
 			List<UserRole> userRoles, List<GroupRole> groupRoles) {

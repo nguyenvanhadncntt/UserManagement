@@ -1,0 +1,11 @@
+.btn-primary{
+	background-color: #3985c7;
+	border-color: #3279b7;
+}
+#alert, #nofitication, #alert_edit{
+	display:none;
+	margin:0;
+}
+.button-css{
+	width:14%;
+}

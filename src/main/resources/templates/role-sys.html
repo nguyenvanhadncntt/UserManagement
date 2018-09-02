@@ -9,7 +9,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>User In Group</title>
+<title>Role System Manage</title>
 
 <!-- Bootstrap -->
 <link href="/util/vendors/bootstrap/dist/css/bootstrap.min.css"
@@ -37,10 +37,9 @@
 <link
 	href="/util/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
 	rel="stylesheet">
-<link href="/css/user-group.css" rel="stylesheet">
 <!-- Custom Theme Style -->
 <link href="/util/build/css/custom.min.css" rel="stylesheet">
-<script src="/js/multi-id.js" ></script>
+<link href="/css/custom.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -201,7 +200,7 @@
 						<ul class="nav navbar-nav navbar-right">
 							<li class=""><a href="javascript:;"
 								class="user-profile dropdown-toggle" data-toggle="dropdown"
-								aria-expanded="false"> <img src="images/img.jpg" alt="">John
+								aria-expanded="false"> <img src="/images/img.jpg" alt="">John
 									Doe <span class=" fa fa-angle-down"></span>
 							</a>
 								<ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -222,26 +221,26 @@
 								<ul id="menu1" class="dropdown-menu list-unstyled msg_list"
 									role="menu">
 									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
+												src="/images/img.jpg" alt="Profile Image" /></span> <span>
+												<span>John Smith</span> <span class="time">3 mins ago</span>
 										</span> <span class="message"> Film festivals used to be
 												do-or-die moments for movie makers. They were where... </span>
 									</a></li>
 									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
+												src="/images/img.jpg" alt="Profile Image" /></span> <span>
+												<span>John Smith</span> <span class="time">3 mins ago</span>
 										</span> <span class="message"> Film festivals used to be
 												do-or-die moments for movie makers. They were where... </span>
 									</a></li>
 									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
+												src="/images/img.jpg" alt="Profile Image" /></span> <span>
+												<span>John Smith</span> <span class="time">3 mins ago</span>
 										</span> <span class="message"> Film festivals used to be
 												do-or-die moments for movie makers. They were where... </span>
 									</a></li>
 									<li><a> <span class="image"><img
-												src="images/img.jpg" alt="Profile Image" /></span> <span> <span>John
-													Smith</span> <span class="time">3 mins ago</span>
+												src="/images/img.jpg" alt="Profile Image" /></span> <span>
+												<span>John Smith</span> <span class="time">3 mins ago</span>
 										</span> <span class="message"> Film festivals used to be
 												do-or-die moments for movie makers. They were where... </span>
 									</a></li>
@@ -282,44 +281,69 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="clearfix"></div>
-
 					<div class="row">
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
 								<div class="x_title">
-									<div class="float-left button-css">
-										<button type="button" class="btn btn-primary"
-											data-toggle="modal" data-target="#exampleModal">ADD
-											NEW USER</button>
-										<div class="modal fade" id="exampleModal" tabindex="-1"
-											role="dialog" aria-labelledby="exampleModalLabel"
-											aria-hidden="true">
-											<div class="modal-dialog" role="document">
-												<div class="modal-content">
-													<div class="modal-header">
-														<h5 class="modal-title" id="exampleModalLabel">ADD
-															NEW USER</h5>
-														<button type="button" class="close" data-dismiss="modal"
-															aria-label="Close">
-															<span aria-hidden="true">&times;</span>
-														</button>
-													</div>
-													<div class="modal-body">...</div>
-													<div class="modal-footer">
-														<button type="button" class="btn btn-secondary"
-															data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-primary">Save
-															changes</button>
+									<div>
+										<div class="float-left button-css">
+											<button type="button" class="btn btn-primary"
+												data-toggle="modal" data-target="#addRoleModel">ADD
+												NEW ROLE</button>
+											<div class="modal fade" id="addRoleModel" tabindex="-1"
+												role="dialog" aria-labelledby="exampleModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">ADD
+																NEW ROLE</h5>
+															<div id="alert" class="alert"></div>
+														</div>
+														<div class="modal-body clearfix">
+															<div class="x_content clearfix">
+																<br>
+																<form id="add_role" data-parsley-validate=""
+																	method="post" class="form-horizontal form-label-left">
+
+																	<div class="form-group">
+																		<label
+																			class="control-label col-md-3 col-sm-3 col-xs-12"
+																			for="first-name">Role Name: </label>
+																		<div class="col-md-6 col-sm-6 col-xs-12">
+																			<input type="text" id="roleNameAdd"
+																				required="required" name="roleName"
+																				class="form-control col-md-7 col-xs-12">
+																		</div>
+																	</div>
+																	<div class="form-group">
+																		<label
+																			class="control-label col-md-3 col-sm-3 col-xs-12"
+																			for="last-name">Description: </label>
+																		<div class="col-md-6 col-sm-6 col-xs-12">
+																			<input type="text" id="desAdd" name="description"
+																				required="required"
+																				class="form-control col-md-7 col-xs-12">
+																		</div>
+																	</div>
+																	<input type="hidden" id="scope" name="scope"
+																		value="SYSTEM" required="required"
+																		class="form-control col-md-7 col-xs-12">
+																</form>
+															</div>
+														</div>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-dismiss="modal">Close</button>
+															<button type="submit" form="add_role" id="addRole"
+																class="btn btn-primary">Save Role</button>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
-									</div>
-									<div class="float-right button-css">
-										<button type="button" id="delete-all" class="btn btn-danger">Delete
-											All</button>
+
 									</div>
 									<div id="nofitication" class="alert"></div>
 									<div class="clearfix"></div>
@@ -329,12 +353,12 @@
 										class="table table-striped table-bordered bulk_action">
 										<thead>
 											<tr>
-												<th><input type="checkbox"
-													id="check-all" class="flat" onChange="checkAll();"/></th>
+												<th><input type="checkbox" id="check-all" class="flat"
+													onChange="checkAll();" /></th>
 												<th>Id</th>
 												<th>Role Name</th>
-												<th>View</th>
-												<th>All User</th>
+												<th>Description</th>
+												<th>Created At</th>
 												<th>Edit</th>
 												<th>Delete</th>
 											</tr>
@@ -344,13 +368,70 @@
 										<tbody>
 										</tbody>
 									</table>
+									<button type="button" id="delete-all" onclick="multiDelete()"
+										class="btn btn-danger">Delete All</button>
 								</div>
 							</div>
 						</div>
 
+						<!-- Model -->
+						<div class="modal fade" id="editRoleModel" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">Edit Role</h5>
+										<div id="alert_edit" class="alert"></div>
+									</div>
+									<div class="modal-body clearfix">
+										<div class="x_content clearfix">
+										
+											<br>
+											<form id="edit_role" data-parsley-validate=""
+												class="form-horizontal form-label-left">
 
+												<div class="form-group">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														for="first-name">ID: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input type="text" id="id" required="required"
+															class="form-control col-md-7 col-xs-12"
+															readonly="readonly">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														for="last-name">Role Name: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input type="text" id="roleNameEdit" name="email"
+															required="required"
+															class="form-control col-md-7 col-xs-12"
+															>
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="middle-name"
+														class="control-label col-md-3 col-sm-3 col-xs-12">Description: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input id="desEdit"
+															class="form-control col-md-7 col-xs-12" type="text"
+															name="middle-name">
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+										<button type="submit" form="edit_role" id="addRole"
+											class="btn btn-primary">Save Role</button>
+									</div>
+								</div>
+							</div>
+						</div>
 
-
+						<!-- End Model -->
 					</div>
 				</div>
 			</div>
@@ -402,11 +483,11 @@
 	<script src="/util/vendors/jszip/dist/jszip.min.js"></script>
 	<script src="/util/vendors/pdfmake/build/pdfmake.min.js"></script>
 	<script src="/util/vendors/pdfmake/build/vfs_fonts.js"></script>
-
+	<script src="/js/multi-id.js"></script>
+	<script type="text/javascript" src="/js/jquery.serializejson.js"></script>
 	<!-- Custom Theme Scripts -->
 	<script src="/util/build/js/custom.min.js"></script>
-	
-	
+	<script type="text/javascript" src="/js/role-sys.js"></script>
 </body>
 </html>
 

@@ -1,8 +1,10 @@
 loadTable();
-$(document).ready(function(){
+$(window).ready(function(){
 	$('#delete-all').on('click',function(){
 		deleteAll();
 	});
+	
+	console.log($('.iCheck-helper'));
 	
 	$('#email').keyup(function(){
 		$.ajax({
@@ -16,7 +18,6 @@ $(document).ready(function(){
 				$('#listUser').html(html);
 			},
 			error: function(res){
-				console.log(res)
 			}
 		});
 	});
@@ -69,23 +70,18 @@ function loadTable(){
 				listUser.push(listItem);
 			});
 			showOnDataTable(listUser);
-//			$('#check-all').each(function(index,e){
-//				
-//			});
 		},
 		error: function(error){
 			console.log(error);
 			showOnDataTable([]);
 		}
 	});
-	$('#delete-all').attr('style','position: absolute; bottom: 4%;')
 }
 
 function showOnDataTable(list){
 	$('#datatable-checkbox').dataTable({
 		data:list,
 		destroy:true,
-		bInfo : false,
 		 columnDefs: [
 			    { className: 'text-center', targets: [0,1,2,3,4,5,6,7,8,9] },
 			    { targets: [0,8,9], "orderable": false},
@@ -136,7 +132,21 @@ function viewUserInfor(id){
 		type:'GET',
 		complete: function(res){
 			if(res.status===200){
+				console.log(res);
 				$('#userPopup').modal('show');
+				$('#id').val(res.responseJSON.id);
+				$('#fullName').val(res.responseJSON.fullname);
+				$('#emailshow').val(res.responseJSON.email);
+				$('#block').val(res.responseJSON.nonLocked);
+				$('#birthday').val(res.responseJSON.birthday);
+				$('#createdAt').val(res.responseJSON.createdAt);
+				if(res.responseJSON.gender === true){
+					console.log($('#female'))
+					$('#female').prop('checked',true);
+				}else{
+					console.log('male')
+					$('#male').prop('checked',true);
+				}
 			}else{
 				showMessage('nofitication',res.responseText,false);
 			}

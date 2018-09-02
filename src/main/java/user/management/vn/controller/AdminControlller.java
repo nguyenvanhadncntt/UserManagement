@@ -16,4 +16,8 @@ public class AdminControlller {
 		return "user-in-group";
 	}
 	
+	@GetMapping("/roles/sys")
+	public String showRoleSystem() {
+		return "role-sys";
+	}
 }
