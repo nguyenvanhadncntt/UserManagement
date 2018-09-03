@@ -1,10 +1,8 @@
 loadTable();
-$(window).ready(function(){
+$(document).ready(function(){
 	$('#delete-all').on('click',function(){
 		deleteAll();
 	});
-	
-	console.log($('.iCheck-helper'));
 	
 	$('#email').keyup(function(){
 		$.ajax({
@@ -65,8 +63,8 @@ function loadTable(){
 				listItem.push((user.gender===true)?'Female':'Male');
 				listItem.push(user.address);
 				listItem.push(user.phone);
-				listItem.push('<img style="margin:20% 35%;cursor:pointer" alt="delete Icon" src="/images/view-infor.png" width="25px" height="25px" onclick="viewUserInfor('+user.id+')" />')
-				listItem.push('<img style="margin:20% 35%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />');
+				listItem.push('<img style="margin:0% 35%;cursor:pointer" alt="delete Icon" src="/images/view-infor.png" width="25px" height="25px" onclick="viewUserInfor('+user.id+')" />')
+				listItem.push('<img style="margin:0% 35%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />');
 				listUser.push(listItem);
 			});
 			showOnDataTable(listUser);
@@ -127,6 +125,8 @@ function showMessage(tagId,msg,isSuccess){
 }
 
 function viewUserInfor(id){
+	$('#male').parent().show();
+	$('#female').parent().show();
 	$.ajax({
 		url:'/api/groups/'+group_id+'/users/'+id,
 		type:'GET',
@@ -141,11 +141,9 @@ function viewUserInfor(id){
 				$('#birthday').val(res.responseJSON.birthday);
 				$('#createdAt').val(res.responseJSON.createdAt);
 				if(res.responseJSON.gender === true){
-					console.log($('#female'))
-					$('#female').prop('checked',true);
+					$('#male').parent().hide()
 				}else{
-					console.log('male')
-					$('#male').prop('checked',true);
+					$('#female').parent().hide();
 				}
 			}else{
 				showMessage('nofitication',res.responseText,false);

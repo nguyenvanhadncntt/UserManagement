@@ -9,3 +9,13 @@
 .button-css{
 	width:14%;
 }
+.btn-danger {
+    background-color: #d9534f;
+}
+td{
+	padding:0;
+	margin-top: 30%;
+}
+.modal-body{
+	padding:0 0 5px 0;
+}

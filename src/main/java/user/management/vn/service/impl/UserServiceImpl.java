@@ -19,7 +19,8 @@ import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
-import user.management.vn.exception.UserAlreadyAdminException;
+import user.management.vn.exception.RoleNotFoundException;
+import user.management.vn.exception.UserAlreadyRoleException;
 import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.RoleRepository;
@@ -306,20 +307,30 @@ public class UserServiceImpl implements UserService {
 	 * @return UserRole
 	 */
 	@Override
-	public UserRole upgradeUserToAdmin(Long userId) 
-			throws UserNotFoundException, UserAlreadyAdminException {
-		Role adminRole = roleRepository.findByRoleName(RoleSystem.ADMIN);
+	public UserRole upgradeUserRole(Long userId,Long roleId) 
+			throws UserNotFoundException, UserAlreadyRoleException {
+		Optional<Role> roleOptional = roleRepository.findById(roleId);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!userOptional.isPresent()) {
 			throw new UserNotFoundException("User not found!!!");
 		}
-		User user = userOptional.get();
-
-		Boolean checkExist = userRoleRepository.existsByUserIdAndRoleId(user.getId(), adminRole.getId());
-		if (checkExist) {
-			throw new UserAlreadyAdminException("User were Admin!!!");
+		if(!roleOptional.isPresent()) {
+			throw new RoleNotFoundException("Role not found!!!");
 		}
-		UserRole userRole = new UserRole(user, adminRole);
+		Role role = roleOptional.get();
+		User user = userOptional.get();
+		Boolean checkExist = userRoleRepository.existsByUserIdAndRoleId(user.getId(), role.getId());
+		if (checkExist) {
+			throw new UserAlreadyRoleException("User were "+role.getRoleName()+"!!!");
+		}
+		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId,roleId);
+		Role roleUser = roleRepository.findByRoleName(RoleSystem.USER);
+		UserRole userRoleUser = new UserRole(user, roleUser);
+		userRoleUser.setUser(user);
+		user.getUserRoles().add(userRoleUser);
+		UserRole userRole = new UserRole(user, role);
+		user.getUserRoles().add(userRole);
+		userRoleRepository.save(userRoleUser);
 		return userRoleRepository.save(userRole);
 	}
 	

@@ -20,6 +20,7 @@
 
     <!-- Custom Theme Style -->
     <link href="/util/build/css/custom.min.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
   </head>
 
   <body class="login">
@@ -30,7 +31,7 @@
           <section class="login_content">
             <form action="/login" method="POST">
               <h1>Login Form</h1>
-              <h4 th:text="${error}"></h4>
+              <div id="alert" ></div>
               <div>
                 <input type="text" name="email" class="form-control" placeholder="Email" required />
               </div>
@@ -66,4 +67,60 @@
 
     </div>
   </body>
+  <!-- jQuery -->
+	<script src="/util/vendors/jquery/dist/jquery.min.js"></script>
+	<!-- Bootstrap -->
+	<script src="/util/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+	<!-- FastClick -->
+	<script src="/util/vendors/fastclick/lib/fastclick.js"></script>
+	<!-- NProgress -->
+	<script src="/util/vendors/nprogress/nprogress.js"></script>
+	<!-- iCheck -->
+	<script src="/util/vendors/iCheck/icheck.min.js"></script>
+	<!-- Datatables -->
+	<script src="/util/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+	<script
+		src="/util/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+	<script
+		src="/util/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+	<script src="/util/vendors/jszip/dist/jszip.min.js"></script>
+	<script src="/util/vendors/pdfmake/build/pdfmake.min.js"></script>
+	<script src="/util/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+	<!-- Custom Theme Scripts -->
+	<script src="/util/build/js/custom.min.js"></script>
+  <script th:inline="javascript">
+  	$(document).ready(function(){
+		/*<![CDATA[*/
+		var error= /*[[${error}]]*/
+			/*]]>*/
+			console.log(error);
+		if(error != undefined){
+			console.log('error');
+			$('h1').css('margin','10px');
+			$('#alert').prop('class','alert alert-danger');
+			$('#alert').html('<strong>Fail !!!<strong> '+error);
+			$('#alert').css('display','block');
+			$('#alert').css('margin-bottom','10px');
+		}
+  	});
+	</script>
 </html>
