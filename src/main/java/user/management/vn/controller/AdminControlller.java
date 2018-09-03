@@ -8,8 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminControlller {
 	
-	@GetMapping("/group/{groupId}")
-	public String showUserInGroup() {
-		return "group";
-	}
+	@GetMapping("/groups")
+	public String viewGroup() {
+		return "admin-group";
+	} 
+//	@GetMapping("/groups/{groupId}/roles")
+//	public String viewRolesInGroup(@PathVariable("groupId") String groupid, ModelMap model) {
+//		return "admin-group-role";
+//	}
+	
 }

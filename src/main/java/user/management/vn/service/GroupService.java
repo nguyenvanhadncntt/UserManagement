@@ -119,5 +119,16 @@ public interface GroupService {
 	 * @return Optional<Group>
 	 */
 	Optional<Group> deleteGroup(Long groupId);
+	
+	/**
+	 * 
+	* @summary delete list group 
+	* @date Aug 30, 2018
+	* @author Tai
+	* @param groupIds
+	* @return
+	* @return Optional<Group>
+	 */
+	Integer deleteListGroup(List<Long> groupIds);
 
 }
