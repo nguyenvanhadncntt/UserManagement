@@ -25,14 +25,12 @@ public class UserDTO implements Serializable{
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;	
-	@ValidEmail
-	@NotBlank
+	@ValidEmail(message = "Email is invavid")	
 	private String email;
 	@NotBlank
 	private String fullname;	
-	@Phone	
+	@Phone(message="Phone is invalid")
 	private String phone;	
-	
 	@NotNull
 	private Date birthday;
 	@NotBlank

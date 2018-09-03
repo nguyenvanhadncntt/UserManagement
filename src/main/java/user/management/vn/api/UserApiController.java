@@ -1,6 +1,8 @@
 package user.management.vn.api;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -8,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
+import user.management.vn.entity.response.UserDTOResponse;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.UserAlreadyAdminException;
 import user.management.vn.exception.UserNotFoundException;
@@ -57,12 +62,12 @@ public class UserApiController {
 	 * @return UserResponse
 	 */
 	@GetMapping(path = "/{id}")
-	public UserResponse getUserById(@PathVariable("id") long id) {
+	public ResponseEntity<Object> getUserById(@PathVariable("id") long id) {
 		UserResponse userResponse = userService.findUserById(id);
 		if (userResponse == null) {
-			ResponseEntity.notFound().build();
+			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 		}
-		return userResponse;
+		return new ResponseEntity<>(userResponse, HttpStatus.OK);
 	}
 
 	/**
@@ -88,18 +93,45 @@ public class UserApiController {
 	 * @param userDTO
 	 * @return ResponseEntity<String>
 	 */
+//	@PostMapping
+//	public ResponseEntity<String> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
+//		if(rs.hasErrors()) {
+//			System.out.println(rs.getAllErrors().toString());
+//			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
+//		}
+//		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
+//			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
+//		}
+//		userService.addUser(userDTO);
+//		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
+//	}
+	
 	@PostMapping
-	public ResponseEntity<String> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
-		if(rs.hasErrors()) {
-			System.out.println(rs.getAllErrors().toString());
-			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
-		}
-		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
-			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
-		}
-		userService.addUser(userDTO);
-		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
-	}
+	public ResponseEntity<Object> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
+		UserDTOResponse userDTOResponse = new UserDTOResponse();		  
+	      if(result.hasErrors()){          
+	    	  
+	          Map<String, String> errors = result.getFieldErrors().stream()
+	                .collect(
+	                      Collectors.toMap(FieldError::getField, ObjectError::getDefaultMessage)	                     
+	                  );	        
+	          if(result.getAllErrors().toString().indexOf("PasswordMatches")!= -1) {
+	        	  errors.put("matchingPassword", "Password is not matched");
+	          }
+	          userDTOResponse.setValidated(false);
+	          userDTOResponse.setErrorMessages(errors); 
+	          return new ResponseEntity<Object>(userDTOResponse, HttpStatus.BAD_REQUEST);
+	       }else {
+		   		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
+		   			System.out.println("email");
+					return new ResponseEntity<Object>("Email is existed", HttpStatus.CONFLICT);
+				}
+		   		userService.addUser(userDTO);
+		   		System.out.println("success");
+		   		return new ResponseEntity<Object>("Create user sucessfully", HttpStatus.OK);
+		   		
+	       }	    
+	}	
 
 	/**
 	 * @summary api edit a user from database
@@ -109,10 +141,10 @@ public class UserApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PutMapping
-	public ResponseEntity<String> editUser(@Valid @RequestBody UserDTO userDTO) {
+	public ResponseEntity<Object> editUser(@Valid @RequestBody UserDTO userDTO) {
 		User oldUser = userService.getUserByEmail(userDTO.getEmail());
 		if (oldUser == null) {
-			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 		}
 
 		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());

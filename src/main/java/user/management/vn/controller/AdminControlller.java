@@ -19,4 +19,10 @@ public class AdminControlller {
 	public String showAllUser() {
 		return "user";
 	}
+	
+	@GetMapping("/user/edit/{userId}")
+	public String editUser(@PathVariable Long userId, Model model) {
+		model.addAttribute("id_user", userId);
+		return "edit-user";
+	}
 }
