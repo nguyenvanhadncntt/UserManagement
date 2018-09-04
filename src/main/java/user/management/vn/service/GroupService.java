@@ -120,4 +120,11 @@ public interface GroupService {
 	 */
 	Optional<Group> deleteGroup(Long groupId);
 
+	/**
+	 * @summary add User To Group By Email
+	 * @author Thehap Rok
+	 * @param email
+	 * @return UserGroup
+	 */
+	UserGroup addUserToGroupByEmail(Long groupId,String email);
 }

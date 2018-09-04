@@ -3,6 +3,7 @@ package user.management.vn.service;
 import java.util.List;
 
 import user.management.vn.entity.Role;
+import user.management.vn.wrapper.ListIdWrapper;
 
 /**
  * 
@@ -92,4 +93,11 @@ public interface RoleService {
 	 */
 	List<Role> getListRoleByScope(String scope);
 
+	/**
+	 * @summary delete multi role by role id
+	 * @author Thehap Rok
+	 * @param listIdWrapper
+	 * @return Boolean
+	 */
+	Boolean deleteMultiRole(ListIdWrapper listIdWrapper);
 }

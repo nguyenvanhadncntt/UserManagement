@@ -3,6 +3,8 @@ package user.management.vn.repository;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -39,6 +41,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 	 * @param id
 	 * @return int
 	 */
+	@Transactional
 	@Modifying
 	@Query(value = "update role set non_del = 0 where id=?1", nativeQuery = true)
 	int deleteRole(Long id);
@@ -50,5 +53,5 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 	 * @param scope
 	 * @return List<Role>
 	 */
-	List<Role> findByScope(String scope);
+	List<Role> findByScopeAndNonDel(String scope,Boolean nonDel);
 }

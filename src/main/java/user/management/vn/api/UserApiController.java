@@ -30,8 +30,13 @@ import user.management.vn.entity.dto.UserDTOEdit;
 import user.management.vn.entity.response.UserDTOResponse;
 import user.management.vn.entity.response.UserEditResponse;
 import user.management.vn.entity.response.UserResponse;
+<<<<<<< HEAD
 import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.exception.UserAlreadyAdminException;
+=======
+import user.management.vn.exception.RoleNotFoundException;
+import user.management.vn.exception.UserAlreadyRoleException;
+>>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.UserRoleService;
@@ -151,6 +156,7 @@ public class UserApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PutMapping
+<<<<<<< HEAD
 	public ResponseEntity<Object> editUser(@Valid @RequestBody UserDTOEdit userResponse, BindingResult result) {
 		  UserEditResponse userEditResponse = new UserEditResponse();	
 		   
@@ -171,6 +177,15 @@ public class UserApiController {
 				userService.editUser(userResponse);
 		   		return new ResponseEntity<Object>("Edit user sucessfully", HttpStatus.OK);		   		
 	       }
+=======
+	public ResponseEntity<String> editUser(@Valid @RequestBody UserDTO userDTO) {
+		User oldUser = userService.getUserByEmail(userDTO.getEmail());
+		if (oldUser == null) {
+			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
+		}
+		userService.updateUser(userDTO);
+		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
+>>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 	}
 
 	/**
@@ -202,15 +217,18 @@ public class UserApiController {
 	 * @param userId
 	 * @return ResponseEntity<Object>
 	 */
-	@PutMapping("/upgrade-to-admin/{userId}")
-	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId) {
+	@PutMapping("/upgrade-user-role/{userId}/{roleId}")
+	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId,
+			@PathVariable("roleId")Long roleId) {
 		UserRole upgradeRole = null;
 		try {
-			upgradeRole = userService.upgradeUserToAdmin(userId);
+			upgradeRole = userService.upgradeUserRole(userId,roleId);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		} catch (UserAlreadyAdminException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch(RoleNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		} catch (UserAlreadyRoleException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(upgradeRole, HttpStatus.OK);
 	}

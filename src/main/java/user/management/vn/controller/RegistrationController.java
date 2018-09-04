@@ -133,7 +133,11 @@ public class RegistrationController {
 	 * @return ResponseEntity<String>
 	 */
 	@GetMapping(path="activeAccount")
+<<<<<<< HEAD
 	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token") String registCode,Model model) throws MessagingException {
+=======
+	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token")String registCode,Model model) throws MessagingException {
+>>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
 			return new ResponseEntity<String>("Token is not true", HttpStatus.NOT_FOUND);

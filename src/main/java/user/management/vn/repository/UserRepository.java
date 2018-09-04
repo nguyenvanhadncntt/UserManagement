@@ -35,7 +35,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	 */
   @Query("select u from User u "
 			+ "where u.id not in "
-			+ "(select ug.id from UserGroup ug "
+			+ "(select ug.user.id from UserGroup ug "
 			+ "where ug.group.id=:groupId) "
 			+ "and (u.userDetail.fullname like %:param% or u.email like %:param% )")
 	List<User> findUserNotInGroupByNameOrEmail(@Param("groupId") Long groupId, @Param("param") String nameOrEmail);

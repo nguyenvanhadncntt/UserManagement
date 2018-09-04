@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,7 +58,7 @@ public class RoleApiController {
 	}
 
 	/**
-	 * @summary get all role have scope `group` 
+	 * @summary get all role have scope `system` 
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @return ResponseEntity<Object>
@@ -71,16 +72,25 @@ public class RoleApiController {
 		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
 
-
 	/**
-	 * 
-	 * @summary get all role have scope `system`
+	 * @summary get all role have scope `group`
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @return
 	 * @return ResponseEntity<Object>
 	 */
+<<<<<<< HEAD
 
+=======
+	@GetMapping("/group")
+	public ResponseEntity<Object> getAllRoleScopeGroup() {
+		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
+		if (listRole.size() == 0) {
+			return new ResponseEntity<>("No data", HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(listRole, HttpStatus.OK);
+	}
+>>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 
 	/**
 	 * @summary api get 1 role from database base on id of role
@@ -123,7 +133,12 @@ public class RoleApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PostMapping
-	public ResponseEntity<String> addNewRole(@Valid @RequestBody Role role) {
+	public ResponseEntity<String> addNewRole(@Valid @RequestBody Role role,BindingResult result) {
+		if(result.hasErrors()) {
+			String fieldName = result.getFieldError().getField();
+			String error = result.getFieldError().getDefaultMessage();
+			return new ResponseEntity<String>(fieldName+": "+error, HttpStatus.BAD_REQUEST);
+		}
 		Role oldRole = roleService.findByRoleName(role.getRoleName());
 		if (oldRole != null) {
 			return new ResponseEntity<String>("Role was existed", HttpStatus.CONFLICT);
@@ -150,6 +165,10 @@ public class RoleApiController {
 		if (oldRole == null) {
 			return new ResponseEntity<String>("Not found role", HttpStatus.NOT_FOUND);
 		}
+		role.setGroupRoles(oldRole.getGroupRoles());
+		role.setUserRoles(oldRole.getUserRoles());
+		role.setCreatedAt(oldRole.getCreatedAt());
+		role.setScope(oldRole.getScope());
 		Role editRole = null;
 		try {
 			editRole = roleService.editRole(role);
@@ -157,7 +176,7 @@ public class RoleApiController {
 			System.out.println(e.getMessage());
 			return new ResponseEntity<String>("Can't edit role", HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<String>("Edit role successfully" + editRole.getRoleName(), HttpStatus.NOT_FOUND);
+		return new ResponseEntity<String>("Edit role successfully " + editRole.getRoleName(), HttpStatus.OK);
 	}
 	
 	/**
@@ -238,7 +257,6 @@ public class RoleApiController {
 			return new ResponseEntity<>("Group not found", HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>("delete successful", HttpStatus.OK);
-
 	}
 	/**
 	* @summary search group in role
@@ -260,5 +278,21 @@ public class RoleApiController {
 			return new ResponseEntity<>(groups, HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(groups, HttpStatus.OK);
+	}
+	
+	/**
+	 * @summary delete multi role by list role id
+	 * @author Thehap Rok
+	 * @param listIdWrapper
+	 * @return ResponseEntity<Object>
+	 */
+	@DeleteMapping
+	public ResponseEntity<Object> deleteMultiRole(@RequestBody ListIdWrapper listIdWrapper){
+		try {
+			roleService.deleteMultiRole(listIdWrapper);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<>("Delete Multi Role Success !!!",HttpStatus.OK);
 	}
 }

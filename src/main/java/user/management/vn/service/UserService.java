@@ -154,7 +154,7 @@ public interface UserService {
 	 * @param userId
 	 * @return UserRole
 	 */
-	UserRole upgradeUserToAdmin(Long userId);
+	UserRole upgradeUserRole(Long userId,Long roleId);
 
 	/**
 	 * @summary active User
