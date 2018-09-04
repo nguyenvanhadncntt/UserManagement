@@ -329,6 +329,7 @@
                   </div>
                   <div class="x_content">
                     <br />
+                    <div id='notification'></div>
                     <form id="form-edit-user" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
@@ -404,27 +405,22 @@
                             </label>
                           </div>
                         </div>
-                      </div>                                          
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="password">Password<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="password" name="password" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
                       </div> 
+                                                               
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="matchingPassword">Confirm password<span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="password" id="matchingPassword" name="matchingPassword" required="required" class="form-control col-md-7 col-xs-12">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Role-System</label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select id="listRole" name="id_role" class="form-control">                           
+                          </select>
                         </div>
-                      </div>                                      
+                      </div>    
+                                                       
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button">Cancel</button>
 						  <button class="btn btn-primary" type="reset">Reset</button>
-                          <button type="button" class="btn btn-success" onclick="editUser()">Submit</button>
+                          <button id="btnEditUser" type="button" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 
@@ -489,6 +485,7 @@
 		<script th:inline="javascript" >
 			showUserInfo();
 			var id_user;
+			var listRole;
 			function showUserInfo() {
 				
 				/*<![CDATA[*/
@@ -496,8 +493,18 @@
 			    id_user = /*[[${id_user}]]*/;
 			    console.log(id_user);			   
 		
-			  /*]]>*/						
-
+			  /*]]>*/
+			  
+					$.ajax({
+						type : "GET",
+						url: '/api/roles/sys',
+						success: function(data){
+							listRole = data;
+						},
+						error: function(res){
+							alert('khong lay dc role');
+						}
+					});
   				$.ajax({
 					type : "GET",					
 					url : /*[[@{'/api/users/' + ${id_user} }]]*/   ,
@@ -527,7 +534,31 @@
 								jQuery("#lockUser").attr('checked', true);
 							}else{
 								jQuery("#unLockUser").attr('checked', true);
-							}							
+							}
+							console.log(obj);
+							console.log(listRole);
+							var roleOfUserSys;
+							listRoleSys = obj.listRole.map(function(role,i){
+								if(role.scope=='SYSTEM')
+								return role;
+							});
+							if(listRoleSys.length===1){
+								roleOfUserSys='USER'
+							}else{
+								listRoleSys.forEach(function(role,i){
+									if(role.roleName !== 'USER' ){
+										roleOfUserSys = role.roleName;							
+									}
+								});
+							}
+							console.log(listRoleSys);
+							$.each(listRole,function(index,role){									
+								if(roleOfUserSys === role.roleName){
+									$('#listRole').append('<option selected value="'+role.id+'">'+ role.roleName +'</option>');
+								}else{
+									$('#listRole').append('<option  value="'+role.id+'">'+ role.roleName +'</option>');
+								}
+							})
 						}else{
 							alert(response.responseText);
 						}
@@ -536,6 +567,13 @@
 			}
 		</script>	
 		<script>
+			$(function(){
+				$('#btnEditUser').click(function(e){				   
+				    e.preventDefault();
+				    $('input').next().remove();		
+				    editUser();
+				});
+			});		
 			function editUser() {
 				var userInfo  = $('#form-edit-user').serializeJSON({parseBooleans: true});
 				var jsonUserInfo = JSON.stringify(userInfo);	
@@ -548,13 +586,35 @@
 					data: jsonUserInfo,
 					complete: function(response) {
 						if(response.status===200){
-							alert('edit success');
-						}else{
-							alert(response.responseText);
+							showMessage('notification',response.responseText, true);
+						}else if(response.status===400){
+							 console.log(response.responseJSON);
+               $.each(response.responseJSON.errorMessages,function(key,value){
+   	            $('input[name='+key+']').after('<span style="color: red;">'+value+'</span>');
+               });
+						}else if(response.status===404){							
+							showMessage('notification',response.responseText, false);
 						}
 					}
 				});
-			}		
+			}
+			function showMessage(tagId,msg,isSuccess){
+			    $('#'+tagId).attr('style','display:block');
+			    if(isSuccess){
+			        $('#'+tagId).prop('class','alert alert-success');
+			        $('#'+tagId).html('<strong>Success!!!<strong> '+msg);
+			        
+			    }else{
+			        $('#'+tagId).prop('class','alert alert-danger');
+			        $('#'+tagId).html('<strong>Fail!!!<strong> '+msg);
+			    }
+			    
+			    $('#'+tagId).fadeIn(50);
+			   $('#'+tagId).hide().slideDown(500);
+			   setTimeout(function() {
+			       $('#'+tagId).fadeOut(1500);
+			   }, 3000);
+			}	
 		</script>
   </body>
 </html>

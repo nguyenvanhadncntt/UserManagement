@@ -63,7 +63,7 @@ public class RoleApiController {
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/sys")
-	public ResponseEntity<Object> getAllRoleScopeGroup() {
+	public ResponseEntity<Object> getAllRoleScopeSystem() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.SYSTEM);
 		if (listRole.size() == 0) {
 			return new ResponseEntity<>("No data", HttpStatus.NO_CONTENT);
@@ -80,14 +80,7 @@ public class RoleApiController {
 	 * @return
 	 * @return ResponseEntity<Object>
 	 */
-	@GetMapping("/group")
-	public ResponseEntity<Object> getAllRoleScopeSystem() {
-		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
-		if (listRole.size() == 0) {
-			return new ResponseEntity<>("No data", HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(listRole, HttpStatus.OK);
-	}
+
 
 	/**
 	 * @summary api get 1 role from database base on id of role

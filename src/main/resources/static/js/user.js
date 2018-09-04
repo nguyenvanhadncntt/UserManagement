@@ -1,7 +1,7 @@
 loadTable();
 $(document).ready(function(){
 	$('#delete-all').on('click',function(){
-		deleteAll();
+		multiDelete();
 	});	
 });
 
@@ -26,9 +26,6 @@ function loadTable(){
 				listUser.push(listItem)
 			});
 			viewOnDataTable(listUser);
-//			$('#check-all').each(function(index,e){
-//				
-//			});
 		},
 		error: function(error){
 			console.log(error);
@@ -44,18 +41,18 @@ function viewOnDataTable(list){
 	})
 }
 
-function removeUser(userId){
-	
-	selected = confirm("Are you really delete User have ID : " + userId);
+function removeUser(userId) {	
+	selected = confirm("Do you want delete User have ID : " + userId);
 	if(selected){
 		$.ajax({
 			url: '/api/users/'+ userId,
 			type:'delete',
 			complete: function(res){
 			if(res.status===200){
-				showMessage(res.responseText,true);
+				console.log("hihihi");
+				showMessage('notification',res.responseText,true);
 			}else{
-				showMessage(res.responseText,false);
+				showMessage('notification',res.responseText,false);
 			}
 			loadTable();
 		}
@@ -63,17 +60,7 @@ function removeUser(userId){
 	}
 }
 
-function showMessage(msg,isSuccess){
-	$('#nofitication').attr('style','display:block');
-	if(isSuccess){
-		$('#nofitication').prop('class','alert alert-success');
-		$('#nofitication').html('<strong>Success!!!<strong> '+msg);
-		
-	}else{
-		$('#nofitication').prop('class','alert alert-danger');
-		$('#nofitication').html('<strong>Fail!!!<strong> '+msg);
-	}
-}
+
 
 function deleteAll(){
 	$('.checkbox-delete:checkbox:checked').each(function(i,element){
@@ -81,28 +68,8 @@ function deleteAll(){
 	})
 }
 
-/*function addUser() {
-	var userInfo = $('#form-add-user').serializeJSON({parseBooleans: true});
-	var jsonUserInfo = JSON.stringify(userInfo);
-	console.log(jsonUserInfo);		
-	$.ajax({
-		type : 'POST',
-		contentType : 'application/json',
-		url : '/api/users',
-		dataType : 'json',
-		data : jsonUserInfo,
-		complete : function(response) {
-			if(response.status===200){
-				showMessageAddUser(response.responseText, true);
-			}else{
-				showMessageAddUser(response.responseText, false);
-			}			
-		}
-	});
-}	
-*/
-
 function showMessage(tagId,msg,isSuccess){
+	console.log('showmessage' + msg);
     $('#'+tagId).attr('style','display:block');
     if(isSuccess){
         $('#'+tagId).prop('class','alert alert-success');
@@ -116,8 +83,8 @@ function showMessage(tagId,msg,isSuccess){
     $('#'+tagId).fadeIn(50);
    $('#'+tagId).hide().slideDown(500);
    setTimeout(function() {
-       $('#'+tagId).fadeOut(1500);
-   }, 3000);
+       $('#'+tagId).fadeOut(500);
+   }, 1500);
 }
 $(function(){
 	$('#btnAddUser').click(function(e){
@@ -149,4 +116,32 @@ function addUser() {
 			}			
 		}
 	}); 
+}
+
+function multiDelete(){
+	listId = new ListIdWrapper();
+	if($('.checkbox-delete:checkbox:checked').length===0){
+		alert('Ban nen chon it nhat 1 user de xoa');
+		return;
+	}
+	$('.checkbox-delete:checkbox:checked').each(function(i,element){
+		listId.addIdToArray($(element).val());
+	});	
+	selected = confirm('Are you really delete !!!');
+	if(selected){
+		$.ajax({
+			url:'/api/users',
+			type:'DELETE',
+			contentType : 'application/json; charset=utf-8',
+			data: JSON.stringify(listId),
+			complete: function(res){
+				if(res.status===200){
+					showMessage('notification',res.responseText,true);
+					loadTable();
+				}else{
+					showMessage('notification',res.responseText,false);
+				}
+			}
+		});
+	}
 }

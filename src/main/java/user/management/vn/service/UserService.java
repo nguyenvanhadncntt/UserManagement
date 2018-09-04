@@ -7,6 +7,7 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
+import user.management.vn.entity.dto.UserDTOEdit;
 import user.management.vn.entity.response.UserResponse;
 
 /**
@@ -201,5 +202,39 @@ public interface UserService {
 	User saveUser(User user);
 
 	User saveUser(UserResponse userResponse);
+
+	/**
+	* @summary delete List Users base on id of user
+	* @date Sep 3, 2018
+	* @author ThaiLe
+	* @param userIds
+	* @return boolean
+	 */
+	boolean removeUsers(List<Long> userIds);
 	
+	/**
+	* @summary add User and enable User
+	* @date Sep 3, 2018
+	* @author ThaiLe
+	* @param userDTO
+	* @param enable
+	* @return User
+	 */
+	
+	/**
+	 */
+	User addUser(UserDTO userDTO, boolean enable);
+	
+	/**
+	* @summary convert UserDTO to User and enable User
+	* @date Sep 3, 2018
+	* @author ThaiLe
+	* @param userDTO
+	* @param enable
+	* @return
+	* @return User
+	 */
+	User convertUserDtoToUser(UserDTO userDTO, boolean enable);
+	public User editUser(UserDTOEdit userResponse);
+
 }

@@ -1,5 +1,6 @@
 package user.management.vn.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,14 +22,22 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
+import user.management.vn.entity.dto.UserDTOEdit;
 import user.management.vn.entity.response.UserDTOResponse;
+import user.management.vn.entity.response.UserEditResponse;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.exception.UserAlreadyAdminException;
 import user.management.vn.exception.UserNotFoundException;
+import user.management.vn.service.RoleService;
+import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
+import user.management.vn.util.RoleSystem;
+import user.management.vn.wrapper.ListIdWrapper;
 
 @RestController
 @RequestMapping("/api/users")
@@ -36,6 +45,12 @@ public class UserApiController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private RoleService roleService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 
 	/**
 	 * @summary api get all user from database
@@ -92,23 +107,10 @@ public class UserApiController {
 	 * @author ThaiLe
 	 * @param userDTO
 	 * @return ResponseEntity<String>
-	 */
-//	@PostMapping
-//	public ResponseEntity<String> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
-//		if(rs.hasErrors()) {
-//			System.out.println(rs.getAllErrors().toString());
-//			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
-//		}
-//		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
-//			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
-//		}
-//		userService.addUser(userDTO);
-//		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
-//	}
-	
+	 */	
 	@PostMapping
 	public ResponseEntity<Object> createNewUser(@Valid @RequestBody UserDTO userDTO, BindingResult result) {
-		UserDTOResponse userDTOResponse = new UserDTOResponse();		  
+		  UserDTOResponse userDTOResponse = new UserDTOResponse();		  
 	      if(result.hasErrors()){          
 	    	  
 	          Map<String, String> errors = result.getFieldErrors().stream()
@@ -126,7 +128,15 @@ public class UserApiController {
 		   			System.out.println("email");
 					return new ResponseEntity<Object>("Email is existed", HttpStatus.CONFLICT);
 				}
-		   		userService.addUser(userDTO);
+		   		
+		   		User objUser = userService.addUser(userDTO, true);
+		   		if(objUser == null) {
+		   			return new ResponseEntity<Object>("Create User Fail", HttpStatus.BAD_REQUEST);
+		   		}
+				Role role = roleService.findByRoleName(RoleSystem.USER);
+				User user = userService.findUserByUserId(objUser.getId());
+				UserRole userRole = new UserRole(user, role);
+				userRoleService.addUserWithRole(userRole);		   		
 		   		System.out.println("success");
 		   		return new ResponseEntity<Object>("Create user sucessfully", HttpStatus.OK);
 		   		
@@ -141,15 +151,26 @@ public class UserApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PutMapping
-	public ResponseEntity<Object> editUser(@Valid @RequestBody UserDTO userDTO) {
-		User oldUser = userService.getUserByEmail(userDTO.getEmail());
-		if (oldUser == null) {
-			return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
-		}
-
-		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
-		userService.updateUser(userDTO);
-		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
+	public ResponseEntity<Object> editUser(@Valid @RequestBody UserDTOEdit userResponse, BindingResult result) {
+		  UserEditResponse userEditResponse = new UserEditResponse();	
+		   
+	      if(result.hasErrors()){
+	          Map<String, String> errors = result.getFieldErrors().stream()
+	                .collect(
+	                      Collectors.toMap(FieldError::getField, ObjectError::getDefaultMessage)	                     
+	                  );	        
+	         
+	          userEditResponse.setValidated(false);
+	          userEditResponse.setErrorMessages(errors); 
+	          return new ResponseEntity<Object>(userEditResponse, HttpStatus.BAD_REQUEST);
+	       }else {
+		   		User oldUser = userService.getUserByEmail(userResponse.getEmail());
+				if (oldUser == null) {
+					return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+				}
+				userService.editUser(userResponse);
+		   		return new ResponseEntity<Object>("Edit user sucessfully", HttpStatus.OK);		   		
+	       }
 	}
 
 	/**
@@ -194,4 +215,16 @@ public class UserApiController {
 		return new ResponseEntity<>(upgradeRole, HttpStatus.OK);
 	}
 
+	@DeleteMapping
+	public ResponseEntity<Object> removeListUserFromGroup(@RequestBody ListIdWrapper listIdWapper) {
+		try {
+			List<Long> userIds = listIdWapper.getIds();
+			userService.removeUsers(userIds);
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<>("Remove user successful", HttpStatus.OK);
+	}	
 }

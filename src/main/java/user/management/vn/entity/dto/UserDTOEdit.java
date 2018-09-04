@@ -1,4 +1,4 @@
-package user.management.vn.entity.response;
+package user.management.vn.entity.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,42 +23,34 @@ import user.management.vn.validation.ValidEmail;
  * @author Thehap Rok
  *
  */
-public class UserResponse implements Serializable {
+public class UserDTOEdit implements Serializable {
 
 	/**
 	 * 
 	 */
 	@JsonIgnore
-	private static final long serialVersionUID = 1L;
-
-	private Long id;
+	private static final long serialVersionUID = 1L;private Long id;
 	@ValidEmail(message="Email must be valid")
 	private String email;
 	private Boolean enable;
-	private Boolean nonLocked;
-	
-	@NotBlank
+	private Boolean nonLocked;	
+	@NotBlank(message = "Full name must not be blank")
 	private String fullname;
 	
-	@Phone
+	@Phone(message="Phone number must be valid")
 	private String phone;
 	
-	@NotNull
+	@NotNull(message = "Birthday must not be null")
 	private Date birthday;
 	
-	@NotBlank
+	@NotBlank(message = "Address must not be blank")
 	private String address;
 	
-	@NotNull
+	@NotNull(message = "Gender must not be null")
 	private Boolean gender;
-	private Date createdAt;
-
-	@JsonIgnoreProperties(value = { "userRoles"})
-	private List<Role> listRole;
-
-	public UserResponse() {
-		super();
-	}
+	
+	@NotNull(message = "Role must not be null")
+	private Long id_role;
 
 	public Long getId() {
 		return id;
@@ -132,46 +124,12 @@ public class UserResponse implements Serializable {
 		this.gender = gender;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
+	public Long getId_role() {
+		return id_role;
 	}
 
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
-	public List<Role> getListRole() {
-		return listRole;
-	}
-
-	public void setListRole(List<Role> listRole) {
-		this.listRole = listRole;
-	}
-	
-	/**
-	 * @summary add properties of user to user response
-	 * @param user
-	 */
-	public void addPropertiesFromUser(User user) {
-		UserDetail userDetail = user.getUserDetail();
-
-		this.email = user.getEmail();
-		this.enable = user.getEnable();
-		this.nonLocked = user.getNonLocked();
-		this.id = user.getId();
-		this.fullname = userDetail.getFullname();
-		this.address = userDetail.getAddress();
-		this.phone = userDetail.getPhone();
-		this.birthday = userDetail.getBirthDay();
-		this.gender = userDetail.getGender();
-		this.createdAt = userDetail.getCreatedAt();
-		
-		this.listRole = new ArrayList<>();
-		List<UserRole> listUR = user.getUserRoles();
-		for (UserRole userRole : listUR) {
-			this.listRole.add(userRole.getRole());
-		}
-		
+	public void setId_role(Long id_role) {
+		this.id_role = id_role;
 	}
 
 }

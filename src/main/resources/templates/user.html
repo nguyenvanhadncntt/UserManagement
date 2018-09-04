@@ -289,10 +289,11 @@
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
 								<div class="x_title">
+									<div id="notification" class="alert"></div>
 									<div class="float-left button-css">
 										<button type="button" class="btn btn-primary"
 											data-toggle="modal" data-target="#exampleModal">ADD
-											NEW USER</button>
+											NEW USER</button>										
 										<div class="modal fade" id="exampleModal" tabindex="-1"
 											role="dialog" aria-labelledby="exampleModalLabel"
 											aria-hidden="true">
@@ -346,13 +347,13 @@
 				                        <div class="col-md-9 col-sm-9 col-xs-12">				                          
 				                          <div class="radio">
 				                            <label>
-				                              <input type="radio" checked value="true" id="optionsRadios1" name="gender"> Male
+				                              <input type="radio" checked value="false" id="optionsRadios1" name="gender"> Male
 				                             
 				                            </label>
 				                          </div>
 				                          <div class="radio">
 				                            <label>
-				                              <input type="radio" value="false" id="optionsRadios2" name="gender">Female
+				                              <input type="radio" value="true" id="optionsRadios2" name="gender">Female
 				                            </label>
 				                          </div>
 				                        </div>
@@ -382,12 +383,11 @@
 												</div>
 											</div>
 										</div>
-									</div>
+									</div>								
 									<div class="float-right button-css">
 										<button type="button" id="delete-all" class="btn btn-danger">Delete
 											All</button>
-									</div>
-									<div id="nofitication" class="alert"></div>
+									</div>								
 									<div class="clearfix"></div>
 								</div>
 								<div class="x_content">
@@ -470,6 +470,7 @@
 	<!-- Custom Theme Scripts -->
 	<script src="/util/build/js/custom.min.js"></script>
 	<script src="/js/jquery.serializejson.js"></script>
+	<script src="/js/multi-id.js"></script>		
 	<script src="/js/user.js"></script>	
 
 </body>

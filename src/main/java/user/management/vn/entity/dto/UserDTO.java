@@ -25,19 +25,19 @@ public class UserDTO implements Serializable{
 	
 	@JsonIgnore
 	private static final long serialVersionUID = 1L;	
-	@ValidEmail(message = "Email is invavid")	
+	@ValidEmail(message = "Email is invalid")	
 	private String email;
-	@NotBlank
+	@NotBlank(message = "fullname must not blank")
 	private String fullname;	
-	@Phone(message="Phone is invalid")
+	@Phone(message="Phone is not blank and must valid")
 	private String phone;	
-	@NotNull
+	@NotNull(message = "Birthday must not be null")
 	private Date birthday;
-	@NotBlank
+	@NotBlank(message = "Address must not be blank")
 	private String address;
-	@NotNull
+	@NotNull(message = "Gender must not be null")
 	private Boolean gender;
-	@NotBlank
+	@NotBlank(message = "Password must not be blank")
 	private String password;	
 	private String matchingPassword;
 	

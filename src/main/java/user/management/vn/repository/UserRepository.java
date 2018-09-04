@@ -80,7 +80,7 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	* @author ThaiLe
 	* @return List<User>
 	 */
-	@Query(value = "select u from User u where u.nonDel = true")
+	@Query(value = "select u from User u where u.nonDel = true and u.enable = true")
 	List<User> findAllUserNotDeleted();
 
 }
