@@ -152,10 +152,10 @@ public class UserApiController {
 			upgradeRole = userService.upgradeUserRole(userId,roleId);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		} catch (UserAlreadyRoleException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		} catch(RoleNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		} catch (UserAlreadyRoleException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(upgradeRole, HttpStatus.OK);
 	}

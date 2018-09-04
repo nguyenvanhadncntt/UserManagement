@@ -28,7 +28,6 @@ import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.UserService;
-import user.management.vn.util.RoleSystem;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -319,18 +318,12 @@ public class UserServiceImpl implements UserService {
 		}
 		Role role = roleOptional.get();
 		User user = userOptional.get();
-		Boolean checkExist = userRoleRepository.existsByUserIdAndRoleId(user.getId(), role.getId());
-		if (checkExist) {
-			throw new UserAlreadyRoleException("User were "+role.getRoleName()+"!!!");
+		boolean checkUserRole = userRoleRepository.existsByUserIdAndRoleId(userId, roleId);
+		if(checkUserRole) {
+			throw new UserAlreadyRoleException("User already :"+role.getRoleName());
 		}
 		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId,roleId);
-		Role roleUser = roleRepository.findByRoleName(RoleSystem.USER);
-		UserRole userRoleUser = new UserRole(user, roleUser);
-		userRoleUser.setUser(user);
-		user.getUserRoles().add(userRoleUser);
 		UserRole userRole = new UserRole(user, role);
-		user.getUserRoles().add(userRole);
-		userRoleRepository.save(userRoleUser);
 		return userRoleRepository.save(userRole);
 	}
 	

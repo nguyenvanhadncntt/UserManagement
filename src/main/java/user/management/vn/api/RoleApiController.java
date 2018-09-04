@@ -58,7 +58,7 @@ public class RoleApiController {
 	}
 
 	/**
-	 * @summary get all role have scope `group` 
+	 * @summary get all role have scope `system` 
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @return ResponseEntity<Object>
@@ -72,10 +72,8 @@ public class RoleApiController {
 		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
 
-
 	/**
-	 * 
-	 * @summary get all role have scope `system`
+	 * @summary get all role have scope `group`
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
 	 * @return
