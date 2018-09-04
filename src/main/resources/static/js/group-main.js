@@ -12,6 +12,7 @@ $('.delete-compelete').hide();
 function dataTable(list) {
 	$('#dataTables-example').dataTable({
 		data : list,
+		
 		"aaSorting" : [ [ 3, "desc" ] ],
 		columns : [ {
 			title : 'Check'
@@ -32,7 +33,10 @@ function dataTable(list) {
 		},
 
 		],
-		destroy : true
+		destroy : true,
+		 columnDefs: [
+			    { targets: [0,4,5,6,7], "orderable": false},
+			  ]
 	});
 }
 
@@ -83,8 +87,8 @@ function getGroups() {
 
 				},
 				error : function(res) {
-					console.log("khong co ket qua");
-					data = [];
+					
+					dataTable([]);
 				}
 			});
 }

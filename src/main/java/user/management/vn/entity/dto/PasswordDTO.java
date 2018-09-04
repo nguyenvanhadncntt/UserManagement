@@ -6,6 +6,7 @@ public class PasswordDTO {
 	
 	private String token;
 	private String email;
+	@NotBlank
 	private String passwordCurrent;
 	
 	@NotBlank

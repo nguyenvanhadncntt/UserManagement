@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,24 +32,37 @@ public class UserProfileApiController {
 	@GetMapping
 	public ResponseEntity<Object> viewMyProfile(Principal principal) {
 		UserResponse userRespone = passwordService.viewCurrentUserResponse(principal);
+		
 		return new ResponseEntity<>(userRespone, HttpStatus.OK);
 	}
 
 	@PutMapping
-	public ResponseEntity<Object> updateMyProfile(@Valid @RequestBody UserResponse userResponse) {
+	public ResponseEntity<Object> updateMyProfile(@Valid @RequestBody UserResponse userResponse, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			String fieldName = bindingResult.getFieldError().getField();
+			String message = bindingResult.getFieldError().getDefaultMessage();
+			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
+		}
 		if (userResponse == null) {
 			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
 		}
+		
 		userService.saveUser(userResponse);
 		return new ResponseEntity<>("Update user successfully", HttpStatus.OK);
 
 	}
 
 	@PutMapping("change-password")
-	public ResponseEntity<Object> changePasswordMyProfile(@Valid @RequestBody PasswordDTO passwordDTO,
+	public ResponseEntity<Object> changePasswordMyProfile(@Valid @RequestBody PasswordDTO passwordDTO, BindingResult bindingResult,
 			Principal principal) {
+		
 		if (passwordDTO == null) {
 			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+		}
+		if (bindingResult.hasErrors()) {
+			String fieldName = bindingResult.getFieldError().getField();
+			String message = bindingResult.getFieldError().getDefaultMessage();
+			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
 		}
 		User user = passwordService.viewCurrentUsers(principal);
 

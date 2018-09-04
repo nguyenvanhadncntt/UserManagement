@@ -391,6 +391,7 @@ public class UserServiceImpl implements UserService {
 		Date birthDay = userResponse.getBirthday();
 		String phone = userResponse.getPhone();
 		String email = userResponse.getEmail();
+		Date createdAt = userResponse.getCreatedAt();
 		
 		User user = getUserByEmail(email);
 		user.getUserDetail().setAddress(address);
@@ -398,6 +399,8 @@ public class UserServiceImpl implements UserService {
 		user.getUserDetail().setFullname(fullname);
 		user.getUserDetail().setGender(gender);
 		user.getUserDetail().setPhone(phone);
+		user.getUserDetail().setCreatedAt(createdAt);
+		
 		return userRepository.save(user);
 	}
 
