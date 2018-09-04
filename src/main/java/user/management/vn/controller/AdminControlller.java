@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminControlller {
 	
+	@GetMapping("/groups")
+	public String viewGroup() {
+		return "admin-group";
+	} 
+
 	@GetMapping("/groups/{groupId}/users")
 	public String showUserInGroup(@PathVariable("groupId")Long groupId,Model model) {
 		model.addAttribute("groupId", groupId);

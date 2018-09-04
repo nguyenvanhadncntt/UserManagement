@@ -247,6 +247,19 @@ public class GroupServiceImpl implements GroupService {
 		}
 	}
 
+	@Override
+	public Integer deleteListGroup(List<Long> groupIds) {
+		if (groupIds.isEmpty()) {
+			return 0;
+		} 
+		for (Long groupId : groupIds) {
+			Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
+			group.get().setNonDel(false);
+			groupRepository.save(group.get());
+			
+		}
+		return 1;
+  }
 	/**
 	 * @summary add User To Group By Email
 	 * @author Thehap Rok

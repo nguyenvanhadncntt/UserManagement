@@ -11,9 +11,11 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import user.management.vn.entity.Group;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
+import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.validation.Phone;
 
@@ -53,6 +55,30 @@ public class UserResponse implements Serializable {
 
 	@JsonIgnoreProperties(value = { "userRoles", "groupRoles" })
 	private List<Role> listRole;
+	
+	@JsonIgnoreProperties(value = { "userGroups", "groupRoles" })
+	private List<Group> listGroup;
+
+	public UserResponse(Long id, String email, @NotBlank String fullname, String phone, @NotNull Date birthday,
+			@NotBlank String address, @NotNull Boolean gender, Date createdAt) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.fullname = fullname;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.address = address;
+		this.gender = gender;
+		this.createdAt = createdAt;
+	}
+
+	public List<Group> getListGroup() {
+		return listGroup;
+	}
+
+	public void setListGroup(List<Group> listGroup) {
+		this.listGroup = listGroup;
+	}
 
 	public UserResponse() {
 		super();
@@ -169,6 +195,12 @@ public class UserResponse implements Serializable {
 		for (UserRole userRole : listUR) {
 			this.listRole.add(userRole.getRole());
 		}
+		this.listGroup = new ArrayList<>();
+		List<UserGroup> listUG = user.getUserGroups();
+		for (UserGroup userGroup : listUG) {
+			this.listGroup.add(userGroup.getGroup());
+		}
+		
 		
 	}
 

@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import user.management.vn.entity.Group;
@@ -54,4 +56,16 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 	 */
 	List<Group> findByGroupRoles_Role(Long roleId);
 
+	/**
+	 * 
+	* @summary delete Group
+	* @date Aug 30, 2018
+	* @author Tai
+	* @param groupId
+	* @return
+	* @return Integer
+	 */
+	@Modifying
+	@Query(value= "delete from group where id=?1",nativeQuery=true)
+	Integer deleteByGroupId(Long groupId);
 }
