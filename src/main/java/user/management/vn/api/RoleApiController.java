@@ -79,7 +79,7 @@ public class RoleApiController {
 	 * @return
 	 * @return ResponseEntity<Object>
 	 */
-	@GetMapping("/group")
+	@GetMapping("/groups")
 	public ResponseEntity<Object> getAllRoleScopeGroup() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
 		if (listRole.size() == 0) {
@@ -215,7 +215,6 @@ public class RoleApiController {
 		return new ResponseEntity<>("add Group successful", HttpStatus.CREATED);
 	}
 
-
 	/**
 	 * 
 	* @summary delete a group in role
@@ -291,4 +290,5 @@ public class RoleApiController {
 		}
 		return new ResponseEntity<>("Delete Multi Role Success !!!",HttpStatus.OK);
 	}
+	
 }

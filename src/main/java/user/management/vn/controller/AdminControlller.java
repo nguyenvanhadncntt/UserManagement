@@ -20,4 +20,9 @@ public class AdminControlller {
 	public String showRoleSystem() {
 		return "role-sys";
 	}
+	
+	@GetMapping("/roles/group")
+	public String showRoleGroup() {
+		return "role-group";
+	}
 }
