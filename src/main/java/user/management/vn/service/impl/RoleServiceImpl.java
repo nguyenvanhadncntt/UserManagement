@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import user.management.vn.entity.Role;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.service.RoleService;
+import user.management.vn.wrapper.ListIdWrapper;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -139,6 +140,21 @@ public class RoleServiceImpl implements RoleService {
 	 */
 	@Override
 	public List<Role> getListRoleByScope(String scope) {
-		return roleRepository.findByScope(scope);
+		return roleRepository.findByScopeAndNonDel(scope, true);
+	}
+	
+	/**
+	 * @summary delete multi role by role id
+	 * @author Thehap Rok
+	 * @param listIdWrapper
+	 * @return Boolean
+	 */
+	@Override
+	public Boolean deleteMultiRole(ListIdWrapper listIdWrapper) {
+		List<Long> listId = listIdWrapper.getIds();
+		for (Long id : listId) {
+			roleRepository.deleteRole(id);
+		}
+		return true;
 	}
 }

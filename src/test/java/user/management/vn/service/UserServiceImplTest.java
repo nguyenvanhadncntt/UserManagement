@@ -29,7 +29,7 @@ import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.response.UserResponse;
-import user.management.vn.exception.UserAlreadyAdminException;
+import user.management.vn.exception.UserAlreadyRoleException;
 import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.repository.UserGroupRepository;
@@ -82,8 +82,8 @@ public class UserServiceImplTest {
 	 */
 	@Before
 	public void setUp() {
-		Role adminRole = new Role("ADMIN", "SYSTEM");
-		Role userRole = new Role("USER", "SYSTEM");
+		Role adminRole = new Role("ADMIN","Admin of system" ,"SYSTEM");
+		Role userRole = new Role("USER","user of system", "SYSTEM");
 
 		List<Role> listRole = new ArrayList<Role>();
 		listRole.add(userRole);
@@ -231,7 +231,7 @@ public class UserServiceImplTest {
 	@Test
 	public void upgradeUserToAdminTest() {
 		Long userId = 1l;
-		UserRole userRole = userService.upgradeUserToAdmin(userId);
+		UserRole userRole = userService.upgradeUserRole(userId,1l);
 		Role role = roleRepository.findByRoleName(RoleSystem.ADMIN);
 		assertEquals(userRole.getUser().getId(), userId);
 		assertEquals(userRole.getRole().getId(), role.getId());
@@ -245,7 +245,7 @@ public class UserServiceImplTest {
 	@Test(expected=UserNotFoundException.class)
 	public void upgradeUserToAdminUserNotFoundException() {
 		Long userId = 1000l;
-		userService.upgradeUserToAdmin(userId);
+		userService.upgradeUserRole(userId,1l);
 	}
 	
 	/**
@@ -253,10 +253,10 @@ public class UserServiceImplTest {
 	 * @author Thehap Rok
 	 * @return void
 	 */
-	@Test(expected=UserAlreadyAdminException.class)
+	@Test(expected=UserAlreadyRoleException.class)
 	public void upgradeUserToAdminUserAlrealdyAdminException() {
 		Long userId = 2l;
-		userService.upgradeUserToAdmin(userId);
+		userService.upgradeUserRole(userId,1l);
 	}
 	
 	

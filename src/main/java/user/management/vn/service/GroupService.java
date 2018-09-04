@@ -131,4 +131,11 @@ public interface GroupService {
 	 */
 	Integer deleteListGroup(List<Long> groupIds);
 
+	/**
+	 * @summary add User To Group By Email
+	 * @author Thehap Rok
+	 * @param email
+	 * @return UserGroup
+	 */
+	UserGroup addUserToGroupByEmail(Long groupId,String email);
 }

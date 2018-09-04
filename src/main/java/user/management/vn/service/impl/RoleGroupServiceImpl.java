@@ -186,7 +186,6 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 			return 0;
 		}
 		for (Long roleId : roleIds) {
-			System.out.println(roleIds);
 			groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
 		}
 		return 1;

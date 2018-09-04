@@ -21,7 +21,8 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
-import user.management.vn.exception.UserAlreadyAdminException;
+import user.management.vn.exception.RoleNotFoundException;
+import user.management.vn.exception.UserAlreadyRoleException;
 import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.service.UserService;
 
@@ -110,8 +111,6 @@ public class UserApiController {
 		if (oldUser == null) {
 			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
 		}
-
-		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
 		userService.updateUser(userDTO);
 		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
 	}
@@ -145,15 +144,18 @@ public class UserApiController {
 	 * @param userId
 	 * @return ResponseEntity<Object>
 	 */
-	@PutMapping("/upgrade-to-admin/{userId}")
-	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId) {
+	@PutMapping("/upgrade-user-role/{userId}/{roleId}")
+	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId,
+			@PathVariable("roleId")Long roleId) {
 		UserRole upgradeRole = null;
 		try {
-			upgradeRole = userService.upgradeUserToAdmin(userId);
+			upgradeRole = userService.upgradeUserRole(userId,roleId);
 		} catch (UserNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-		} catch (UserAlreadyAdminException e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		} catch(RoleNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+		} catch (UserAlreadyRoleException e) {
+			return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
 		}
 		return new ResponseEntity<>(upgradeRole, HttpStatus.OK);
 	}

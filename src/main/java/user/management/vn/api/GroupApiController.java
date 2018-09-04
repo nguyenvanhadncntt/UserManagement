@@ -24,6 +24,7 @@ import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserGroup;
+import user.management.vn.entity.dto.EmailDTO;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.exception.UserNotFoundException;
@@ -277,7 +278,7 @@ public class GroupApiController {
 		if (!deleted) {
 			return new ResponseEntity<>("Group not found", HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<>("delete successful", HttpStatus.OK);
+		return new ResponseEntity<>("delete user successful", HttpStatus.OK);
 	}
 
 	/**
@@ -328,10 +329,9 @@ public class GroupApiController {
 	 * @param listIdWapper
 	 * @return ResponseEntity<Object>
 	 */
-
 	@DeleteMapping(path = "/{groupId}/users")
-	public ResponseEntity<Object> removeListUserFromGroup(@PathVariable("groupId") Long groupId,
-			@RequestBody ListIdWrapper listIdWapper) {
+	public ResponseEntity<Object> removeListUserFromGroup(@RequestBody ListIdWrapper listIdWapper,
+			@PathVariable("groupId") Long groupId) {
 		try {
 			List<Long> userIds = listIdWapper.getIds();
 			groupService.removeListUseFromGroup(groupId, userIds);
@@ -340,7 +340,7 @@ public class GroupApiController {
 		} catch (GroupNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>("delete successful", HttpStatus.OK);
+		return new ResponseEntity<>("Remove user successful", HttpStatus.OK);
 	}
 
 	/**
@@ -361,7 +361,7 @@ public class GroupApiController {
 		} catch (GroupNotFoundException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
-		return new ResponseEntity<>("delete successful", HttpStatus.OK);
+		return new ResponseEntity<>("Delete User Successfull", HttpStatus.OK);
 	}
 
 	/**
@@ -372,7 +372,7 @@ public class GroupApiController {
 	 * @param searchParam
 	 * @return ResponseEntity<Object>
 	 */
-	@GetMapping(path = "/{groupId}/user/search-not-in")
+	@GetMapping(path = "/{groupId}/users/search-not-in")
 	public ResponseEntity<Object> findUserNotInGroupByNameOrEmail(@PathVariable("groupId") Long groupId,
 			@RequestParam("searchParam") String searchParam) {
 		List<UserResponse> users = groupService.findUserNotInGroupByNameOrEmail(groupId, searchParam);
@@ -424,6 +424,27 @@ public class GroupApiController {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<>(user, HttpStatus.OK);
+	}
+
+	@PostMapping("/{groupId}/users")
+	public ResponseEntity<Object> addUserToGroupByEmail(@PathVariable(name = "groupId") Long groupId,
+			@Valid @RequestBody EmailDTO email,BindingResult result) {
+		if(result.hasErrors()) {
+			String error = result.getFieldError().getDefaultMessage();
+			String fieldError = result.getFieldError().getField();
+			System.out.println(fieldError+": "+error);
+			return new ResponseEntity<>(fieldError+": "+error,HttpStatus.BAD_REQUEST);
+		}
+		try {
+			groupService.addUserToGroupByEmail(groupId, email.getEmail());
+		} catch (UserNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (GroupNotFoundException e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
+		}
+		return new ResponseEntity<>("Add User To Group Success!!!",HttpStatus.OK);
 	}
 
 }

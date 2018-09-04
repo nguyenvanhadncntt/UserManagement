@@ -18,7 +18,7 @@ public class EmailDTO {
 		super();
 	}
 
-	public EmailDTO(@Email @NotBlank String email) {
+	public EmailDTO(String email) {
 		super();
 		this.email = email;
 	}

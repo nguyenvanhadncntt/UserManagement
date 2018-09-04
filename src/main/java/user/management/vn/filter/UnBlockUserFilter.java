@@ -43,11 +43,13 @@ public class UnBlockUserFilter extends GenericFilterBean {
 			User user = userService.getUserByEmail(email);
 			if (user != null) {
 				BlockUser blockUser = user.getBlockUser();
-				if (blockUser != null) {
+				if (!user.getNonLocked()) {
 					Date now = new Date();
 					Date expireTimeBlock = blockUser.getBlockTime();
 					if (expireTimeBlock.getTime() < now.getTime()) {
 						blockUserService.deleteBlockUser(blockUser.getId());
+						user.setNonLocked(true);
+						userService.saveUser(user);
 					}
 				}
 			}
