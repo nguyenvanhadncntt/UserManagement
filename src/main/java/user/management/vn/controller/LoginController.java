@@ -31,7 +31,7 @@ public class LoginController {
 			request.getSession().removeAttribute("error");
 			model.addAttribute("error", error);
 		}
-		return "login";
+		return "login-page";
 	}
 
 	/**
