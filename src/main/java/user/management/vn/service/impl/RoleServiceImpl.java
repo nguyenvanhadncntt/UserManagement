@@ -20,13 +20,13 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
-	
+  
 	@Autowired
 	private GroupRoleRepository groupRoleRepository;
 	
 	@Autowired
 	private UserRoleRepository userRoleRepository;
-	
+
 	/**
 	* @summary return list of all role in database
 	* @date Aug 15, 2018

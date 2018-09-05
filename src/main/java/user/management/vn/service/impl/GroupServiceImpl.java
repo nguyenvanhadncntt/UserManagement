@@ -60,7 +60,7 @@ public class GroupServiceImpl implements GroupService {
 		if (!groupOptional.isPresent()) {
 			throw new GroupNotFoundException("Group Not found!!!");
 		}
-		if (!userOptional.isPresent()) {
+		if (!userOptional.isPresent() || !userOptional.get().getNonDel()) {
 			throw new UserNotFoundException("User Not found!!!");
 		}
 		boolean checkExist = userGroupRepository.existsByGroupIdAndUserId(groupId, userId);
