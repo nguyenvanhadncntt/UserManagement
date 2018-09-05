@@ -26,7 +26,8 @@ public class H2Config {
 	public DataSource dataSource() {
 		EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 		EmbeddedDatabase db = builder.setType(EmbeddedDatabaseType.H2).addScript("db/test/table.sql")
-				.addScript("db/test/data.sql").build();
+				.addScript("db/test/data.sql")
+				.build();
 		return db;
 	}
 }

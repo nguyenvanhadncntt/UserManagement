@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="role")
 public class Role {
@@ -35,7 +37,7 @@ public class Role {
 	@Column(name = "description",nullable = true)
 	private String description;
 
-	@Column(name="created_at",nullable=false)
+	@Column(name="created_at",nullable=false,columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;
@@ -43,9 +45,12 @@ public class Role {
 	@Column(name = "scope",nullable = false)
 	private String scope;
 	
+
+//	@JsonIgnoreProperties({"user"})
 	@OneToMany(mappedBy = "role")
 	private List<UserRole> userRoles;
 
+	@JsonIgnoreProperties({"role"})
 	@OneToMany(mappedBy = "role")
 	private List<GroupRole> groupRoles;
 
@@ -144,3 +149,4 @@ public class Role {
 	}
 
 }
+
