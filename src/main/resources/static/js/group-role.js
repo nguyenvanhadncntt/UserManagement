@@ -1,6 +1,7 @@
 loadTable();
 var listRoleData;
-$(document).ready(function(){
+$(window).load(function(){
+	checkAll();
 	$('#delete-all').on('click',function(){
 		deleteAll();
 	});
@@ -59,17 +60,20 @@ function loadTable(){
 		success: function(data){
 			$.each(data,function(i,role){
 				listItem=[];
-				listItem.push('<input type="checkbox" class="checkbox-delete flat" value="'+role.id+'" />')
+				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
+						+'<input type="checkbox" value="'+role.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
+						+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+						+'</ins></div>');
 				listItem.push(role.id);
 				listItem.push(role.roleName);
 				listItem.push(role.description);
 				listItem.push(role.createdAt);
-				
-				listItem.push('<img style="margin:0% 35%;cursor:pointer" alt="view Icon" src="/images/view-infor.png" width="25px" height="25px" onclick="viewUserInfor('+role.id+')" />')
-				listItem.push('<img style="margin:0% 35%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+role.id+')" />');
+				listItem.push('<img style="margin:0% 16%;cursor:pointer" alt="view Icon" src="/images/icon-view.png" width="25px" height="25px" onclick="viewUserInfor('+role.id+')" />'
+						+'<img style="margin:0% 16%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+role.id+')" />');
 				listRole.push(listItem);
 			});
 			showOnDataTable(listRole);
+			checkBox();
 		},
 		error: function(error){
 			console.log(error);
@@ -106,6 +110,21 @@ function removeUser(roleId){
 			}
 		});
 	}
+}
+
+function checkAll(){
+	ins = $('#check-all').parent().children('ins');
+	ins.on('click',function(){
+		$.each($('.icheckbox_flat-green'),function(i,tag){
+				if(ins.parent().hasClass('checked')){
+					$(tag).addClass('checked');
+				}else{
+					$(tag).removeClass('checked');
+				}
+				parent = $(tag).parent();
+				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
+			});
+		});
 }
 
 function showMessage(tagId,msg,isSuccess){
@@ -145,6 +164,20 @@ function viewUserInfor(id){
 				showMessage('nofitication',res.responseText,false);
 			}
 		}
+	});
+}
+
+function checkBox(){
+	$.each($('.icheckbox_flat-green'),function(i,tag){
+		$(tag).on('click',function(){
+			if(!$(this).hasClass('checked')){
+				$(this).addClass('checked');
+			}else{
+				$(this).removeClass('checked');
+			}
+			parent = $(this).parent();
+			parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
+		});
 	});
 }
 

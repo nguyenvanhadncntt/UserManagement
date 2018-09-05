@@ -21,7 +21,6 @@ function customDate(createdAt) {
 	return datestring;
 }
 function viewProfile() {
-	
 	var URL = '/my-profile';
 	$.ajax({
 		url : URL,

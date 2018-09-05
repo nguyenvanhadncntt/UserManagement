@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Meta, title, CSS, favicons, etc. -->
@@ -48,14 +46,14 @@
 <body class="nav-md">
 	<div class="container body">
 		<div class="main_container">
-			<div th:replace="common/left-side-bar :: sider-bar" ></div>
+			<div th:replace="common/left-side-bar :: sider-bar"></div>
 			<!-- page content -->
 			<div class="right_col" role="main">
 				<div class="">
 					<div class="page-title">
 						<div class="title_left">
 							<h3>
-								Users <small>Some examples to get you started</small>
+								Role In Group Manage
 							</h3>
 						</div>
 
@@ -79,7 +77,6 @@
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
 								<div class="x_title">
-<!-- a-->
 									<div>
 										<div class="float-left button-css">
 											<button type="button" class="btn btn-primary"
@@ -94,52 +91,6 @@
 															<h5 class="modal-title" id="exampleModalLabel">ADD
 																NEW ROLE</h5>
 															<div id="alert" class="alert"></div>
-<!-- a-->
-									<h2>
-										Group Manage
-									</h2>
-									<ul class="nav navbar-right panel_toolbox">
-										<li><a class="collapse-link"><i
-												class="fa fa-chevron-up"></i></a></li>
-										<li class="dropdown"><a href="#" class="dropdown-toggle"
-											data-toggle="dropdown" role="button" aria-expanded="false"><i
-												class="fa fa-wrench"></i></a>
-											<ul class="dropdown-menu" role="menu">
-												<li><a href="#">Settings 1</a></li>
-												<li><a href="#">Settings 2</a></li>
-											</ul></li>
-										<li><a class="close-link"><i class="fa fa-close"></i></a>
-										</li>
-									</ul>
-									<div class="clearfix"></div>
-								</div>
-								<div class="x_content">
-									<!-- <button type="button" class="btn btn-primary"
-										data-toggle="modal" data-target="#addModal">Add
-										New Group</button>
-										<button id="getCheckBoxButton"> Delete List</button>
-
-									<div class="modal fade" id="addModal" tabindex="-1"
-										role="dialog" aria-labelledby="exampleModalLabel"
-										aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Add new
-														Group</h5>
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<div class="btn btn-primary pull-right add-compelete">add
-														new a group</div>
-														<div class="alert alert-success error-add" ></div>
-													<form id="form-add-group">
-														<div class="form-group">
-															<label for="name" class="col-form-label">Name</label> <input
-																type="text" class="form-control" name="name">
 														</div>
 														<div class="modal-body">
 															<form id="add_role" autocomplete="off">
@@ -154,7 +105,7 @@
 															<button type="button" class="btn btn-secondary"
 																data-dismiss="modal">Close</button>
 															<button type="submit" form="add_role" id="addRole"
-																class="btn btn-primary">Save User</button>
+																class="btn btn-primary">Save Role</button>
 														</div>
 													</div>
 												</div>
@@ -175,8 +126,7 @@
 												<th>Name</th>
 												<th>Description</th>
 												<th>Created Date</th>
-												<th>View More</th>
-												<th>Delete</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 
@@ -315,4 +265,3 @@
 	<script src="/js/group-role.js"></script>
 </body>
 </html>
-
