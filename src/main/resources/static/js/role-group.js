@@ -52,7 +52,7 @@ function loadTable(){
 	var listUser=[];
 	$.ajax({
 		type:'GET',
-		url:'/api/roles/sys',
+		url:'/api/roles/groups',
 		success: function(data){
 			$.each(data,function(i,role){
 				listItem=[];
@@ -109,9 +109,10 @@ function showInfor(roleId){
 			$('#id').val(data.id);
 			$('#roleNameEdit').val(data.roleName);
 			$('#desEdit').val(data.description);
+			console.log(data);
 		},
 		error: function(res){
-			showMessage('nofitication',res.responseText,true);
+			console.log(res);
 		}
 	});
 }
@@ -149,16 +150,16 @@ function viewUserHasRole(roleId){
 		type:'get',
 		url:'/api/roles/'+roleId,
 		success: function(data){
-			$('#modelTitle').text('User Has Role: '+data.roleName);
+			console.log(data);
+			$('#modelTitle').text('Group Has Role: '+data.roleName);
 			listUser = []; 
-			data.userRoles.forEach(function(userRole,i){
+			data.groupRoles.forEach(function(roleGroup,i){
 				list=[];
-				list.push(userRole.user.userDetail.fullname);
-				list.push(userRole.user.email);
-				list.push(userRole.user.userDetail.phone);
-				list.push(userRole.user.userDetail.address);
-				list.push(userRole.user.userDetail.birthDay);
-				list.push(userRole.user.userDetail.gender?'Female':'Male');
+				list.push(roleGroup.group.name);
+				list.push(roleGroup.group.description);
+				date = new Date(roleGroup.group.createdAt)
+				createdAt = ((date.getMonth()+1)<10?('0'+(date.getMonth()+1)):(date.getMonth()+1))+"/"+(date.getDate()<10?('0'+date.getDate()):date.getDate())+"/"+date.getFullYear()
+				list.push(createdAt);
 				listUser.push(list);
 			}); 
 			

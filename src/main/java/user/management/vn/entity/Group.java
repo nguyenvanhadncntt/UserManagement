@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -25,12 +26,14 @@ public class Group {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank(message="You must not blank")
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "non_del",nullable = false,columnDefinition="TINYINT(1) default 1")
 	private Boolean nonDel = true;
 
+	@NotBlank(message="You must not blank")
 	@Column(name = "description", nullable = true)
 	private String description;
 
@@ -50,13 +53,13 @@ public class Group {
 	public Group() {
 		super();
 	}
-
-	public Group(String name, String describe) {
+	public Group(String name, String description) {
 		super();
 		this.name = name;
-		this.description = describe;
+		this.description = description;
 	}
 	
+
 	public Group(Long id, String name, Boolean nonDel, String description, Date createdAt, List<GroupRole> groupRoles,
 			List<UserGroup> userGroups) {
 		super();

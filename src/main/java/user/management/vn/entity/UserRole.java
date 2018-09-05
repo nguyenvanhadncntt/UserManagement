@@ -21,7 +21,7 @@ public class UserRole {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JsonIgnoreProperties("userRoles")
+	@JsonIgnoreProperties({"userRoles",})
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_role"))
 	private User user;

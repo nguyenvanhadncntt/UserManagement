@@ -128,8 +128,13 @@ public class GroupApiController {
 	 * @return ResponseEntity<Object>
 	 */
 	@PostMapping
-	public ResponseEntity<Object> createGroup(@RequestBody Group group) {
-		groupService.addGroup(group);
+	public ResponseEntity<Object> createGroup(@Valid @RequestBody Group group, BindingResult result) {
+		if (result.hasErrors()) {
+			String fieldName = result.getFieldError().getField();
+			String message = result.getFieldError().getDefaultMessage();
+			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
+		}
+		Group groupNew = groupService.addGroup(group);
 		return new ResponseEntity<>("Create group successful", HttpStatus.CREATED);
 	}
 
@@ -142,17 +147,42 @@ public class GroupApiController {
 	 * @return ResponseEntity<Object>
 	 */
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> updateGroup(@RequestBody Group group, @PathVariable("id") long id) {
+	public ResponseEntity<Object> updateGroup(@PathVariable("id") long id,@Valid @RequestBody Group group,
+			 BindingResult result) {
+		if (result.hasErrors()) {
+			String fieldName = result.getFieldError().getField();
+			String message = result.getFieldError().getDefaultMessage();
+			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
+		}
 		Optional<Group> groupOptional = groupService.viewGroup(id);
 		if (!groupOptional.isPresent()) {
 			return new ResponseEntity<>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
+		group.setCreatedAt(groupOptional.get().getCreatedAt());
 		group.setUserGroups(groupOptional.get().getUserGroups());
 		group.setGroupRoles(groupOptional.get().getGroupRoles());
 		group.setId(id);
 		groupService.saveGroup(group);
 		return new ResponseEntity<>("Update group successful", HttpStatus.OK);
 
+	}
+	/**
+	 * 
+	* @summary delete list group
+	* @date Aug 30, 2018
+	* @author Tai
+	* @param listIdWapper
+	* @return
+	* @return ResponseEntity<Object>
+	 */
+	@DeleteMapping
+	public ResponseEntity<Object> deleteListGroup(@RequestBody ListIdWrapper listIdWapper){
+		List<Long> groupIdList= listIdWapper.getIds();
+		Integer result = groupService.deleteListGroup(groupIdList);
+		if (result==0) {
+			return new ResponseEntity<>("Not list", HttpStatus.BAD_REQUEST);
+		}
+		return new ResponseEntity<>("Deleted list group successful", HttpStatus.OK);
 	}
 
 	/**
