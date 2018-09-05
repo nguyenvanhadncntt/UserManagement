@@ -69,7 +69,6 @@ function removeUser(userId) {
 			type:'delete',
 			complete: function(res){
 			if(res.status===200){
-				console.log("hihihi");
 				showMessage('notification',res.responseText,true);
 			}else{
 				showMessage('notification',res.responseText,false);
