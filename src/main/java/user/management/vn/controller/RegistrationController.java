@@ -66,7 +66,7 @@ public class RegistrationController {
 	 * @param model
 	 * @return String
 	 */
-	@GetMapping(path="registerAccount")
+	@GetMapping(path="/registerAccount")
 	public String showRegisterPage() {		
 		return "add-user";
 	}
@@ -80,11 +80,10 @@ public class RegistrationController {
 	 * @return ResponseEntity<String>
 	 */
 	
-	@PostMapping(path="registerAccount")	
+	@PostMapping(path="/registerAccount")	
 	public  ResponseEntity<Object> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult result) {
 		  UserDTOResponse userDTOResponse = new UserDTOResponse();		  
 	      if(result.hasErrors()){          
-	    	  
 	          Map<String, String> errors = result.getFieldErrors().stream()
 	                .collect(
 	                      Collectors.toMap(FieldError::getField, ObjectError::getDefaultMessage)	                     

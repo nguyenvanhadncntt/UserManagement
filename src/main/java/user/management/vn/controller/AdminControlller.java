@@ -27,7 +27,7 @@ public class AdminControlller {
 	}
 	
 
-	@GetMapping("/user/show-all")
+	@GetMapping("/users")
 	public String showAllUser() {
 		return "user";
 	}

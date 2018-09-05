@@ -20,36 +20,8 @@ td {
 	padding: 0;
 	margin-top: 30%;
 }
-<<<<<<< HEAD
 
-.modal-body {
-	padding: 0 0 5px 0;
-}
-
-html {
-	margin: 40px auto;
-	text-align: center;
-}
-
-.btn-googleplus {
-	background: #E93F2E;
-	border-radius: 0;
-	color: #fff;
-	border-width: 1px;
-	border-style: solid;
-	border-color: #b72213;
-}
-
-.btn-googleplus:link, .btn-googleplus:visited {
-	color: #fff;
-}
-
-.btn-googleplus:active, .btn-googleplus:hover {
-	background: #b72213;
-	color: #fff;
-}
-=======
-.modal-body{
+/* modal-body{
 	padding:0 0 5px 0;
 }
 .tooltip {
@@ -67,13 +39,10 @@ html {
     border-radius: 6px;
     padding: 5px 0;
 
-    /* Position the tooltip */
     position: absolute;
     z-index: 1;
 }
 
 .tooltip:hover .tooltiptext {
     visibility: visible;
-}
-</style>
->>>>>>> d5795a287b1bd13a8b8a27421027a500a7272a22
+}*/
