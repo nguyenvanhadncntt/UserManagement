@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,7 +22,7 @@ public class TokenVerifition {
 	private Long id;
 
 	@OneToOne
-	@JoinColumn(name = "user_id", unique = true, nullable = false, foreignKey = @ForeignKey(name = "ref_user_token"))
+	@JoinColumn(name = "user_id", unique = true, nullable = false)
 	private User user;
 
 	@Column(name = "token_code", nullable = false)

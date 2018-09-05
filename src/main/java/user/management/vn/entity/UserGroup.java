@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,11 +24,11 @@ public class UserGroup {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_group"))
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name = "group_id", nullable = false,foreignKey=@ForeignKey(name="ref_group_user"))
+	@JoinColumn(name = "group_id", nullable = false)
 	private Group group;
 
 	@Temporal(TemporalType.TIMESTAMP)

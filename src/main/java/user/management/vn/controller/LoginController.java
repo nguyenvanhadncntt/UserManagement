@@ -9,8 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import user.management.vn.util.RoleSystem;
-
 @Controller
 public class LoginController {
 
@@ -42,12 +40,9 @@ public class LoginController {
 	 * @author Thehap Rok
 	 * @return String
 	 */
-	@GetMapping(path = "/home")
+	@GetMapping(path = {"/","/home"})
 	public String home() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		boolean isAdmin = authentication.getAuthorities().stream()
-		          .anyMatch(r -> r.getAuthority().equals(RoleSystem.ADMIN));
-		
 		return "user-home";
 	}
+	
 }

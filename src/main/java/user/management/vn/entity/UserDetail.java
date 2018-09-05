@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -49,7 +48,7 @@ public class UserDetail {
 	private Date createdAt;
 
 	@OneToOne(optional = false)
-	@PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name="ref_user_detail"))
+	@PrimaryKeyJoinColumn
 	private User user;
 
 	public UserDetail() {

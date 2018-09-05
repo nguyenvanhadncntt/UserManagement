@@ -8,6 +8,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Group;
@@ -18,6 +20,7 @@ import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
+import user.management.vn.entity.dto.UserDTOEdit;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.RoleNotFoundException;
 import user.management.vn.exception.UserAlreadyRoleException;
@@ -46,6 +49,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * @summary get all user of group from database
@@ -119,6 +125,7 @@ public class UserServiceImpl implements UserService {
 	 * @param userDTO
 	 * @return User
 	 */
+	@Modifying
 	@Override
 	public User addUser(UserDTO userDTO) {
 		User user = convertUserDtoToUser(userDTO);
@@ -170,14 +177,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	/**
-	 * @summary return list of all user from database
+	 * @summary return list of all user not deleted from database
 	 * @date Aug 15, 2018
 	 * @author ThaiLe
 	 * @return List<UserResponse>
 	 */
 	@Override
 	public List<UserResponse> getAllUsers() {
-		List<User> listUser = userRepository.findAll();
+		List<User> listUser = userRepository.findAllUserNotDeleted();
 		return convertUserToUserResponse(listUser);
 	}
 	
@@ -247,7 +254,7 @@ public class UserServiceImpl implements UserService {
 		UserDetail userDetail = new UserDetail(userDTO.getFullname(), userDTO.getPhone(), userDTO.getAddress(),
 				userDTO.getGender(), userDTO.getBirthday());
 		user.setEmail(userDTO.getEmail());
-		user.setPassword(userDTO.getPassword());
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		userDetail.setUser(user);
 		user.setUserDetail(userDetail);
 		return user;
@@ -320,9 +327,9 @@ public class UserServiceImpl implements UserService {
 		User user = userOptional.get();
 		boolean checkUserRole = userRoleRepository.existsByUserIdAndRoleId(userId, roleId);
 		if(checkUserRole) {
-			throw new UserAlreadyRoleException("User already :"+role.getRoleName());
+			return new UserRole();
 		}
-		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId,roleId);
+		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId);
 		UserRole userRole = new UserRole(user, role);
 		return userRoleRepository.save(userRole);
 	}
@@ -416,6 +423,60 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User editUser(User objUser) {
 		return userRepository.save(objUser);
+	}
+
+	@Override
+	public boolean removeUsers(List<Long> userIds) {
+		for (Long id_user : userIds) {
+			deleteUserById(id_user);
+		}
+		return true;
+	}
+
+	@Override
+	public User addUser(UserDTO userDTO, boolean enable) {
+		User user = this.convertUserDtoToUser(userDTO, enable);
+		System.out.println(user.getEmail() + ", " + user.getPassword());
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User convertUserDtoToUser(UserDTO userDTO, boolean enable) {
+		User user = new User();
+		UserDetail userDetail = new UserDetail(userDTO.getFullname(), userDTO.getPhone(), userDTO.getAddress(),
+				userDTO.getGender(), userDTO.getBirthday());
+		user.setEmail(userDTO.getEmail());
+		user.setEnable(enable);
+		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		userDetail.setUser(user);
+		user.setUserDetail(userDetail);
+		System.out.println("convert: " + user.getEmail() + user.getUserDetail().getFullname());
+		return user;
+	}
+
+	@Override
+	public User editUser(UserDTOEdit userResponse) {
+		User user = this.convertUserDTOEditToUser(userResponse);
+		System.out.println(user.getEmail() + ", " + user.getPassword());
+		return userRepository.save(user);
+	}
+
+	private User convertUserDTOEditToUser(UserDTOEdit userResponse) {
+		User user = userRepository.findByEmail(userResponse.getEmail()).get();
+		UserDetail userDetail = new UserDetail(userResponse.getFullname(), userResponse.getPhone(), userResponse.getAddress(),
+				userResponse.getGender(), userResponse.getBirthday());
+		userDetail = user.getUserDetail();
+		userDetail.setFullname(userResponse.getFullname());
+		userDetail.setPhone(userResponse.getPhone());
+		userDetail.setGender(userResponse.getGender());
+		userDetail.setBirthDay(userResponse.getBirthday());
+		userDetail.setAddress(userResponse.getAddress());
+		user.setEnable(userResponse.getEnable());
+		user.setNonLocked(userResponse.getNonLocked());
+		userDetail.setUser(user);
+		user.setUserDetail(userDetail);
+		System.out.println("convert: " + user.getEmail() + user.getUserDetail().getFullname());
+		return user;
 	}
 
 }
