@@ -2,6 +2,9 @@ var idEdit;
 loadTable();
 
 $(window).load(function(){
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
 	checkAll();
 	$('#add_role').submit(function(e){
 		newRole = $('#add_role').serializeJSON();

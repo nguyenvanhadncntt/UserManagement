@@ -171,7 +171,9 @@ function checkAll(){
 $(window).load(function(){
 	checkAll();
 	getGroups();
-
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
 	$('#getCheckBoxButton').on('click', function(event) {
 		if ($('input[type="checkbox"]:checked').length == 0) {
 			alert("You have not checked");

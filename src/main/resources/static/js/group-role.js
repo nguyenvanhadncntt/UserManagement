@@ -1,6 +1,9 @@
 loadTable();
 var listRoleData;
 $(window).load(function(){
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
 	checkAll();
 	$('#delete-all').on('click',function(){
 		deleteAll();
