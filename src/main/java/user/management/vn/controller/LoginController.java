@@ -42,6 +42,13 @@ public class LoginController {
 	 */
 	@GetMapping(path = "/home")
 	public String home() {
+<<<<<<< HEAD
+=======
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		boolean isAdmin = authentication.getAuthorities().stream()
+		          .anyMatch(r -> r.getAuthority().equals(RoleSystem.ADMIN));
+		
+>>>>>>> d5795a287b1bd13a8b8a27421027a500a7272a22
 		return "user-home";
 	}
 	

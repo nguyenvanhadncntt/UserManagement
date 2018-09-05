@@ -52,6 +52,7 @@ public class FailureLoginHandler extends SimpleUrlAuthenticationFailureHandler {
 			}
 			if (objUser.getNonLocked()) {
 				BlockUser blockUser = objUser.getBlockUser();
+				
 				if (blockUser == null) {
 					BlockUser newBlockuser = new BlockUser(objUser, null, 1);
 					objUser.setBlockUser(newBlockuser);

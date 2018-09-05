@@ -28,6 +28,7 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
 import user.management.vn.entity.UserGroup;
 import user.management.vn.entity.UserRole;
+import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserResponse;
 import user.management.vn.exception.UserAlreadyRoleException;
 import user.management.vn.exception.UserNotFoundException;
@@ -259,6 +260,6 @@ public class UserServiceImplTest {
 		userService.upgradeUserRole(userId,1l);
 	}
 	
-	
+
 	
 }

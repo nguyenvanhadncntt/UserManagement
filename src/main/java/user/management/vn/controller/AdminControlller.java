@@ -26,8 +26,27 @@ public class AdminControlller {
 		return "role-sys";
 	}
 	
+
+	@GetMapping("/user/show-all")
+	public String showAllUser() {
+		return "user";
+	}
+	
+	@GetMapping("/user/edit/{userId}")
+	public String editUser(@PathVariable Long userId, Model model) {
+		model.addAttribute("id_user", userId);
+		return "edit-user";
+	}
+	
+	@GetMapping("/user/view/{userId}")
+	public String viewUser(@PathVariable Long userId, Model model) {
+		model.addAttribute("id_user", userId);
+		return "view-user";
+	}	
+
 	@GetMapping("/roles/group")
 	public String showRoleGroup() {
 		return "role-group";
 	}
+
 }
