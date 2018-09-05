@@ -100,10 +100,7 @@ public class RegistrationController {
 		}else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
-			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
-			userModel.setPassword(passwordEncode);
 			try {
-
 				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
