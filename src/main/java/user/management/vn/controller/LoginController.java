@@ -47,9 +47,7 @@ public class LoginController {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		boolean isAdmin = authentication.getAuthorities().stream()
 		          .anyMatch(r -> r.getAuthority().equals(RoleSystem.ADMIN));
-		if(isAdmin) {
-			return "admin-home";
-		}
+		
 		return "user-home";
 	}
 }

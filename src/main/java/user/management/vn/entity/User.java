@@ -53,7 +53,7 @@ public class User implements Serializable{
 	private TokenVerifition tokenVerifition;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user",cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToOne(mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval=true)
 	private BlockUser blockUser;
 
 	@JsonIgnore

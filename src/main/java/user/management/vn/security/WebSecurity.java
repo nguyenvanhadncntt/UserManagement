@@ -42,7 +42,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		http.headers().frameOptions().sameOrigin();
-
 		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd,
 		// /change-password auto permit
 		// and request to url other must authen
@@ -54,7 +53,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		
 		http.authorizeRequests().antMatchers("/home").authenticated().antMatchers("/admin/**").hasAuthority("ADMIN").and().authorizeRequests().anyRequest().authenticated();
 
-//		http.authorizeRequests().antMatchers("/user/**").authenticated();
+		http.authorizeRequests().antMatchers("/user/**").authenticated();
 
 		// add filter for check time to unblock user
 		http.authorizeRequests().and()
