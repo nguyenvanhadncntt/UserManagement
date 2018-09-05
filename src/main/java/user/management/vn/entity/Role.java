@@ -37,12 +37,7 @@ public class Role {
 	@Column(name = "description",nullable = true)
 	private String description;
 
-<<<<<<< HEAD
 	@Column(name="created_at",nullable=false,columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
-=======
-	@Column(name="created_at",nullable=false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
-
->>>>>>> d5795a287b1bd13a8b8a27421027a500a7272a22
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;
