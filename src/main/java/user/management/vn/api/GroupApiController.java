@@ -134,7 +134,7 @@ public class GroupApiController {
 			String message = result.getFieldError().getDefaultMessage();
 			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
 		}
-		Group groupNew = groupService.addGroup(group);
+		groupService.addGroup(group);
 		return new ResponseEntity<>("Create group successful", HttpStatus.CREATED);
 	}
 

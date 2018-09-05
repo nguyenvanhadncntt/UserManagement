@@ -1,21 +1,49 @@
-.btn-primary{
+.btn-primary {
 	background-color: #3985c7;
 	border-color: #3279b7;
 }
-#alert, #nofitication, #alert_edit{
-	display:none;
-	margin:0;
+
+#alert, #nofitication, #alert_edit {
+	display: none;
+	margin: 0;
 }
-.button-css{
-	width:14%;
+
+.button-css {
+	width: 14%;
 }
+
 .btn-danger {
-    background-color: #d9534f;
+	background-color: #d9534f;
 }
-td{
-	padding:0;
+
+td {
+	padding: 0;
 	margin-top: 30%;
 }
-.modal-body{
-	padding:0 0 5px 0;
+
+.modal-body {
+	padding: 0 0 5px 0;
+}
+
+html {
+	margin: 40px auto;
+	text-align: center;
+}
+
+.btn-googleplus {
+	background: #E93F2E;
+	border-radius: 0;
+	color: #fff;
+	border-width: 1px;
+	border-style: solid;
+	border-color: #b72213;
+}
+
+.btn-googleplus:link, .btn-googleplus:visited {
+	color: #fff;
+}
+
+.btn-googleplus:active, .btn-googleplus:hover {
+	background: #b72213;
+	color: #fff;
 }

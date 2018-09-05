@@ -4,7 +4,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,6 @@ public class BlockUser {
 
 	@OneToOne
 	@JoinColumn(name = "user_id", 
-				foreignKey = @ForeignKey(name = "ref_blockuser_user"), 
 				unique = true, 
 				nullable = false)
 	private User user;
