@@ -37,9 +37,9 @@ public class GroupServiceImpl implements GroupService {
 	private UserRepository userRepository;
 
 	@Autowired
-
 	private GroupRoleRepository groupRoleRepository;
 
+	@Autowired
 	private UserRoleRepository userRoleRepository;
 
 	@Autowired
@@ -222,7 +222,9 @@ public class GroupServiceImpl implements GroupService {
 	public Optional<Group> deleteGroup(Long groupId) {
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 		group.get().setNonDel(false);
+		
 		groupRoleRepository.deleteByGroupId(groupId);
+		userGroupRepository.deleteUserGroupByGroupId(groupId);
 
 		return Optional.ofNullable(groupRepository.save(group.get()));
 	}
@@ -255,6 +257,8 @@ public class GroupServiceImpl implements GroupService {
 		for (Long groupId : groupIds) {
 			Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 			group.get().setNonDel(false);
+			groupRoleRepository.deleteByGroupId(groupId);
+			userGroupRepository.deleteUserGroupByGroupId(groupId);
 			groupRepository.save(group.get());
 			
 		}

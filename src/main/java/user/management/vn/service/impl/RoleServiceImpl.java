@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Role;
+import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.RoleRepository;
+import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.RoleService;
 import user.management.vn.wrapper.ListIdWrapper;
 
@@ -18,6 +20,12 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleRepository roleRepository;
+	
+	@Autowired
+	private GroupRoleRepository groupRoleRepository;
+	
+	@Autowired
+	private UserRoleRepository userRoleRepository;
 	
 	/**
 	* @summary return list of all role in database
@@ -59,6 +67,8 @@ public class RoleServiceImpl implements RoleService {
 		if(!optionalRole.isPresent()) {
 			return false;
 		}
+		userRoleRepository.deleteUserRoleByRoleId(id);
+		groupRoleRepository.deleteByRoleId(id);
 		roleRepository.deleteRole(id);
 		return true;
 	}
