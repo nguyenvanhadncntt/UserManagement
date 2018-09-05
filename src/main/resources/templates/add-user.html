@@ -480,12 +480,12 @@
 					complete : function(response) {
 						if(response.status===200){
 							showMessage('notification-addUser',response.responseText, true);
-						}else if(response.status===400){
+						}else if(response.status===400 && response.responseJSON.validated===false){
 							console.log(response);
 			                $.each(response.responseJSON.errorMessages,function(key,value){
 			    	            $('input[name='+key+']').after('<span style="color: red;">'+value+'</span>');
 			                });
-						}else if(response.status===409){							
+						}else {							
 							showMessage('notification-addUser',response.responseText, false);
 						}			
 					}

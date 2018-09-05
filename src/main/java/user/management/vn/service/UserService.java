@@ -220,9 +220,6 @@ public interface UserService {
 	* @param enable
 	* @return User
 	 */
-	
-	/**
-	 */
 	User addUser(UserDTO userDTO, boolean enable);
 	
 	/**
@@ -235,6 +232,15 @@ public interface UserService {
 	* @return User
 	 */
 	User convertUserDtoToUser(UserDTO userDTO, boolean enable);
+	
+	/**
+	* @summary admin edit User
+	* @date Sep 4, 2018
+	* @author ThaiLe
+	* @param userResponse
+	* @return
+	* @return User
+	 */
 	public User editUser(UserDTOEdit userResponse);
 
 }

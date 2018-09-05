@@ -327,9 +327,9 @@ public class UserServiceImpl implements UserService {
 		User user = userOptional.get();
 		boolean checkUserRole = userRoleRepository.existsByUserIdAndRoleId(userId, roleId);
 		if(checkUserRole) {
-			throw new UserAlreadyRoleException("User already :"+role.getRoleName());
+			return new UserRole();
 		}
-		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId,roleId);
+		userRoleRepository.deleteByUserIdAndRoleIdOfSystem(userId);
 		UserRole userRole = new UserRole(user, role);
 		return userRoleRepository.save(userRole);
 	}

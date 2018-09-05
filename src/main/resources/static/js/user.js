@@ -17,11 +17,11 @@ function loadTable(){
 				listItem.push(user.id);
 				listItem.push(user.email);
 				listItem.push(user.fullname);
-				listItem.push(user.birthday);
 				listItem.push((user.gender===true)?'Female':'Male');
 				listItem.push(user.address);
 				listItem.push(user.phone);
-				listItem.push('<img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />' +
+				listItem.push('<a alt="view" href="/admin/user/view/'+ user.id + '"><img style="margin:0 5%;cursor:pointer"  src="/images/icon-view.png" width="25px" height="25px"  /></a>' +
+						'<img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />' +
 						'<a href="/admin/user/edit/' + user.id + '"><img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" /></a>');
 				listUser.push(listItem)
 			});
@@ -106,12 +106,12 @@ function addUser() {
 		complete : function(response) {
 			if(response.status===200){
 				showMessage('notification-addUser',response.responseText, true);
-			}else if(response.status===400){
+			}else if(response.status===400 && response.responseJSON.validated===false){
 				console.log(response);
                 $.each(response.responseJSON.errorMessages,function(key,value){
     	            $('input[name='+key+']').after('<span style="color: red;">'+value+'</span>');
                 });
-			}else if(response.status===409){
+			}else {
 				showMessage('notification-addUser',response.responseText, false);
 			}			
 		}

@@ -30,13 +30,9 @@ import user.management.vn.entity.dto.UserDTOEdit;
 import user.management.vn.entity.response.UserDTOResponse;
 import user.management.vn.entity.response.UserEditResponse;
 import user.management.vn.entity.response.UserResponse;
-<<<<<<< HEAD
 import user.management.vn.exception.GroupNotFoundException;
-import user.management.vn.exception.UserAlreadyAdminException;
-=======
 import user.management.vn.exception.RoleNotFoundException;
 import user.management.vn.exception.UserAlreadyRoleException;
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.UserRoleService;
@@ -156,7 +152,6 @@ public class UserApiController {
 	 * @return ResponseEntity<String>
 	 */
 	@PutMapping
-<<<<<<< HEAD
 	public ResponseEntity<Object> editUser(@Valid @RequestBody UserDTOEdit userResponse, BindingResult result) {
 		  UserEditResponse userEditResponse = new UserEditResponse();	
 		   
@@ -169,47 +164,22 @@ public class UserApiController {
 	          userEditResponse.setValidated(false);
 	          userEditResponse.setErrorMessages(errors); 
 	          return new ResponseEntity<Object>(userEditResponse, HttpStatus.BAD_REQUEST);
-	       }else {
+	       }else {	    	   
 		   		User oldUser = userService.getUserByEmail(userResponse.getEmail());
-				if (oldUser == null) {
+				if (oldUser == null) {					
 					return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
 				}
-				userService.editUser(userResponse);
+				User user = userService.editUser(userResponse);
+				try {
+					userService.upgradeUserRole(user.getId(),userResponse.getId_role());
+				} catch (UserNotFoundException e) {
+					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+				} catch(RoleNotFoundException e) {
+					return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+				}
 		   		return new ResponseEntity<Object>("Edit user sucessfully", HttpStatus.OK);		   		
 	       }
-=======
-	public ResponseEntity<String> editUser(@Valid @RequestBody UserDTO userDTO) {
-		User oldUser = userService.getUserByEmail(userDTO.getEmail());
-		if (oldUser == null) {
-			return new ResponseEntity<String>("User not found", HttpStatus.NOT_FOUND);
-		}
-		userService.updateUser(userDTO);
-		return new ResponseEntity<>("Edit user successfully", HttpStatus.OK);
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 	}
-
-	/**
-	 * @summary user register
-	 * @date Aug 23, 2018
-	 * @author Thehap Rok
-	 * @param userDTO
-	 * @param rs
-	 * @return ResponseEntity<String>
-	 */
-	@PostMapping(path = "/registration")
-	public ResponseEntity<String> registerUserAccount(@Valid @RequestBody UserDTO userDTO, BindingResult rs) {
-		if (rs.hasErrors()) {
-			System.out.println(rs.getAllErrors().toString());
-			return new ResponseEntity<String>("You must complete all infor", HttpStatus.BAD_REQUEST);
-		}
-		if (userService.checkDuplicateEmail(userDTO.getEmail())) {
-			return new ResponseEntity<String>("Email is existed", HttpStatus.CONFLICT);
-		}
-		System.out.println(userDTO.getPhone() + ", " + userDTO.getPassword() + ", " + userDTO.getEmail());
-		userService.addUser(userDTO);
-		return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
-	}
-
 	/**
 	 * @summary upgrade user to admin
 	 * @date Aug 17, 2018

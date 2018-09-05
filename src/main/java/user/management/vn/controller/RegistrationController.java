@@ -133,11 +133,8 @@ public class RegistrationController {
 	 * @return ResponseEntity<String>
 	 */
 	@GetMapping(path="activeAccount")
-<<<<<<< HEAD
-	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token") String registCode,Model model) throws MessagingException {
-=======
 	public  ResponseEntity<String> activeAccount(HttpServletRequest request, @RequestParam("token")String registCode,Model model) throws MessagingException {
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
+
 		TokenVerifition tokenVerification = tokenVerificationService.findTokenByTokenCode(registCode);
 		if(tokenVerification == null) {
 			return new ResponseEntity<String>("Token is not true", HttpStatus.NOT_FOUND);
@@ -165,14 +162,8 @@ public class RegistrationController {
 				}else {
 					return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
 				}
-			}
-			//userService.autoLogin(request, user.getEmail(), user.getPassword());
-			//model.addAttribute("msg","Your account active successful !!!");
-			//return "activeAccount";
-			
-		}		
-		//model.addAttribute("msg","Regist code not exist check your mail agian !!!");
-		//return "activeAccount";
+			}			
+		}	
 	    return new ResponseEntity<>("Active user fail", HttpStatus.BAD_REQUEST);
 	}
 	

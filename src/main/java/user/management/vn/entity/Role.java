@@ -38,11 +38,8 @@ public class Role {
 	@Column(name = "description",nullable = true)
 	private String description;
 
-<<<<<<< HEAD
 	@Column(name="created_at",nullable=false, columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
-=======
-	@Column(name="created_at",nullable=false)
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;
@@ -153,8 +150,5 @@ public class Role {
 		this.groupRoles = groupRoles;
 	}
 
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
+

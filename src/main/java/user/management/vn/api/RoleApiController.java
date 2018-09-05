@@ -79,9 +79,6 @@ public class RoleApiController {
 	 * @return
 	 * @return ResponseEntity<Object>
 	 */
-<<<<<<< HEAD
-
-=======
 	@GetMapping("/group")
 	public ResponseEntity<Object> getAllRoleScopeGroup() {
 		List<Role> listRole = roleService.getListRoleByScope(RoleScope.GROUP);
@@ -90,7 +87,6 @@ public class RoleApiController {
 		}
 		return new ResponseEntity<>(listRole, HttpStatus.OK);
 	}
->>>>>>> 95d65268e9990366a4394cc21f9aa8ced45f21fb
 
 	/**
 	 * @summary api get 1 role from database base on id of role

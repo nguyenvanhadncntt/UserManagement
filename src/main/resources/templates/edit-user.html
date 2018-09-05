@@ -587,12 +587,12 @@
 					complete: function(response) {
 						if(response.status===200){
 							showMessage('notification',response.responseText, true);
-						}else if(response.status===400){
+						}else if(response.status===400 && response.responseJSON.validated===false){
 							 console.log(response.responseJSON);
                $.each(response.responseJSON.errorMessages,function(key,value){
    	            $('input[name='+key+']').after('<span style="color: red;">'+value+'</span>');
                });
-						}else if(response.status===404){							
+						}else{							
 							showMessage('notification',response.responseText, false);
 						}
 					}
