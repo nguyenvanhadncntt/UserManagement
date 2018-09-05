@@ -16,6 +16,8 @@ import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name="role")
 public class Role {
@@ -44,14 +46,12 @@ public class Role {
 	@Column(name = "scope",nullable = false)
 	private String scope;
 	
-<<<<<<< HEAD
-	@JsonIgnore
-	//@JsonIgnoreProperties({"role","user"})
-=======
->>>>>>> 6de3d0ac265c094652ded9738ca7422f50780193
+
+//	@JsonIgnoreProperties({"user"})
 	@OneToMany(mappedBy = "role")
 	private List<UserRole> userRoles;
 
+	@JsonIgnoreProperties({"role"})
 	@OneToMany(mappedBy = "role")
 	private List<GroupRole> groupRoles;
 

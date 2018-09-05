@@ -26,7 +26,7 @@ public class AdminControlller {
 		return "role-sys";
 	}
 	
-<<<<<<< HEAD
+
 	@GetMapping("/user/show-all")
 	public String showAllUser() {
 		return "user";
@@ -43,10 +43,10 @@ public class AdminControlller {
 		model.addAttribute("id_user", userId);
 		return "view-user";
 	}	
-=======
+
 	@GetMapping("/roles/group")
 	public String showRoleGroup() {
 		return "role-group";
 	}
->>>>>>> 6de3d0ac265c094652ded9738ca7422f50780193
+
 }
