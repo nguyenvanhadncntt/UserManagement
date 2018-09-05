@@ -8,6 +8,7 @@ import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import user.management.vn.entity.Role;
@@ -34,6 +35,12 @@ public interface RoleRepository extends JpaRepository<Role, Long>{
 	//@summary find by role
 	Role findByRoleName(String roleName);
 
+	@Query("select r from Role r "
+			+ "where r.id not in "
+			+ "(select ur.role.id from GroupRole ur "
+			+ "where ur.group.id=:groupId) "
+			+ "and (r.roleName like %:param% )")
+	List<Role> findRoleNotInGroupByName(@Param("groupId") Long groupId, @Param("param") String name);
 	/**
 	 * @summary 
 	 * @date Aug 17, 2018

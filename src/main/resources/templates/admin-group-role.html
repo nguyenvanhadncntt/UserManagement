@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <!-- Meta, title, CSS, favicons, etc. -->
@@ -7,7 +11,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>DataTables | Gentelella</title>
+<title>User In Group</title>
 
 <!-- Bootstrap -->
 <link href="/util/vendors/bootstrap/dist/css/bootstrap.min.css"
@@ -35,10 +39,10 @@
 <link
 	href="/util/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
 	rel="stylesheet">
-
 <!-- Custom Theme Style -->
 <link href="/util/build/css/custom.min.css" rel="stylesheet">
-<script type="text/javascript" src="/js/multi-id.js"></script>
+<script src="/js/multi-id.js"></script>
+<link href="/css/custom.css" rel="stylesheet">
 </head>
 
 <body class="nav-md">
@@ -75,6 +79,22 @@
 						<div class="col-md-12 col-sm-12 col-xs-12">
 							<div class="x_panel">
 								<div class="x_title">
+<!-- a-->
+									<div>
+										<div class="float-left button-css">
+											<button type="button" class="btn btn-primary"
+												data-toggle="modal" data-target="#addRoleModel">ADD
+												NEW ROLE</button>
+											<div class="modal fade" id="addRoleModel" tabindex="-1"
+												role="dialog" aria-labelledby="exampleModalLabel"
+												aria-hidden="true">
+												<div class="modal-dialog" role="document">
+													<div class="modal-content">
+														<div class="modal-header">
+															<h5 class="modal-title" id="exampleModalLabel">ADD
+																NEW ROLE</h5>
+															<div id="alert" class="alert"></div>
+<!-- a-->
 									<h2>
 										Group Manage
 									</h2>
@@ -121,80 +141,121 @@
 															<label for="name" class="col-form-label">Name</label> <input
 																type="text" class="form-control" name="name">
 														</div>
-														<div class="form-group">
-															<label for="description" class="col-form-label">Description</label>
-															<textarea class="form-control"
-																name="description" ></textarea> 
+														<div class="modal-body">
+															<form id="add_role" autocomplete="off">
+																<input type="text" id="role-name" list="listRole"
+																	required="required" placeholder=" ID or Fullname"
+																	class="form-control" />
+																<datalist id="listRole">
+																</datalist>
+															</form>
 														</div>
-													</form>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Close</button>
-													<button type="button" id="add-group"
-														class="btn btn-primary">Add</button>
+														<div class="modal-footer">
+															<button type="button" class="btn btn-secondary"
+																data-dismiss="modal">Close</button>
+															<button type="submit" form="add_role" id="addRole"
+																class="btn btn-primary">Save User</button>
+														</div>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
- -->									<div class="alert alert-success delete-compelete"></div>
-									<!-- table -->
-									<table id="dataTables-example"
+									<div id="nofitication" class="alert"></div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="x_content">
+
+									<table id="datatable-checkbox"
 										class="table table-striped table-bordered bulk_action">
+										<thead>
+											<tr>
+												<th><input type="checkbox" id="check-all" class="flat" /></th>
+												<th>Id</th>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Created Date</th>
+												<th>View More</th>
+												<th>Delete</th>
+											</tr>
+										</thead>
 
+
+										<tbody>
+										</tbody>
 									</table>
-									<!-- edit   -->
-									<!-- <div class="modal fade" id="editModal" tabindex="-1"
-										role="dialog" aria-labelledby="exampleModalLabel"
-										aria-hidden="true">
-										<div class="modal-dialog" role="document">
-											<div class="modal-content">
-												<div class="modal-header">
-													<h5 class="modal-title" id="exampleModalLabel">Edit a
-														Group</h5>
-													<button type="button" class="close" data-dismiss="modal"
-														aria-label="Close">
-														<span aria-hidden="true">&times;</span>
-													</button>
-												</div>
-												<div class="modal-body">
-													<div class="btn btn-primary pull-right edit-compelete">Success! Update
-													a group</div>
-														<div class="alert alert-success error-edit" ></div>
-													<form id="form-edit-group">
-														<div class="form-group">
-															<label for="name" class="col-form-label">Name</label> <input
-																type="text" class="form-control" name="name" required="required">
-														</div>
-														<div class="form-group">
-															<label for="description" class="col-form-label" >Description</label>
-															<textarea class="form-control"
-																name="description" ></textarea> 
-														</div>
-													</form>
-												</div>
-												<div class="modal-footer">
-													<button type="button" class="btn btn-secondary"
-														data-dismiss="modal">Close</button>
-													<button type="button" id="edit-group" onclick="doSaveGroup()"
-														class="btn btn-primary">Save</button>
-												</div>
-											</div>
-										</div>
-									</div>
- -->									<!-- /edit -->
-
+									<button type="button" id="delete-all" class="btn btn-danger">Delete
+										All</button>
 								</div>
 							</div>
 						</div>
 
+						<!-- Model -->
+						<div class="modal fade" id="rolePopup" tabindex="-1" role="dialog"
+							aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-centered" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLongTitle">View
+											User</h5>
+									</div>
+									<div class="modal-body clearfix">
+										<div class="x_content clearfix">
+											<br>
+											<form id="demo-form2" data-parsley-validate=""
+												class="form-horizontal form-label-left">
 
+												<div class="form-group">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														for="id">ID: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input type="text" id="id" required="required"
+															class="form-control col-md-7 col-xs-12" readonly="readonly">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12"
+														for="roleName">Name: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input type="text" id="roleName" name="roleName"
+															required="required"
+															class="form-control col-md-7 col-xs-12" readonly="readonly">
+													</div>
+												</div>
+												<div class="form-group">
+													<label for="description"
+														class="control-label col-md-3 col-sm-3 col-xs-12">
+														Description: </label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input id="description"
+															class="form-control col-md-7 col-xs-12" type="text" readonly="readonly"
+															name="description">
+													</div>
+												</div>
+												<div class="form-group">
+													<label class="control-label col-md-3 col-sm-3 col-xs-12">Created Date
+													</label>
+													<div class="col-md-6 col-sm-6 col-xs-12">
+														<input id="createdAt"
+															class="date-picker form-control col-md-7 col-xs-12" readonly="readonly"
+															required="required" type="text">
+													</div>
+												</div>
+											</form>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary"
+											data-dismiss="modal">Close</button>
+									</div>
+								</div>
+							</div>
+						</div>
+ 
+						<!-- End Model -->
 					</div>
 				</div>
 			</div>
-			<!-- /page content -->
-
-			<!-- footer content -->
 			<footer>
 				<div class="pull-right">
 					Gentelella - Bootstrap Admin Template by <a
@@ -244,13 +305,14 @@
 	<script src="/util/vendors/pdfmake/build/pdfmake.min.js"></script>
 	<script src="/util/vendors/pdfmake/build/vfs_fonts.js"></script>
 
-
 	<!-- Custom Theme Scripts -->
 	<script src="/util/build/js/custom.min.js"></script>
-	<!-- <script type="text/javascript" src="/js/group-main.js"></script>
-	<script type="text/javascript" src="/js/jquery.serializejson.js"></script> -->
-	Plus Table Design
-
-
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		var group_id= /*[[${groupId}]]*/
+			/*]]>*/
+	</script>
+	<script src="/js/group-role.js"></script>
 </body>
 </html>
+
