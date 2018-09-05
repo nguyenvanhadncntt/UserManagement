@@ -12,11 +12,15 @@ import org.springframework.stereotype.Service;
 import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
+import user.management.vn.entity.User;
+import user.management.vn.entity.UserGroup;
+import user.management.vn.entity.UserRole;
 import user.management.vn.exception.GroupNotFoundException;
 import user.management.vn.exception.RoleNotFoundException;
 import user.management.vn.repository.GroupRepository;
 import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.RoleRepository;
+import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.RoleGroupService;
 import user.management.vn.util.RoleScope;
 
@@ -30,6 +34,9 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 
 	@Autowired
 	GroupRoleRepository groupRoleRepository;
+	
+	@Autowired
+	UserRoleRepository userRoleRepository;
 
 	/**
 	 * @summary check group have role ?
@@ -127,6 +134,15 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		GroupRole groupRole = new GroupRole();
 		groupRole.setGroup(group.get());
 		groupRole.setRole(role.get());
+		List<UserGroup> userGroups = groupRole.getGroup().getUserGroups();
+		for (UserGroup userGroup : userGroups) {
+			User user = userGroup.getUser();
+			boolean checkUserHasRole = userRoleRepository.existsByUserIdAndRoleId(user.getId(), roleId);
+			if(!checkUserHasRole) {
+				UserRole userRole = new UserRole(user, role.get());
+				userRoleRepository.save(userRole);
+			}
+		}
 		
 		return groupRoleRepository.save(groupRole);
 	}

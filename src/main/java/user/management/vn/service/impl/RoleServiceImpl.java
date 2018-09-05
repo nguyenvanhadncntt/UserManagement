@@ -157,4 +157,11 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return true;
 	}
+
+	@Override
+	public List<Role> getNameRoleAndGroupid(String name, Long groupId) {
+		List<Role> roles = roleRepository.findRoleNotInGroupByName(groupId, name);
+		
+		return roles;
+	}
 }
