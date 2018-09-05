@@ -66,4 +66,9 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 	@Modifying
 	@Query(value="delete from user_group where user_id=?1",nativeQuery=true)
 	void deleteUserGroupByUserId(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from user_group where group_id=?1",nativeQuery=true)
+	void deleteUserGroupByGroupId(Long userId);
 }
