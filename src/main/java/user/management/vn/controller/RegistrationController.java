@@ -106,6 +106,7 @@ public class RegistrationController {
 		}else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
+			System.out.println("pass: "+ userModel.getPassword());
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
 			try {
