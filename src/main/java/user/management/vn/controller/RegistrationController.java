@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,6 +57,9 @@ public class RegistrationController {
 	@Autowired
 	private TokenVerificationService tokenVerificationService;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * @summary show regist page
 	 * @author ThaiLe
@@ -96,12 +100,9 @@ public class RegistrationController {
 		}else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
-<<<<<<< HEAD
 			System.out.println("pass: "+ userModel.getPassword());
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
-=======
->>>>>>> c6d717ae30b1ba1ffc34f30174fc7a89dfa970b1
 			try {
 				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);

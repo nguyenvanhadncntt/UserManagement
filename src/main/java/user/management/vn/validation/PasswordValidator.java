@@ -16,7 +16,7 @@ public class PasswordValidator implements ConstraintValidator<Password, String>{
 		if (password == null) {
 			return false;
 		}
-		return password.matches("(?=.*\\d)(?=.*[@$&\\*])(?=.*[A-Z])([A-Za-z0-9@$&\\*]){6,10}");
+		return password.matches("(?=.*\\d)(?=.*[@$&\\*])(?=.*[A-Z])([A-Za-z0-9@$&\\*]){5,15}");
 	}
 	
 }
