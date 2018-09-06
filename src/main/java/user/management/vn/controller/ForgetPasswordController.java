@@ -59,7 +59,8 @@ public class ForgetPasswordController {
 	public String creadEmailDto(ModelMap modelMap) {
 		EmailDTO email = new EmailDTO();
 		modelMap.addAttribute("emailDTO", email);
-		return "check-email";
+//		return "check-email";
+		return "checkmail";
 	}
 
 	/**
@@ -85,7 +86,8 @@ public class ForgetPasswordController {
 				System.out.println(objectError);
 			}
 			modelMap.addAttribute("emailDTO", emailDTO);
-			return "check-email";
+//			return "check-email";
+			return "checkmail";
 		}
 		// kiem tra k  ton tai
 		if (existEmail == null || !existEmail.getNonDel()) {
@@ -113,8 +115,8 @@ public class ForgetPasswordController {
 				e.printStackTrace();
 			}
 		}
-		return "check-email";
-
+//		return "check-email";
+		return "checkmail";
 	}
 
 	/**

@@ -6,36 +6,15 @@ $('.edit-compelete').hide();
 $('.error-add').hide();
 $('.error-edit').hide();
 $('.delete-compelete').hide();
-// var $groups = $('#groups');
-// var date = $('#datepicker').datepicker({ dateFormat: 'dd-mm-yy' }).val();
 
 function dataTable(list) {
 	$('#dataTables-example').dataTable({
 		data : list,
 		
 		"aaSorting" : [ [ 3, "desc" ] ],
-		columns : [ {
-			title : 'Check'
-		}, {
-			title : "Name"
-		}, {
-			title : "Description"
-		}, {
-			title : "Created Time"
-		}, {
-			title : "Role."
-		}, {
-			title : "User"
-		}, {
-			title : "Delete"
-		}, {
-			title : "Info"
-		},
-
-		],
 		destroy : true,
 		 columnDefs: [
-			    { targets: [0,4,5,6,7], "orderable": false},
+			    { targets: [0], "orderable": false},
 			  ]
 	});
 }
@@ -57,34 +36,33 @@ function getGroups() {
 						var getMinutes = (d.getMinutes() < 10) ? ("0" + d
 								.getMinutes())
 								: (d.getMinutes());
-						console.log("hahah" + getMonth);
 						var datestring = d.getDate() + "-"
 								+ getMonth + "-"
 								+ d.getFullYear() + " "
 								+ getHours + ":" + getMinutes;
 						list_item = [];
 						list_item
-								.push('<input type="checkbox" id="check-all" value="'
-										+ group.id
-										+ '" class="flat">');
+								.push('<div class="icheckbox_flat-green" style="position: relative;">'
+										+'<input type="checkbox" value="'+group.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
+										+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+										+'</ins></div>');
 						list_item.push(group.name);
 						list_item.push(group.description);
 
 						list_item.push(datestring);
 						list_item.push('<a>role</a>');
-						list_item.push('<a href=/admin/group/'
+						list_item.push('<a href="/admin/groups/'
 								+ group.id
-								+ '>User in group</a>');
+								+ '/users">User in group</a>');
 						list_item
-								.push('<img alt="" src="/images/icon_trash.png" style="cursor:pointer" onclick="deleteGroup('
+								.push('<img alt="" src="/images/icon_trash.png" style="cursor:pointer;margin:0% 12%" onclick="deleteGroup('
 										+ group.id
-										+ ')" wight="25" height="25" id="deleteGroup">')
-						list_item
-								.push('<img alt="" src="/images/icon_edit.png" style="cursor:pointer" data-toggle="modal" data-target="#editModal" onclick="viewEditGroup('+group.id+')" wight="25" height="25" id="modalEdit">')
+										+ ')" wight="25" height="25" id="deleteGroup">'
+										+'<img alt="" src="/images/icon_edit.png" style="cursor:pointer;margin:0% 12%" data-toggle="modal" data-target="#editModal" onclick="viewEditGroup('+group.id+')" wight="25" height="25" id="modalEdit">')
 						list_group.unshift(list_item);
 					});
 				dataTable(list_group);
-
+				checkBox();
 				},
 				error : function(res) {
 					
@@ -162,10 +140,40 @@ function deleteGroup(groupId) {
 		})
 	}
 }
+function checkBox(){
+	$.each($('.icheckbox_flat-green'),function(i,tag){
+		$(tag).on('click',function(){
+			if(!$(this).hasClass('checked')){
+				$(this).addClass('checked');
+			}else{
+				$(this).removeClass('checked');
+			}
+			parent = $(this).parent();
+			parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
+		});
+	});
+}
 
-$(function() {
+function checkAll(){
+	ins = $('#check-all').parent().children('ins');
+	ins.on('click',function(){
+		$.each($('.icheckbox_flat-green'),function(i,tag){
+				if(ins.parent().hasClass('checked')){
+					$(tag).addClass('checked');
+				}else{
+					$(tag).removeClass('checked');
+				}
+				parent = $(tag).parent();
+				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
+			});
+		});
+}
+$(window).load(function(){
+	checkAll();
 	getGroups();
-
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
 	$('#getCheckBoxButton').on('click', function(event) {
 		if ($('input[type="checkbox"]:checked').length == 0) {
 			alert("You have not checked");
@@ -173,12 +181,10 @@ $(function() {
 			var i = confirm("Are you really delete a group?");
 			if (i) {
 				listId = new ListIdWrapper();
-				$('input[type="checkbox"]:checked').each(function(index, elem) {
+				$('.checkbox-delete:checkbox:checked').each(function(index, elem) {
 					listId.addIdToArray($(elem).val());
 				});
-
 				checkBoxValueJSON = JSON.stringify(listId);
-				console.log(checkBoxValueJSON);
 				$.ajax({
 					type : 'DELETE',
 					url : '/api/groups/',
@@ -191,11 +197,9 @@ $(function() {
 						setTimeout(function() {
 							$('.delete-compelete').fadeOut(1000);
 						}, 3000);
-
 						getGroups();
 					},
 					error : function(res) {
-						console.log(res);
 						alert("error delete");
 					}
 				})
@@ -242,5 +246,4 @@ $(function() {
 			});
 		}
 	});
-
-})
+});

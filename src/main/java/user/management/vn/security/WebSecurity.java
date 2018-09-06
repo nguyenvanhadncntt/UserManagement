@@ -45,7 +45,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 		// all request to /login, /registerAccount, /activeAccount, /forget-passowrd,
 		// /change-password auto permit
 		// and request to url other must authen
-		
+//		
 		http.authorizeRequests()
 				.antMatchers("/forget-password**", "/h2-console/**", "/login**", "/registerAccount**",
 						"/activeAccount**", "/change-password**")
@@ -68,13 +68,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 				.deleteCookies("JSESSIONID", "remember-me").logoutSuccessUrl("/login?logout").permitAll().and()
 				.httpBasic();
 
-	//	http.csrf().disable().authorizeRequests().anyRequest().permitAll();
+//		http.csrf().disable().authorizeRequests().anyRequest().permitAll();
 	}
 
 	@Override
 	public void configure(org.springframework.security.config.annotation.web.builders.WebSecurity web)
 			throws Exception {
-		web.ignoring().antMatchers("/css/**", "/util/**", "/images/**", "/js/**");
+		web.ignoring().antMatchers("/css/**", "/util/**", "/images/**", "/js/**","/fonts/**","/vendor/**");
 	}
 
 }

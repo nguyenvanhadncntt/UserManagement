@@ -21,15 +21,16 @@ function customDate(createdAt) {
 	return datestring;
 }
 function viewProfile() {
-	
 	var URL = '/my-profile';
 	$.ajax({
 		url : URL,
 		type : 'GET',
 		success : function(user) {
 			user_profile = user;
-			
-			console.log(user_profile);
+			localStorage.setItem("username", user.fullname);
+			$.each($('.username-wel'),function(i,tag){
+				$(tag).text(user.fullname);
+			});
 			createAt = customDate(user.createdAt);
 			$('#form-user').find('input[name=id]').val(user.id);
 			$('#form-user').find('input[name=fullname]').val(user.fullname).attr('readonly','readonly');
@@ -80,6 +81,8 @@ function viewEditProFile() {
 	$('#form-user').find('input[name=fullname]').removeAttr('readonly');
 	$('#form-user').find('input[name=phone]').removeAttr('readonly');
 	$('#form-user').find('input[name=birthday]').removeAttr('readonly');
+	$('#form-user').find('input[name=birthday]').attr('type', 'date');
+	$('#form-user').find('input[name=birthday]').val(user_profile.birthday);
 	$('#form-user').find('input[name=address]').removeAttr('readonly');
 	$('#form-user').find('input[name=createdAt]').val(user_profile.createdAt);
 	$('#form-user').find('input[type=reset]').fadeIn(1000);

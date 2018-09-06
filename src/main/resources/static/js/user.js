@@ -1,5 +1,9 @@
 loadTable();
-$(document).ready(function(){
+$(window).load(function(){
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
+	checkAll();
 	$('#delete-all').on('click',function(){
 		multiDelete();
 	});	
@@ -13,7 +17,10 @@ function loadTable(){
 		success: function(data){
 			$.each(data,function(i,user){
 				listItem=[];
-				listItem.push('<input type="checkbox" class="checkbox-delete" value="'+user.id+'" id="check-all" class="flat">');
+				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
+						+'<input type="checkbox" value="'+user.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
+						+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+						+'</ins></div>');
 				listItem.push(user.id);
 				listItem.push(user.email);
 				listItem.push(user.fullname);
@@ -23,9 +30,10 @@ function loadTable(){
 				listItem.push('<a alt="view" href="/admin/user/view/'+ user.id + '"><img style="margin:0 5%;cursor:pointer"  src="/images/icon-view.png" width="25px" height="25px"  /></a>' +
 						'<img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />' +
 						'<a href="/admin/user/edit/' + user.id + '"><img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" /></a>');
-				listUser.push(listItem)
+				listUser.push(listItem);
 			});
 			viewOnDataTable(listUser);
+			checkBox();
 		},
 		error: function(error){
 			console.log(error);
@@ -41,6 +49,21 @@ function viewOnDataTable(list){
 	})
 }
 
+function checkAll(){
+	ins = $('#check-all').parent().children('ins');
+	ins.on('click',function(){
+		$.each($('.icheckbox_flat-green'),function(i,tag){
+				if(ins.parent().hasClass('checked')){
+					$(tag).addClass('checked');
+				}else{
+					$(tag).removeClass('checked');
+				}
+				parent = $(tag).parent();
+				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
+			});
+		});
+}
+
 function removeUser(userId) {	
 	selected = confirm("Do you want delete User have ID : " + userId);
 	if(selected){
@@ -49,7 +72,6 @@ function removeUser(userId) {
 			type:'delete',
 			complete: function(res){
 			if(res.status===200){
-				console.log("hihihi");
 				showMessage('notification',res.responseText,true);
 			}else{
 				showMessage('notification',res.responseText,false);
@@ -69,7 +91,7 @@ function deleteAll(){
 }
 
 function showMessage(tagId,msg,isSuccess){
-	console.log('showmessage' + msg);
+	$('#'+tagId).attr('style','display:block');
     $('#'+tagId).attr('style','display:block');
     if(isSuccess){
         $('#'+tagId).prop('class','alert alert-success');
@@ -144,4 +166,17 @@ function multiDelete(){
 			}
 		});
 	}
+}
+function checkBox(){
+	$.each($('.icheckbox_flat-green'),function(i,tag){
+		$(tag).on('click',function(){
+			if(!$(this).hasClass('checked')){
+				$(this).addClass('checked');
+			}else{
+				$(this).removeClass('checked');
+			}
+			parent = $(this).parent();
+			parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
+		});
+	});
 }

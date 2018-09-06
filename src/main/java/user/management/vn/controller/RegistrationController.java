@@ -7,24 +7,18 @@ import java.util.stream.Collectors;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.ws.rs.Consumes;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import user.management.vn.entity.Role;
@@ -57,9 +51,6 @@ public class RegistrationController {
 	private VerificationUtil veritificationUtil;
 	
 	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	@Autowired
 	private UserService userService;
 	
 	@Autowired
@@ -71,7 +62,7 @@ public class RegistrationController {
 	 * @param model
 	 * @return String
 	 */
-	@GetMapping(path="registerAccount")
+	@GetMapping(path="/registerAccount")
 	public String showRegisterPage() {		
 		return "add-user";
 	}
@@ -85,11 +76,10 @@ public class RegistrationController {
 	 * @return ResponseEntity<String>
 	 */
 	
-	@PostMapping(path="registerAccount")	
+	@PostMapping(path="/registerAccount")	
 	public  ResponseEntity<Object> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult result) {
 		  UserDTOResponse userDTOResponse = new UserDTOResponse();		  
 	      if(result.hasErrors()){          
-	    	  
 	          Map<String, String> errors = result.getFieldErrors().stream()
 	                .collect(
 	                      Collectors.toMap(FieldError::getField, ObjectError::getDefaultMessage)	                     
@@ -106,11 +96,13 @@ public class RegistrationController {
 		}else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
+<<<<<<< HEAD
 			System.out.println("pass: "+ userModel.getPassword());
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());
 			userModel.setPassword(passwordEncode);
+=======
+>>>>>>> c6d717ae30b1ba1ffc34f30174fc7a89dfa970b1
 			try {
-
 				mailService.sendMail("active account","/activeAccount",userModel.getEmail(),registCode,expireDate);
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);

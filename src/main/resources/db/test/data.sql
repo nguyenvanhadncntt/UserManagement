@@ -1,7 +1,7 @@
-INSERT INTO `groups` VALUES (2,'2018-08-20 02:41:17','jasdhks','eirueori',1),(3,'2018-08-20 02:41:17','cvklk','eirioi',1),(4,'2018-08-20 02:41:17','dlfkvoero','ritpwoe1',1),(5,'2018-08-20 02:41:17','dlfkdlfk','roitori',1),(6,'2018-08-20 02:41:17','cvmelfkeori','fp[pvdkfl',0);
-INSERT INTO `role` VALUES (2,1,'asds','GROUP'),(3,1,'ADMIN','SYSTEM'),(4,1,'USER','SYSTEM');
-INSERT INTO `user` VALUES (1,'iasds',1,0,1,'siduas'),(2,'ha123',1,1,1,'$2a$10$hbxecwitQQ.dDT4JOFzQAulNySFwEpaFLw38jda6Td.Y/cOiRzDFu'),(3,'ha.nguyen2@asiantech.vn',1,1,1,'$2a$10$N59M3X1I0ybWWy3h9S0mJ.efgCxqCPNGYIrdAnK0H9C9KYuk0BoYq');
-INSERT INTO `token_verfication` VALUES (7,'2018-08-25 17:55:13','$2a$10$8Wb3hjM3I1v0.UU7qtt4u.apKSh5/RUFJhZREFLRjFcXAqPjKYfZC',1,3);
-INSERT INTO `user_detail` VALUES (1,'sodiad','2018-09-09','2018-08-20 04:17:46','aidu',1,'asudisaud'),(2,'dfdsf','2018-07-07','2018-08-20 10:04:28','sdfds',1,'dtydg'),(3,'sadkjaksd','2017-06-06','2018-08-22 10:06:30','ksdsdu',1,'kcvjcv');
-INSERT INTO `user_role` VALUES (1,3,2);
-
+INSERT INTO `groups` VALUES (1,'2018-08-29 05:02:36','asjdhs','ksjds',1),(2,'2018-08-29 05:02:37','isuid','dlfdk',1);
+INSERT INTO `role` VALUES (1,'2018-09-02 18:27:31','USER',1,'USER','SYSTEM'),(2,'2018-09-02 18:27:31','ADMIN',1,'ADMIN','SYSTEM'),(6,'2018-09-04 16:12:11','GROUP1',1,'G1','GROUP'),(7,'2018-09-04 16:12:11','GROUP2',1,'G2','GROUP'),(8,'2018-09-04 16:12:11','GROUP3',1,'G3','GROUP'),(9,'2018-09-04 16:18:52','GROUP4',1,'G4','GROUP');
+INSERT INTO `role_group` VALUES (3,1,6),(4,2,6);
+INSERT INTO `user` VALUES (1,'ádjhasdj@gmail.com',1,1,1,'$2a$10$QsEIsXpW.ilbG5oqwnm6Keo4ndSyW4DNdIXhYWZ3fVSA9/0NCJmqq'),(2,'hanguyen@gmail.com',1,1,1,'$2a$10$wfTDsM2oPAVTyv.a63PYZeIaTSFSnOPCLnn436A8oDSgUXlIockvu'),(3,'han@gmail.com',1,1,1,'$2a$10$Ae2CPWhNMIrGpht8ZxKo.eMop9nMLRsbKzEaCgd573yzwIpz0hUXq'),(4,'xxx',1,1,1,'$2a$10$hfRmfyeZS0J6AHZpBC/YkeZaumelWo8knChSNrDiOfCBDEMXYsUXa'),(5,'ha@g.c',1,1,1,'$2a$10$GMOZ96VEiRHIvzBQh/DvGOxJd.Np5cZ63gOJW9o02UHfioA5aFORK');
+INSERT INTO `user_detail` VALUES (1,'193 Nguyen Luong Banag','2018-09-09','2018-08-28 04:17:56','le quang van hau',1,'1344333243'),(2,'193 Nguyen Luong Banag','2018-09-09','2018-08-28 04:19:20','le quang van hau',1,'1344333243'),(3,'193 Nguyen Luong Banag','2018-09-09','2018-08-29 04:15:46','Ha Nguyen Van',0,'1344333243'),(4,'193 Nguyen Luong Banag','2018-09-09','2018-08-29 04:27:38','Ha Nguyen Van',1,'1344333243'),(5,'193 Nguyen Luong Banag','2018-09-09','2018-09-04 02:48:49','Ha Nguyen Van',0,'1344333243');
+INSERT INTO `user_group` VALUES (21,'2018-08-31 10:13:08',1,1),(24,'2018-08-31 11:43:49',1,3),(25,'2018-08-31 11:44:57',1,2),(33,'2018-09-03 19:33:17',2,3);
+INSERT INTO `user_role` VALUES (13,2,5),(16,2,1),(17,6,1),(18,6,5);

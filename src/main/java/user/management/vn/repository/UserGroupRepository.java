@@ -21,7 +21,7 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 	 * @param groupId
 	 * @return List<UserGroup>
 	 */
-	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.group.nonDel = 1")
+	@Query("select ug from UserGroup ug where ug.group.id = ?1 and ug.group.nonDel = 1 and ug.user.nonLocked=1")
 	List<UserGroup> findAllUserOfGroupId(Long groupId);
 
 	/**
@@ -66,4 +66,9 @@ public interface UserGroupRepository extends JpaRepository<UserGroup, Long> {
 	@Modifying
 	@Query(value="delete from user_group where user_id=?1",nativeQuery=true)
 	void deleteUserGroupByUserId(Long userId);
+	
+	@Transactional
+	@Modifying
+	@Query(value="delete from user_group where group_id=?1",nativeQuery=true)
+	void deleteUserGroupByGroupId(Long userId);
 }

@@ -100,4 +100,16 @@ public interface RoleService {
 	 * @return Boolean
 	 */
 	Boolean deleteMultiRole(ListIdWrapper listIdWrapper);
+
+	/**
+	 * 
+	 * @summary get NameRole And G roupid
+	 * @date Sep 5, 2018
+	 * @author Tai
+	 * @param name
+	 * @param groupId
+	 * @return
+	 * @return List<Role>
+	 */
+	List<Role> getNameRoleAndGroupid(String name, Long groupId);
 }

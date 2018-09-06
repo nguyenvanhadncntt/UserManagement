@@ -1,6 +1,5 @@
 package user.management.vn.api;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -188,7 +187,7 @@ public class UserApiController {
 	 * @return ResponseEntity<Object>
 	 */
 	@PutMapping("/upgrade-user-role/{userId}/{roleId}")
-	public ResponseEntity<Object> upgradeUserToAdmin(@PathVariable("userId") Long userId,
+	public ResponseEntity<Object> upgradeUserRole(@PathVariable("userId") Long userId,
 			@PathVariable("roleId")Long roleId) {
 		UserRole upgradeRole = null;
 		try {

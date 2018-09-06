@@ -1,20 +1,13 @@
 package user.management.vn.entity.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import user.management.vn.entity.Role;
-import user.management.vn.entity.User;
-import user.management.vn.entity.UserDetail;
-import user.management.vn.entity.UserRole;
 import user.management.vn.validation.Phone;
 import user.management.vn.validation.ValidEmail;
 

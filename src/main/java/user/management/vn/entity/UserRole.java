@@ -2,7 +2,6 @@ package user.management.vn.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,12 +22,12 @@ public class UserRole {
 	
 	@JsonIgnoreProperties({"userRoles",})
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false,foreignKey=@ForeignKey(name="ref_user_role"))
+	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@JsonIgnoreProperties("userRoles")
 	@ManyToOne
-	@JoinColumn(name = "role_id", nullable = false,foreignKey=@ForeignKey(name="ref_role_user"))
+	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 
 	public UserRole() {

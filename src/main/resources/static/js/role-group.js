@@ -1,7 +1,11 @@
 var idEdit;
 loadTable();
 
-$(document).ready(function(){
+$(window).load(function(){
+	$.each($('.username-wel'),function(i,tag){
+		$(tag).text(localStorage.getItem("username"));
+	});
+	checkAll();
 	$('#add_role').submit(function(e){
 		newRole = $('#add_role').serializeJSON();
 		$.ajax({
@@ -56,23 +60,57 @@ function loadTable(){
 		success: function(data){
 			$.each(data,function(i,role){
 				listItem=[];
-				listItem.push('<input type="checkbox" class="checkbox-delete" value="'+role.id+'" id="check-all" class="flat">');
+				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
+						+'<input type="checkbox" value="'+role.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
+						+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+						+'</ins></div>');
 				listItem.push(role.id);
 				listItem.push('<a href="#" onclick="viewUserHasRole('+role.id+')">'+role.roleName+'</a>');
 				listItem.push(role.description);
 				date = new Date(role.createdAt)
 				createdAt = ((date.getMonth()+1)<10?('0'+(date.getMonth()+1)):(date.getMonth()+1))+"/"+(date.getDate()<10?('0'+date.getDate()):date.getDate())+"/"+date.getFullYear()
 				listItem.push(createdAt);
-				listItem.push('<img style="margin:0 35%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" onclick="showInfor('+role.id+')" />')
-				listItem.push('<img style="margin:0 35%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeRole('+role.id+')" />');
+				listItem.push('<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeRole('+role.id+')" />'
+						+'<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" onclick="showInfor('+role.id+')" />'
+						);
 				listUser.push(listItem);
 			});
 			showOnDataTable(listUser);
+			checkBox();
 		},
 		error: function(res){
 			showOnDataTable(listUser);
 		}
 	})
+}
+
+function checkBox(){
+	$.each($('.icheckbox_flat-green'),function(i,tag){
+		$(tag).on('click',function(){
+			if(!$(this).hasClass('checked')){
+				$(this).addClass('checked');
+			}else{
+				$(this).removeClass('checked');
+			}
+			parent = $(this).parent();
+			parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
+		});
+	});
+}
+
+function checkAll(){
+	ins = $('#check-all').parent().children('ins');
+	ins.on('click',function(){
+		$.each($('.icheckbox_flat-green'),function(i,tag){
+				if(ins.parent().hasClass('checked')){
+					$(tag).addClass('checked');
+				}else{
+					$(tag).removeClass('checked');
+				}
+				parent = $(tag).parent();
+				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
+			});
+		});
 }
 
 function showOnDataTable(list){
