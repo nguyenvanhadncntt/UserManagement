@@ -48,7 +48,6 @@ function getGroups() {
 										+'</ins></div>');
 						list_item.push(group.name);
 						list_item.push(group.description);
-
 						list_item.push(datestring);
 						list_item.push('<a href="/admin/groups/'+group.id+'/roles"><button type="button" class="btn btn-info btn-xs">ROLE</button></a>');
 						list_item.push('<a href="/admin/groups/'
@@ -171,8 +170,13 @@ function checkAll(){
 $(window).load(function(){
 	checkAll();
 	getGroups();
+	if(sessionStorage.getItem("role")==='ADMIN'){
+		$.each($('.menu-navv'),function(i,tag){
+			$(tag).prop('style','display:block;');
+		});
+	}
 	$.each($('.username-wel'),function(i,tag){
-		$(tag).text(localStorage.getItem("username"));
+		$(tag).text(sessionStorage.getItem("username"));
 	});
 	$('#getCheckBoxButton').on('click', function(event) {
 		if ($('input[type="checkbox"]:checked').length == 0) {

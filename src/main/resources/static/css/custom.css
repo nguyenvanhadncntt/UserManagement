@@ -21,6 +21,10 @@ td {
 	margin-top: 30%;
 }
 
+.text-white{
+	color:white;
+	background-color: black;
+}
 /* modal-body{
 	padding:0 0 5px 0;
 }

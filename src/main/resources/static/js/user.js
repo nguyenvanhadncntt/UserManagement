@@ -1,7 +1,12 @@
 loadTable();
 $(window).load(function(){
+	if(sessionStorage.getItem("role")==='ADMIN'){
+		$.each($('.menu-navv'),function(i,tag){
+			$(tag).prop('style','display:block;');
+		});
+	}
 	$.each($('.username-wel'),function(i,tag){
-		$(tag).text(localStorage.getItem("username"));
+		$(tag).text(sessionStorage.getItem("username"));
 	});
 	checkAll();
 	$('#delete-all').on('click',function(){
@@ -28,9 +33,9 @@ function loadTable(){
 				listItem.push((user.gender===true)?'Female':'Male');
 				listItem.push(user.address);
 				listItem.push(user.phone);
-				listItem.push('<a alt="view" href="/admin/user/view/'+ user.id + '"><img style="margin:0 5%;cursor:pointer"  src="/images/icon-view.png" width="25px" height="25px"  /></a>' +
-						'<img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />' +
-						'<a href="/admin/user/edit/' + user.id + '"><img style="margin:0 5%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" /></a>');
+				listItem.push(
+						'<img style="margin:0 10%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeUser('+user.id+')" />' +
+						'<a href="/admin/user/edit/' + user.id + '"><img style="margin:0 10%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" /></a>');
 				listUser.push(listItem);
 			});
 			viewOnDataTable(listUser);
@@ -73,9 +78,9 @@ function removeUser(userId) {
 			type:'delete',
 			complete: function(res){
 			if(res.status===200){
-				showMessage('notification',res.responseText,true);
+				showMessage('nofitication',res.responseText,true);
 			}else{
-				showMessage('notification',res.responseText,false);
+				showMessage('nofitication',res.responseText,false);
 			}
 			loadTable();
 		}
@@ -129,6 +134,7 @@ function addUser() {
 		complete : function(response) {
 			if(response.status===200){
 				showMessage('notification-addUser',response.responseText, true);
+				loadTable();
 			}else if(response.status===400 && response.responseJSON.validated===false){
 				console.log(response);
                 $.each(response.responseJSON.errorMessages,function(key,value){

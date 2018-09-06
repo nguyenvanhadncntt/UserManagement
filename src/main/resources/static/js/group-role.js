@@ -1,8 +1,13 @@
 loadTable();
 var listRoleData;
 $(window).load(function(){
+	if(sessionStorage.getItem("role")==='ADMIN'){
+		$.each($('.menu-navv'),function(i,tag){
+			$(tag).prop('style','display:block;');
+		});
+	}
 	$.each($('.username-wel'),function(i,tag){
-		$(tag).text(localStorage.getItem("username"));
+		$(tag).text(sessionStorage.getItem("username"));
 	});
 	checkAll();
 	$('#delete-all').on('click',function(){
