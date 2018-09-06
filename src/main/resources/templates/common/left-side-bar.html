@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Left SiderBar</title>
+<link href="/css/custom.css" rel="stylesheet">
 </head>
 <body>
 	<div th:fragment="sider-bar">
@@ -37,11 +38,11 @@
 						<ul class="nav side-menu">
 							<li><a href="/"><i class="fa fa-home"></i> Home <span
 									class="fa fa-chevron-down"></span></a></li>
-							<li><a href="/admin/users"><i class="fa fa-edit"></i>
+							<li class="menu-navv" style="display: none;"><a href="/admin/users"><i class="fa fa-edit"></i>
 									User Manage <span class="fa fa-chevron-down"></span></a></li>
-							<li><a href="/admin/groups"><i class="fa fa-desktop"></i>
+							<li class="menu-navv" style="display: none;"><a href="/admin/groups"><i class="fa fa-desktop"></i>
 									Group Manage <span class="fa fa-chevron-down"></span></a></li>
-							<li><a><i class="fa fa-table"></i> Role Manage <span
+							<li class="menu-navv" style="display: none;"><a><i class="fa fa-table"></i> Role Manage <span
 									class="fa fa-chevron-down"></span></a>
 								<ul class="nav child_menu">
 									<li><a href="/admin/roles/sys">Role System</a></li>

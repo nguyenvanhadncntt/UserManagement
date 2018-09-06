@@ -2,6 +2,11 @@ var idEdit;
 loadTable();
 
 $(window).load(function(){
+	if(localStorage.getItem("role")==='ADMIN'){
+		$.each($('.menu-navv'),function(i,tag){
+			$(tag).prop('style','display:block;');
+		});
+	}
 	$.each($('.username-wel'),function(i,tag){
 		$(tag).text(localStorage.getItem("username"));
 	});
@@ -186,7 +191,7 @@ function viewUserHasRole(roleId){
 		type:'get',
 		url:'/api/roles/'+roleId,
 		success: function(data){
-			$('#modelTitle').text('User Has Role: '+data.roleName);
+			$('#modelTitle').text(data.roleName+' ROLE');
 			listUser = []; 
 			data.userRoles.forEach(function(userRole,i){
 				list=[];

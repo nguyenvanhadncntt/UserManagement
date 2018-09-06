@@ -1,5 +1,10 @@
 loadTable();
 $(window).load(function(){
+	if(localStorage.getItem("role")==='ADMIN'){
+		$.each($('.menu-navv'),function(i,tag){
+			$(tag).prop('style','display:block;');
+		});
+	}
 	checkAll();
 	$('#delete-all').on('click',function(){
 		deleteAll();

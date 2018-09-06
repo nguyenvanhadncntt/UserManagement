@@ -27,9 +27,20 @@ function viewProfile() {
 		type : 'GET',
 		success : function(user) {
 			user_profile = user;
+			console.log(user_profile);
 			localStorage.setItem("username", user.fullname);
 			$.each($('.username-wel'),function(i,tag){
 				$(tag).text(user.fullname);
+			});
+			$.each(user.listRole,function(i,role){
+				if(role.scope==='SYSTEM'){
+					if(role.roleName==='ADMIN'){
+						$.each($('.menu-navv'),function(i,tag){
+							$(tag).prop('style','display:block;');
+						});
+					}
+					localStorage.setItem("role", role.roleName);
+				}
 			});
 			createAt = customDate(user.createdAt);
 			$('#form-user').find('input[name=id]').val(user.id);
@@ -51,9 +62,7 @@ function viewProfile() {
 			}
 			
 			$.each(user.listGroup, function(i, group) {
-	
 				createAt = customDate(group.createdAt);
-				
 				list_item =[];
 				list_item.push('<tr>');
 				list_item.push('<td>#</td>');
