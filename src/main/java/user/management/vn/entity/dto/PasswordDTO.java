@@ -2,14 +2,18 @@ package user.management.vn.entity.dto;
 
 import javax.validation.constraints.NotBlank;
 
+import user.management.vn.validation.Password;
+
 public class PasswordDTO {
 	
 	private String token;
 	private String email;
 	@NotBlank
+	@Password
 	private String passwordCurrent;
 	
 	@NotBlank
+	@Password(message="Password must be valid, has at least one number, one special character, one uppecase character and has from 6 to 10 character")
 	private String newPassword;	
 	
 	private String newMatchingPassword;
