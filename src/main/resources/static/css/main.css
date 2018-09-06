@@ -551,6 +551,7 @@ iframe {
 }
 
 .wrapper{
+	width:100%;
 	margin:0 auto;
 	position:relative;
 	display: none;
@@ -558,9 +559,13 @@ iframe {
 
 .wrapper-view{
 	margin:0 auto;
-	margin-top:30px;
+	margin-bottom:10px;
 	position:relative;
 	display: inline-block;
+}
+
+.margin-loading{
+	margin-left:40%;	
 }
 
 .loader {
@@ -584,7 +589,6 @@ iframe {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
-
 #btn-submit:disabled{
 	background-color: #838a81;
 }

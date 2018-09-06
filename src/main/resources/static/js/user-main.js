@@ -28,7 +28,7 @@ function viewProfile() {
 		success : function(user) {
 			user_profile = user;
 			console.log(user_profile);
-			localStorage.setItem("username", user.fullname);
+			sessionStorage.setItem("username", user.fullname);
 			$.each($('.username-wel'),function(i,tag){
 				$(tag).text(user.fullname);
 			});
@@ -39,7 +39,7 @@ function viewProfile() {
 							$(tag).prop('style','display:block;');
 						});
 					}
-					localStorage.setItem("role", role.roleName);
+					sessionStorage.setItem("role", role.roleName);
 				}
 			});
 			createAt = customDate(user.createdAt);

@@ -157,7 +157,7 @@ public class ForgetPasswordController {
 			passwordDTO.setToken(token);
 			passwordDTO.setPasswordCurrent("a");
 			modelMap.addAttribute("changePasswordDTO", passwordDTO);
-			return "forget-password";
+			return "change-password";
 		}
 
 	}
@@ -212,7 +212,7 @@ public class ForgetPasswordController {
 		TokenVerifition tokenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
 		
-		modelMap.addAttribute("error", "You have successfully changed your password");
+		modelMap.addAttribute("notification", "You have successfully changed your password");
 		return "login-page";
 	}
 
