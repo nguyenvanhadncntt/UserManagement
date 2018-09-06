@@ -2,6 +2,7 @@ $('.msg-error').hide();
 $('.button-edit').hide();
 var user_profile;
 var list_group = [] ;
+var list_role = [] ;
 var list_item= [];
 function customDate(createdAt) {
 	var d = new Date(createdAt);
@@ -64,17 +65,35 @@ function viewProfile() {
 			$.each(user.listGroup, function(i, group) {
 				createAt = customDate(group.createdAt);
 				list_item =[];
+				i=i+1;
 				list_item.push('<tr>');
-				list_item.push('<td>#</td>');
+				list_item.push('<td>'+i+'</td>');
 				list_item.push('<td>'+group.name+'</td>');
 				list_item.push('<td>'+group.description+'</td>');
 				list_item.push('<td class="hidden-phone">'+createAt+'</td>');
-				list_item.push('<td>'+group.description+'</td>');
 				list_item.push('</tr>');
 				list_group.push(list_item);
 			});
-			
 			$('#my-list-group').append(list_group.toString());
+			
+			console.log(user.listRole);
+			$.each(user.listRole, function(i, role) {
+				
+				createAt = customDate(role.createdAt);
+				i=i+1;
+				list_item =[];
+				list_item.push('<tr>');
+				list_item.push('<td>'+i+'</td>');
+				list_item.push('<td>'+role.roleName+'</td>');
+				list_item.push('<td>'+role.description+'</td>');
+				list_item.push('<td class="hidden-phone">'+createAt+'</td>');
+				list_item.push('<td>'+role.scope+'</td>');
+				list_item.push('</tr>');
+				list_role.push(list_item);
+				
+			});
+			
+			$('#my-list-role').append(list_role.toString());
 		}
 	});
 }
@@ -114,12 +133,14 @@ $(function(){
 			dataType : 'json',
 			complete : function(res) {
 				if (res.status === 200 || res.status ===201){
+					viewProfile();
 					$('.msg-error').fadeIn(1000);
 					$('.msg-error').addClass('btn-success');
 					$('.msg-error').text('Update Profile Success!');
 					setTimeout(function() {
 						$('.msg-error').hide(1000);
 					}, 8000);
+					
 				}
 				if (res.status===400){
 					$('.msg-error').fadeIn(1000);
@@ -157,7 +178,7 @@ $(function(){
 						$('.msg-error').fadeOut(1000);
 					}, 8000);
 				}
-				if (res.status===409){
+				if (res.status===409 || res.status===400){
 					$('.msg-error').fadeIn(1000);
 					$('.msg-error').addClass('btn-danger');
 					$('.msg-error').text(res.responseText);

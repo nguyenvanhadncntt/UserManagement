@@ -48,12 +48,11 @@ function getGroups() {
 										+'</ins></div>');
 						list_item.push(group.name);
 						list_item.push(group.description);
-
 						list_item.push(datestring);
-						list_item.push('<a href="/admin/groups/'+group.id+'/roles">role</a>');
+						list_item.push('<a href="/admin/groups/'+group.id+'/roles"><button type="button" class="btn btn-info btn-xs">ROLE</button></a>');
 						list_item.push('<a href="/admin/groups/'
 								+ group.id
-								+ '/users">User in group</a>');
+								+ '/users"><button type="button" class="btn btn-info btn-xs">USER</button></a>');
 						list_item
 								.push('<img alt="" src="/images/icon_trash.png" style="cursor:pointer;margin:0% 12%" onclick="deleteGroup('
 										+ group.id
