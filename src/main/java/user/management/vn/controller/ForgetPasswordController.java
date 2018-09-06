@@ -130,8 +130,8 @@ public class ForgetPasswordController {
 		TokenVerifition checkToKenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		// kiem tra token da duoc su dung hay chua
 		if (checkToKenVerifition == null) {
-			modelMap.addAttribute("msg", "ma code nay k con gia tri");
-			return "errorMessege";
+			modelMap.addAttribute("msg", "This code is no longer valid");
+			return "error-active";
 		} else {
 			Date nowDate = new Date();
 			// kiem tra het thoi gian qua han
@@ -144,8 +144,8 @@ public class ForgetPasswordController {
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-				modelMap.addAttribute("msg", "thoi gian xac nhan da qua han!!!");
-				return "errorMessege";
+				modelMap.addAttribute("msg", "This code is no longer valid");
+				return "error-active";
 			}
 			modelMap.addAttribute("emailToken", checkToKenVerifition.getUser().getEmail());
 			
@@ -210,8 +210,8 @@ public class ForgetPasswordController {
 		TokenVerifition tokenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
 		
-		modelMap.addAttribute("msg", "You have successfully changed your password");
-		return "redirect:/login";
+		modelMap.addAttribute("error", "You have successfully changed your password");
+		return "login";
 	}
 
 }
