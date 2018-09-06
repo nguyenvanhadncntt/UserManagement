@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import user.management.vn.validation.Password;
 import user.management.vn.validation.PasswordMatches;
 import user.management.vn.validation.Phone;
 import user.management.vn.validation.ValidEmail;
@@ -35,7 +36,7 @@ public class UserDTO implements Serializable{
 	private String address;
 	@NotNull(message = "Gender must not be null")
 	private Boolean gender;
-	@NotBlank(message = "Password must not be blank")
+	@Password(message = "Password must be valid, has at least one number, one special character, one uppecase character and has from 6 to 10 character")
 	private String password;	
 	private String matchingPassword;
 	
