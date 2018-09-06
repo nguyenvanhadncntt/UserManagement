@@ -213,7 +213,7 @@ public class ForgetPasswordController {
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
 		
 		modelMap.addAttribute("error", "You have successfully changed your password");
-		return "login";
+		return "login-page";
 	}
 
 }

@@ -1,7 +1,6 @@
 package user.management.vn.entity.dto;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Null;
 
 import user.management.vn.validation.Password;
 
@@ -11,7 +10,6 @@ public class PasswordDTO {
 	private String email;
 	
 	@NotBlank
-	@Password
 	private String passwordCurrent;
 	
 	@NotBlank
