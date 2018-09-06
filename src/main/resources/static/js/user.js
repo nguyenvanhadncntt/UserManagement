@@ -15,6 +15,7 @@ function loadTable(){
 		url:'/api/users',
 		type:'GET',
 		success: function(data){
+			console.log(data);
 			$.each(data,function(i,user){
 				listItem=[];
 				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'

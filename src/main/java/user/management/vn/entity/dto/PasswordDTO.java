@@ -13,7 +13,7 @@ public class PasswordDTO {
 	private String passwordCurrent;
 	
 	@NotBlank
-	@Password(message="Password must be valid, has at least one number, one special character, one uppecase character and has from 6 to 10 character")
+	@Password(message="Password has at least one number, one special character, one uppecase character and has from 6 to 10 character")
 	private String newPassword;	
 	
 	private String newMatchingPassword;
