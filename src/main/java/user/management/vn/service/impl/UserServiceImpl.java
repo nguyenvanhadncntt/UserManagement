@@ -254,7 +254,7 @@ public class UserServiceImpl implements UserService {
 		UserDetail userDetail = new UserDetail(userDTO.getFullname(), userDTO.getPhone(), userDTO.getAddress(),
 				userDTO.getGender(), userDTO.getBirthday());
 		user.setEmail(userDTO.getEmail());
-		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setPassword(userDTO.getPassword());
 		userDetail.setUser(user);
 		user.setUserDetail(userDetail);
 		return user;
@@ -447,7 +447,7 @@ public class UserServiceImpl implements UserService {
 				userDTO.getGender(), userDTO.getBirthday());
 		user.setEmail(userDTO.getEmail());
 		user.setEnable(enable);
-		user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+		user.setPassword(userDTO.getPassword());
 		userDetail.setUser(user);
 		user.setUserDetail(userDetail);
 		System.out.println("convert: " + user.getEmail() + user.getUserDetail().getFullname());

@@ -260,6 +260,22 @@ public class UserServiceImplTest {
 		userService.upgradeUserRole(userId,1l);
 	}
 	
-
+	@Test
+	public void addUserTest() {
+		UserDTO userDTO = new UserDTO();
+		userDTO.setAddress("Da Nang");
+		userDTO.setBirthday(new Date());
+		userDTO.setEmail("thai@gmail.com");
+		userDTO.setFullname("Thai Dui");
+		userDTO.setGender(true);
+		userDTO.setPassword("123");
+		userDTO.setMatchingPassword("123");
+		userDTO.setPhone("123456789");
+		User user = userService.addUser(userDTO);
+		
+		assertEquals(userDTO.getAddress(), user.getUserDetail().getAddress());
+		assertEquals(userDTO.getAddress(), user.getUserDetail().getAddress());
+		
+	}
 	
 }

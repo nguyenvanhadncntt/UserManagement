@@ -115,19 +115,20 @@ $(function(){
 			complete : function(res) {
 				if (res.status === 200 || res.status ===201){
 					$('.msg-error').fadeIn(1000);
-					$('.msg-error').addClass('btn btn-success');
+					$('.msg-error').addClass('btn-success');
 					$('.msg-error').text('Update Profile Success!');
 					setTimeout(function() {
-						$('.msg-error').fadeOut(1000);
-					}, 6000);
+						$('.msg-error').hide(1000);
+					}, 8000);
 				}
 				if (res.status===400){
 					$('.msg-error').fadeIn(1000);
 					$('.msg-error').addClass('btn-danger');
+					$('.msg-error').removeClass('btn-success');
 					$('.msg-error').text(res.responseText);
 					setTimeout(function() {
 						$('.msg-error').fadeOut(1000);
-					}, 6000);
+					}, 8000);
 				}
 				console.log(res);
 			}
@@ -150,11 +151,11 @@ $(function(){
 			complete : function(res) {
 				if (res.status === 200 || res.status ===201){
 					$('.msg-error').fadeIn(1000);
-					$('.msg-error').addClass('btn btn-success');
+					$('.msg-error').addClass('btn-success');
 					$('.msg-error').text('Update Password Success!');
 					setTimeout(function() {
 						$('.msg-error').fadeOut(1000);
-					}, 6000);
+					}, 8000);
 				}
 				if (res.status===409){
 					$('.msg-error').fadeIn(1000);
@@ -162,7 +163,7 @@ $(function(){
 					$('.msg-error').text(res.responseText);
 					setTimeout(function() {
 						$('.msg-error').fadeOut(1000);
-					}, 6000);
+					}, 8000);
 				}
 			}
 		});

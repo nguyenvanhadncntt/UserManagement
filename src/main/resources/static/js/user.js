@@ -163,10 +163,10 @@ function multiDelete(){
 			data: JSON.stringify(listId),
 			complete: function(res){
 				if(res.status===200){
-					showMessage('notification',res.responseText,true);
+					showMessage('nofitication',res.responseText,true);
 					loadTable();
 				}else{
-					showMessage('notification',res.responseText,false);
+					showMessage('nofitication',res.responseText,false);
 				}
 			}
 		});
