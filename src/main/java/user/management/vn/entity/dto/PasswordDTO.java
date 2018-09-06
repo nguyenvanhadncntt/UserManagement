@@ -1,11 +1,13 @@
 package user.management.vn.entity.dto;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Null;
 
 public class PasswordDTO {
 	
 	private String token;
 	private String email;
+	
 	@NotBlank
 	private String passwordCurrent;
 	

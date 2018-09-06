@@ -153,6 +153,7 @@ public class ForgetPasswordController {
 			PasswordDTO passwordDTO = new PasswordDTO();
 			passwordDTO.setEmail(checkToKenVerifition.getUser().getEmail());
 			passwordDTO.setToken(token);
+			passwordDTO.setPasswordCurrent("a");
 			modelMap.addAttribute("changePasswordDTO", passwordDTO);
 			return "forget-password";
 		}
