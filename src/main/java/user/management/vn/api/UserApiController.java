@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
@@ -52,6 +53,9 @@ public class UserApiController {
 	@Autowired
 	private UserRoleService userRoleService;
 
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * @summary api get all user from database
 	 * @date Aug 13, 2018
@@ -128,7 +132,7 @@ public class UserApiController {
 		   			System.out.println("email");
 					return new ResponseEntity<Object>("Email is existed", HttpStatus.CONFLICT);
 				}
-		   		
+		   		userDTO.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 		   		User objUser = userService.addUser(userDTO, true);
 		   		if(objUser == null) {
 		   			return new ResponseEntity<Object>("Create User Fail", HttpStatus.BAD_REQUEST);

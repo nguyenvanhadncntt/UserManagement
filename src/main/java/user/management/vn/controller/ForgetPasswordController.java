@@ -157,7 +157,7 @@ public class ForgetPasswordController {
 			passwordDTO.setToken(token);
 			passwordDTO.setPasswordCurrent("a");
 			modelMap.addAttribute("changePasswordDTO", passwordDTO);
-			return "forget-password";
+			return "change-password";
 		}
 
 	}
@@ -193,16 +193,16 @@ public class ForgetPasswordController {
 				System.out.println(objectError);
 			}
 			modelMap.addAttribute("changePasswordDTO", passwordDTO);
-			return "forget-password";
+			return "change-password";
 		}
 		// check password trung
 		if (checkDuplicatePasswordCurrent) {
 			modelMap.addAttribute("msg", "The password you entered is the same as your current password");
-			return "forget-password";
+			return "change-password";
 		}
 		if (!checkDuplicateMatchingPassword) {
 			modelMap.addAttribute("msg", "You enter a mismatched password");
-			return "forget-password";
+			return "change-password";
 		}
 
 		// save change
@@ -212,7 +212,7 @@ public class ForgetPasswordController {
 		TokenVerifition tokenVerifition = tokenVerificationService.findTokenByTokenCode(token);
 		tokenVerificationService.deleteTokenById(tokenVerifition.getId());
 		
-		modelMap.addAttribute("error", "You have successfully changed your password");
+		modelMap.addAttribute("notification", "You have successfully changed your password");
 		return "login-page";
 	}
 

@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import user.management.vn.entity.Group;
@@ -49,9 +48,6 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	/**
 	 * @summary get all user of group from database
@@ -475,7 +471,6 @@ public class UserServiceImpl implements UserService {
 		user.setNonLocked(userResponse.getNonLocked());
 		userDetail.setUser(user);
 		user.setUserDetail(userDetail);
-		System.out.println("convert: " + user.getEmail() + user.getUserDetail().getFullname());
 		return user;
 	}
 
