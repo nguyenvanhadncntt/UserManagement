@@ -45,7 +45,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	 * @return List<Role>
 	 */
 	@Query("select r from Role r " + "where r.id not in " + "(select ur.role.id from GroupRole ur "
-			+ "where ur.group.id=:groupId) " + "and (r.roleName like %:param% )")
+			+ "where ur.group.id=:groupId) " + "and r.nonDel=true and (r.roleName like %:param% ) and r.scope='GROUP'")
 	List<Role> findRoleNotInGroupByName(@Param("groupId") Long groupId, @Param("param") String name);
 
 	/**
