@@ -123,18 +123,25 @@ function deleteGroup(groupId) {
 		$.ajax({
 			type : 'DELETE',
 			url : '/api/groups/' + groupId,
-			success : function(groups) {
-				$('.delete-compelete').fadeIn(50);
-				$('.delete-compelete').text('Deleted success ');
-				$('.delete-compelete').hide().slideDown(1000);
-				setTimeout(function() {
-					$('.delete-compelete').fadeOut(1000);
-				}, 3000);
-				getGroups();
-			},
-			error : function(res) {
-				console.log(res);
-				alert("error delete");
+			complete : function(res) {
+				if (res.status == 200 || res.status == 201){
+					$('.delete-compelete').fadeIn(50);
+					$('.delete-compelete').text('Deleted success ');
+					$('.delete-compelete').hide().slideDown(1000);
+					setTimeout(function() {
+						$('.delete-compelete').fadeOut(1000);
+					}, 3000);
+					getGroups();
+				} else {
+					if (res.status == 400 || res.status ==404){
+						$('.delete-compelete').fadeIn(50);
+						$('.delete-compelete').text(res.responseText);
+						$('.delete-compelete').hide().slideDown(1000);
+						setTimeout(function() {
+							$('.delete-compelete').fadeOut(1000);
+						}, 3000);
+					}
+				}
 			}
 		})
 	}

@@ -223,32 +223,51 @@
 			});
 			var jsonUserInfo = JSON.stringify(userInfo);
 			console.log(jsonUserInfo);
+			
 			$.ajax({
-				type : 'POST',
-				contentType : 'application/json',
-				url : '/registerAccount',
-				dataType : 'json',
-				data : jsonUserInfo,
-				complete : function(response) {
-					$('#wrapper').addClass('wrapper');
-					$('#wrapper').removeClass('wrapper-view');
-					if (response.status === 200) {
+				type:'GET',
+				url:'http://apilayer.net/api/check?access_key=32790fb6584859a5ea4ae913d8079d99&email='+userInfo.email+'&smtp=1&format=1',
+				complete: function(res){
+					console.log(res);
+					console.log(res.responseJSON.smtp_check);
+					if(res.responseJSON.smtp_check===true && res.responseJSON.error === undefined){
+						$.ajax({
+							type : 'POST',
+							contentType : 'application/json',
+							url : '/registerAccount',
+							dataType : 'json',
+							data : jsonUserInfo,
+							complete : function(response) {
+								
+								console.log('vo day')
+								$('#wrapper').addClass('wrapper');
+								$('#wrapper').removeClass('wrapper-view');
+								if (response.status === 200) {
+									showMessage('notification-addUser',
+											response.responseText, true);
+								} else if (response.status === 400
+										&& response.responseJSON.validated === false) {
+									console.log(response);
+									$.each(response.responseJSON.errorMessages, function(
+											key, value) {
+										$('input[name=' + key + ']').after(
+												'<span style="color: red;">' + value
+														+ '</span>');
+									});
+								} else {
+									showMessage('notification-addUser',
+											response.responseText, false);
+								}
+								$('#btnAddUser').prop("disabled", false);
+							}
+						});			
+					}else{
 						showMessage('notification-addUser',
-								response.responseText, true);
-					} else if (response.status === 400
-							&& response.responseJSON.validated === false) {
-						console.log(response);
-						$.each(response.responseJSON.errorMessages, function(
-								key, value) {
-							$('input[name=' + key + ']').after(
-									'<span style="color: red;">' + value
-											+ '</span>');
-						});
-					} else {
-						showMessage('notification-addUser',
-								response.responseText, false);
+								'Email not exist!!!', false);
+						$('#wrapper').addClass('wrapper');
+						$('#wrapper').removeClass('wrapper-view');
+						$('#btnAddUser').prop("disabled", false);
 					}
-					$('#btnAddUser').prop("disabled", false)
 				}
 			});
 		}

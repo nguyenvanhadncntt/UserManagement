@@ -201,7 +201,9 @@ public class GroupApiController {
 	public ResponseEntity<Object> deleteGroup(@PathVariable("id") long id) {
 		
 		Optional<Group> deletedGroup = groupService.deleteGroup(id);
-		
+		if(deletedGroup.get().getId() == null) {
+			return new ResponseEntity<Object>("Delete All user to delete group!!!", HttpStatus.BAD_REQUEST);
+		}
 		if (!deletedGroup.isPresent()) {
 			return new ResponseEntity<Object>("Group Not Found id: " + id, HttpStatus.NOT_FOUND);
 		}
