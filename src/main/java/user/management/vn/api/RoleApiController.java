@@ -76,7 +76,6 @@ public class RoleApiController {
 	 * @summary get all role have scope `group`
 	 * @date Aug 23, 2018
 	 * @author Thehap Rok
-	 * @return
 	 * @return ResponseEntity<Object>
 	 */
 	@GetMapping("/groups")
