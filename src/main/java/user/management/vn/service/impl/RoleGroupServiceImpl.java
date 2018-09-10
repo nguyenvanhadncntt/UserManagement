@@ -173,12 +173,13 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		groupRole.setRole(role.get());
 		System.err.println(role.get().getRoleName());
 		List<UserGroup> userGroups = groupRole.getGroup().getUserGroups();
-		
+		if (userGroups.size()==1) {
 		for (UserGroup userGroup : userGroups) {
 			
 			User user = userGroup.getUser();
 			System.out.println(user.getId());
 			boolean checkUserHasRole = userRoleRepository.existsByUserIdAndRoleId(user.getId(), roleId);
+			
 			if(checkUserHasRole) {
 //				UserRole userRole = new UserRole(user, role.get());
 				
@@ -186,7 +187,7 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 				System.err.println(o);
 //				userRoleRepository.save(userRole);
 			}
-		}
+		}}
 		groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
 		
 		return true;
@@ -319,20 +320,23 @@ public class RoleGroupServiceImpl implements RoleGroupService {
 		groupRole.setRole(role.get());
 		System.err.println(role.get().getRoleName());
 		List<UserGroup> userGroups = groupRole.getGroup().getUserGroups();
-		
-		for (UserGroup userGroup : userGroups) {
-			
-			User user = userGroup.getUser();
-			System.out.println(user.getId());
-			boolean checkUserHasRole = userRoleRepository.existsByUserIdAndRoleId(user.getId(), roleId);
-			if(checkUserHasRole) {
-//				UserRole userRole = new UserRole(user, role.get());
+		List<GroupRole> groupRoles = groupRoleRepository.findByRole(role.get());
+		if (groupRoles.size()==1) {
+			for (UserGroup userGroup : userGroups) {
 				
-				Integer o =userRoleRepository.deleteByUserIdAndRoleId(user.getId(), roleId);
-				System.err.println(o);
-//				userRoleRepository.save(userRole);
+				User user = userGroup.getUser();
+				System.out.println(user.getId());
+				boolean checkUserHasRole = userRoleRepository.existsByUserIdAndRoleId(user.getId(), roleId);
+				if(checkUserHasRole) {
+//					UserRole userRole = new UserRole(user, role.get());
+					
+					Integer o =userRoleRepository.deleteByUserIdAndRoleId(user.getId(), roleId);
+					System.err.println(o);
+//					userRoleRepository.save(userRole);
+				}
 			}
 		}
+		
 		groupRoleRepository.deleteByGroupIdAndRoleId(groupId, roleId);
 		
 		return true;
