@@ -73,11 +73,11 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	* @summary view all group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @return List<Group>
-	*/
+	 * @summary view all group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @return List<Group>
+	 */
 	@Override
 	public List<Group> viewAllGroup() {
 		return groupRepository.findByNonDel(true);
@@ -96,12 +96,12 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	* @summary view a group
-	* @date Aug 16, 2018
-	* @author Tai
-	* @param groupId
-	* @return Optional<Group>
-	*/
+	 * @summary view a group
+	 * @date Aug 16, 2018
+	 * @author Tai
+	 * @param groupId
+	 * @return Optional<Group>
+	 */
 	@Override
 	public Optional<Group> viewGroup(Long groupId) {
 		// TODO Auto-generated method stub
@@ -109,7 +109,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	 * @summary remove multi user in group  
+	 * @summary remove multi user in group
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -117,7 +117,7 @@ public class GroupServiceImpl implements GroupService {
 	 * @return Integer
 	 */
 	@Transactional
-	public Integer removeListUseFromGroup(Long groupId, List<Long> userIds) throws GroupNotFoundException{
+	public Integer removeListUseFromGroup(Long groupId, List<Long> userIds) throws GroupNotFoundException {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
 		if (!groupOptional.isPresent()) {
 			throw new GroupNotFoundException("Group not found!!!");
@@ -130,7 +130,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	 * @summary remove user in group 
+	 * @summary remove user in group
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -139,7 +139,7 @@ public class GroupServiceImpl implements GroupService {
 	 */
 	@Override
 	@Transactional
-	public Integer removeUserFromGroup(Long groupId, Long userId) throws GroupNotFoundException,UserNotFoundException {
+	public Integer removeUserFromGroup(Long groupId, Long userId) throws GroupNotFoundException, UserNotFoundException {
 		Optional<Group> groupOptional = groupRepository.findById(groupId);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent()) {
@@ -154,7 +154,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	 * @summary  
+	 * @summary
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -169,7 +169,7 @@ public class GroupServiceImpl implements GroupService {
 	}
 
 	/**
-	 * @summary get infor of user in group 
+	 * @summary get infor of user in group
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param groupId
@@ -178,7 +178,7 @@ public class GroupServiceImpl implements GroupService {
 	 * @return UserResponse
 	 */
 	@Override
-	public UserResponse getInforOfUser(Long groupId, Long userId) throws GroupNotFoundException,UserNotFoundException{
+	public UserResponse getInforOfUser(Long groupId, Long userId) throws GroupNotFoundException, UserNotFoundException {
 		Optional<Group> groupOptional = groupRepository.findByIdAndNonDel(groupId, true);
 		Optional<User> userOptional = userRepository.findById(userId);
 		if (!groupOptional.isPresent() || groupOptional.get().getNonDel() != true) {
@@ -221,19 +221,19 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Optional<Group> deleteGroup(Long groupId) {
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
-//		List<GroupRole> checkNoRole=
-				groupRoleRepository.findByGroup(group.get());
-	
-		group.get().setNonDel(false);
-		
-		groupRoleRepository.deleteByGroupId(groupId);
-		userGroupRepository.deleteUserGroupByGroupId(groupId);
+		int userSize = userService.getAllUserOfGroup(groupId).size();
+		if (userSize == 0) {
+			group.get().setNonDel(false);
 
-		return Optional.ofNullable(groupRepository.save(group.get()));
+			groupRoleRepository.deleteByGroupId(groupId);
+			userGroupRepository.deleteUserGroupByGroupId(groupId);
+
+			return Optional.ofNullable(groupRepository.save(group.get()));
+		}
+		return Optional.ofNullable(new Group());
 	}
-
 	/**
-	 * @summary add all role of group to user role 
+	 * @summary add all role of group to user role
 	 * @date Aug 16, 2018
 	 * @author Thehap Rok
 	 * @param group
@@ -256,17 +256,18 @@ public class GroupServiceImpl implements GroupService {
 	public Integer deleteListGroup(List<Long> groupIds) {
 		if (groupIds.isEmpty()) {
 			return 0;
-		} 
+		}
 		for (Long groupId : groupIds) {
 			Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
 			group.get().setNonDel(false);
 			groupRoleRepository.deleteByGroupId(groupId);
 			userGroupRepository.deleteUserGroupByGroupId(groupId);
 			groupRepository.save(group.get());
-			
+
 		}
 		return 1;
-  }
+	}
+
 	/**
 	 * @summary add User To Group By Email
 	 * @author Thehap Rok
@@ -274,17 +275,18 @@ public class GroupServiceImpl implements GroupService {
 	 * @return UserGroup
 	 */
 	@Override
-	public UserGroup addUserToGroupByEmail(Long groupId,String email) {
+	public UserGroup addUserToGroupByEmail(Long groupId, String email) {
 		Optional<Group> group = groupRepository.findById(groupId);
-		if(!group.isPresent()) {
+		if (!group.isPresent()) {
 			throw new GroupNotFoundException("Group not found !!!");
 		}
 		Optional<User> user = userRepository.findByEmail(email);
-		if(!user.isPresent()) {
+		if (!user.isPresent()) {
 			throw new UserNotFoundException("User not found!!!");
 		}
-		boolean checkUserInGroup = userGroupRepository.existsByGroupIdAndUserId(group.get().getId(),user.get().getId());
-		if(checkUserInGroup){
+		boolean checkUserInGroup = userGroupRepository.existsByGroupIdAndUserId(group.get().getId(),
+				user.get().getId());
+		if (checkUserInGroup) {
 			throw new RuntimeException("User is exist in group!!!");
 		}
 		UserGroup userGroup = new UserGroup(user.get(), group.get());
