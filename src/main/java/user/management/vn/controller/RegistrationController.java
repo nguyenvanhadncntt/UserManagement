@@ -33,6 +33,7 @@ import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
+import user.management.vn.util.CheckRealMailExist;
 import user.management.vn.util.RoleSystem;
 import user.management.vn.util.VerificationUtil;
 
@@ -59,6 +60,9 @@ public class RegistrationController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+//	
+//	@Autowired
+//	private CheckRealMailExist checkMail;
 	
 	/**
 	 * @summary show regist page
@@ -97,7 +101,10 @@ public class RegistrationController {
 	      }
 		if(userService.checkDuplicateEmail(userModel.getEmail())) {
 			return new ResponseEntity<Object> ("Email is existed", HttpStatus.CONFLICT);
-		}else {
+		} if( !CheckRealMailExist.isAddressValid(userModel.getEmail())){
+			return new ResponseEntity<Object> ("Email is not exist!!!", HttpStatus.NOT_FOUND);
+		}
+		else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());

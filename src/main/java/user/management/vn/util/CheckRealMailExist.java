@@ -38,11 +38,12 @@ public class CheckRealMailExist {
 	private static void say(BufferedWriter wr, String text) throws IOException {
 		wr.write(text + "\r\n");
 		wr.flush();
+
 		return;
 	}
 
 	private static ArrayList getMX(String hostName) throws NamingException {
-		Hashtable<String, String> env = new Hashtable();
+		Hashtable<String, String> env = new Hashtable<>();
 		env.put("java.naming.factory.initial", "com.sun.jndi.dns.DnsContextFactory");
 		DirContext ictx = new InitialDirContext(env);
 		Attributes attrs = ictx.getAttributes(hostName, new String[] { "MX" });
@@ -54,16 +55,20 @@ public class CheckRealMailExist {
 			if (attr == null)
 				throw new NamingException("No match for name '" + hostName + "'");
 		}
-
 		ArrayList res = new ArrayList();
 		NamingEnumeration en = attr.getAll();
 
 		while (en.hasMore()) {
+			String mailhost;
 			String x = (String) en.next();
 			String f[] = x.split(" ");
-			if (f[1].endsWith("."))
-				f[1] = f[1].substring(0, (f[1].length() - 1));
-			res.add(f[1]);
+			if (f.length == 1)
+				mailhost = f[0];
+			else if (f[1].endsWith("."))
+				mailhost = f[1].substring(0, (f[1].length() - 1));
+			else
+				mailhost = f[1];
+			res.add(mailhost);
 		}
 		return res;
 	}
@@ -84,6 +89,7 @@ public class CheckRealMailExist {
 
 		if (mxList.size() == 0)
 			return false;
+
 		for (int mx = 0; mx < mxList.size(); mx++) {
 			boolean valid = false;
 			try {
@@ -93,19 +99,25 @@ public class CheckRealMailExist {
 				BufferedWriter wtr = new BufferedWriter(new OutputStreamWriter(skt.getOutputStream()));
 
 				res = hear(rdr);
-				if (res != 220)
-					throw new Exception("Invalid header");
-				say(wtr, "EHLO orbaker.com");
+				if (res != 220) {
+					valid = false;
+					break;
+				}
+				say(wtr, "EHLO rgagnon.com");
 
 				res = hear(rdr);
-				if (res != 250)
-					throw new Exception("Not ESMTP");
+				if (res != 250) {
+					valid = false;
+					break;
+				}
 
 				// validate the sender address
 				say(wtr, "MAIL FROM: <tim@orbaker.com>");
 				res = hear(rdr);
-				if (res != 250)
-					throw new Exception("Sender rejected");
+				if (res != 250) {
+					valid = false;
+					break;
+				}
 
 				say(wtr, "RCPT TO: <" + address + ">");
 				res = hear(rdr);
@@ -115,12 +127,16 @@ public class CheckRealMailExist {
 				hear(rdr);
 				say(wtr, "QUIT");
 				hear(rdr);
-				if (res != 250)
-					throw new Exception("Address is not valid!");
+				if (res != 250) {
+					valid = false;
+					break;
+				}
+
 				valid = true;
 				rdr.close();
 				wtr.close();
 				skt.close();
+				return true;
 			} catch (Exception ex) {
 				// Do nothing but try next host
 				ex.printStackTrace();

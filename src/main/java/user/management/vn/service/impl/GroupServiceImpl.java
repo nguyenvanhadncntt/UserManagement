@@ -221,7 +221,8 @@ public class GroupServiceImpl implements GroupService {
 	@Override
 	public Optional<Group> deleteGroup(Long groupId) {
 		Optional<Group> group = groupRepository.findByIdAndNonDel(groupId, true);
-		List<GroupRole> checkNoRole=groupRoleRepository.findByGroup(group.get());
+//		List<GroupRole> checkNoRole=
+				groupRoleRepository.findByGroup(group.get());
 	
 		group.get().setNonDel(false);
 		
