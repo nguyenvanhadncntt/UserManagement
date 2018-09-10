@@ -232,7 +232,6 @@ public class GroupServiceImpl implements GroupService {
 		}
 		return Optional.ofNullable(new Group());
 	}
-
 	/**
 	 * @summary add all role of group to user role
 	 * @date Aug 16, 2018

@@ -1,3 +1,4 @@
+listUsers=[];
 loadTable();
 $(window).load(function(){
 	if(sessionStorage.getItem("role")==='ADMIN'){
@@ -20,7 +21,7 @@ function loadTable(){
 		url:'/api/users',
 		type:'GET',
 		success: function(data){
-			console.log(data);
+			listUsers=data;
 			$.each(data,function(i,user){
 				listItem=[];
 				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
@@ -28,7 +29,7 @@ function loadTable(){
 						+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
 						+'</ins></div>');
 				listItem.push(user.id);
-				listItem.push(user.email);
+				listItem.push('<a onclick="viewUser('+user.id+')">'+user.email+'</a>');
 				listItem.push(user.fullname);
 				listItem.push((user.gender===true)?'Female':'Male');
 				listItem.push(user.address);
@@ -68,6 +69,18 @@ function checkAll(){
 				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
 			});
 		});
+}
+
+function viewUser(userId){
+	var userDetail;
+	$.each(listUsers,function(i,user){
+		if(user.id===userId){
+			console.log(user);
+			userDetail=user;
+		}
+	});
+	console.log(userDetail);
+//	$.each(userDetail)
 }
 
 function removeUser(userId) {	
