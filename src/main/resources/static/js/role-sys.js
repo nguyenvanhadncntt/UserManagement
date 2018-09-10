@@ -65,18 +65,30 @@ function loadTable(){
 		success: function(data){
 			$.each(data,function(i,role){
 				listItem=[];
-				listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
-						+'<input type="checkbox" value="'+role.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
-						+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
-						+'</ins></div>');
+				if(role.roleName === 'ADMIN' || role.roleName === 'USER' || role.roleName === 'ROOT'){
+					listItem.push('<div class="icheckbox_flat-green" style="position: relative;opacity:0.5" onclick="">'
+							+'<input type="checkbox" name="check-element" class="flat checkbox" style="position: absolute; opacity: 0;">'
+							+'<ins class="iCheck-helper no-delete" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+							+'</ins></div>');
+				}else{
+					listItem.push('<div class="icheckbox_flat-green" style="position: relative;">'
+							+'<input type="checkbox" value="'+role.id+'" name="check-element" class="flat checkbox-delete" style="position: absolute; opacity: 0;">'
+							+'<ins class="iCheck-helper" style="position: absolute; top: 0%; left: 0%; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;">'
+							+'</ins></div>');
+				}
 				listItem.push(role.id);
 				listItem.push('<a href="#" onclick="viewUserHasRole('+role.id+')">'+role.roleName+'</a>');
 				listItem.push(role.description);
 				date = new Date(role.createdAt)
 				createdAt = ((date.getMonth()+1)<10?('0'+(date.getMonth()+1)):(date.getMonth()+1))+"/"+(date.getDate()<10?('0'+date.getDate()):date.getDate())+"/"+date.getFullYear()
 				listItem.push(createdAt);
-				listItem.push('<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeRole('+role.id+')" />'
-						+'<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" onclick="showInfor('+role.id+')" />');
+				if(role.roleName === 'ADMIN' || role.roleName === 'USER' || role.roleName === 'ROOT'){
+					listItem.push(listItem.push('<img style="margin:0 15%;opacity:0.5" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" />'
+							+'<img style="margin:0 15%;opacity:0.5" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" />'));
+				}else{
+					listItem.push('<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_trash.png" width="25px" height="25px" onclick="removeRole('+role.id+')" />'
+							+'<img style="margin:0 15%;cursor:pointer" alt="delete Icon" src="/images/icon_edit.png" width="25px" height="25px" onclick="showInfor('+role.id+')" />');
+				}
 				listUser.push(listItem);
 			});
 			showOnDataTable(listUser);
@@ -98,13 +110,16 @@ function showOnDataTable(list){
 function checkBox(){
 	$.each($('.icheckbox_flat-green'),function(i,tag){
 		$(tag).on('click',function(){
-			if(!$(this).hasClass('checked')){
-				$(this).addClass('checked');
-			}else{
-				$(this).removeClass('checked');
+			children = $(this).children('ins');
+			if(!children.hasClass('no-delete')){
+				if(!$(this).hasClass('checked')){
+					$(this).addClass('checked');
+				}else{
+					$(this).removeClass('checked');
+				}
+				parent = $(this).parent();
+				parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
 			}
-			parent = $(this).parent();
-			parent.find('input[name=check-element]').prop('checked',$(this).hasClass('checked'));
 		});
 	});
 }
@@ -113,6 +128,8 @@ function checkAll(){
 	ins = $('#check-all').parent().children('ins');
 	ins.on('click',function(){
 		$.each($('.icheckbox_flat-green'),function(i,tag){
+			children = $(tag).children('ins');
+			if(!children.hasClass('no-delete')){
 				if(ins.parent().hasClass('checked')){
 					$(tag).addClass('checked');
 				}else{
@@ -120,6 +137,7 @@ function checkAll(){
 				}
 				parent = $(tag).parent();
 				parent.find('input[name=check-element]').prop('checked',$(tag).hasClass('checked'));
+			}
 			});
 		});
 }
