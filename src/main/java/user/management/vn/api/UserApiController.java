@@ -55,7 +55,7 @@ public class UserApiController {
 
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	/**
 	 * @summary api get all user from database
 	 * @date Aug 13, 2018
@@ -71,7 +71,7 @@ public class UserApiController {
 		return new ResponseEntity<>(listUser, HttpStatus.OK);
 
 	}
-
+	
 	/**
 	 * 
 	 * @summary api get an user from id of user

@@ -6,6 +6,9 @@ import java.util.Date;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import user.management.vn.validation.Password;
@@ -29,7 +32,9 @@ public class UserDTO implements Serializable{
 	@NotBlank(message = "fullname must not blank")
 	private String fullname;	
 	@Phone(message="Phone must not be blank and must valid")
-	private String phone;	
+	private String phone;
+	
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	@NotNull(message = "Birthday must not be null")
 	private Date birthday;
 	@NotBlank(message = "Address must not be blank")
@@ -91,5 +96,4 @@ public class UserDTO implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }
