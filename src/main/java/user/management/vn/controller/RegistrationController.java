@@ -18,6 +18,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserDTOResponse;
+import user.management.vn.service.FileStorageService;
 import user.management.vn.service.MailService;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
@@ -60,9 +62,6 @@ public class RegistrationController {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-//	
-//	@Autowired
-//	private CheckRealMailExist checkMail;
 	
 	/**
 	 * @summary show regist page
@@ -86,8 +85,9 @@ public class RegistrationController {
 	
 	@PostMapping(path="/registerAccount")	
 	public  ResponseEntity<Object> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult result) {
-		  UserDTOResponse userDTOResponse = new UserDTOResponse();		  
-	      if(result.hasErrors()){          
+		try {
+		UserDTOResponse userDTOResponse = new UserDTOResponse();		  
+	      if(result.hasErrors()){
 	          Map<String, String> errors = result.getFieldErrors().stream()
 	                .collect(
 	                      Collectors.toMap(FieldError::getField, ObjectError::getDefaultMessage)	                     
@@ -114,13 +114,16 @@ public class RegistrationController {
 				User user = userService.addUser(userModel);
 				TokenVerifition tokenVerifition = new TokenVerifition(user, registCode, expireDate, 0);
 				tokenVerificationService.addToken(tokenVerifition);
-				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return new ResponseEntity<>("Created user successfully", HttpStatus.OK);
-		}		
+		}
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
+		}
 	}
 	
 	/**
