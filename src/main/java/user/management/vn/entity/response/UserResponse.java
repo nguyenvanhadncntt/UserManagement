@@ -51,9 +51,12 @@ public class UserResponse implements Serializable {
 	@NotBlank
 	private String address;
 	
+	private String pathImage;
+	
 	@NotNull
 	private Boolean gender;
 	private Date createdAt;
+	
 
 	@JsonIgnoreProperties(value = { "userRoles"})
 	private List<Role> listRole;
@@ -73,6 +76,17 @@ public class UserResponse implements Serializable {
 		this.gender = gender;
 		this.createdAt = createdAt;
 	}
+
+	
+	public String getPathImage() {
+		return pathImage;
+	}
+
+
+	public void setPathImage(String pathImage) {
+		this.pathImage = pathImage;
+	}
+
 
 	public List<Group> getListGroup() {
 		return listGroup;
@@ -191,6 +205,7 @@ public class UserResponse implements Serializable {
 		this.birthday = userDetail.getBirthDay();
 		this.gender = userDetail.getGender();
 		this.createdAt = userDetail.getCreatedAt();
+		this.pathImage = userDetail.getPathImage();
 		
 		this.listRole = new ArrayList<>();
 		List<UserRole> listUR = user.getUserRoles();

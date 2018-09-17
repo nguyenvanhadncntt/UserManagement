@@ -397,6 +397,7 @@ public class UserServiceImpl implements UserService {
 		String phone = userResponse.getPhone();
 		String email = userResponse.getEmail();
 		Date createdAt = userResponse.getCreatedAt();
+		String pathImage = userResponse.getPathImage();
 		
 		User user = getUserByEmail(email);
 		user.getUserDetail().setAddress(address);
@@ -405,6 +406,7 @@ public class UserServiceImpl implements UserService {
 		user.getUserDetail().setGender(gender);
 		user.getUserDetail().setPhone(phone);
 		user.getUserDetail().setCreatedAt(createdAt);
+		user.getUserDetail().setPathImage(pathImage);
 		
 		return userRepository.save(user);
 	}

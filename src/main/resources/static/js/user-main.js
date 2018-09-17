@@ -27,8 +27,14 @@ function viewProfile() {
 		url : URL,
 		type : 'GET',
 		success : function(user) {
+			imageUrl ='/images/'+user.pathImage;
+			console.log(imageUrl);
+			sessionStorage.setItem("avatar", user.pathImage);
+			$('#ava-left').prop('src',imageUrl);
+			$('#ava-right').prop('src',imageUrl);
 			user_profile = user;
 			console.log(user_profile);
+		
 			sessionStorage.setItem("username", user.fullname);
 			$.each($('.username-wel'),function(i,tag){
 				$(tag).text(user.fullname);
@@ -43,6 +49,7 @@ function viewProfile() {
 					sessionStorage.setItem("role", role.roleName);
 				}
 			});
+			$('.avatar-view').attr('src',imageUrl);
 			createAt = customDate(user.createdAt);
 			$('#form-user').find('input[name=id]').val(user.id);
 			$('#form-user').find('input[name=fullname]').val(user.fullname).attr('readonly','readonly');
@@ -72,7 +79,7 @@ function viewProfile() {
 				list_item.push('<td>'+group.description+'</td>');
 				list_item.push('<td class="hidden-phone">'+createAt+'</td>');
 				list_item.push('</tr>');
-				list_group.push(list_item);
+				
 			});
 			$('#my-list-group').append(list_group.toString());
 			
@@ -116,8 +123,37 @@ function viewEditProFile() {
 	$('#form-user').find('input[type=reset]').fadeIn(1000);
 	$('.button-edit').fadeIn(1000);
 }
+
+
 $(function(){
 	viewProfile();
+
+	$("#crop-avatar").hover(function(){$("#label-avata").show();},
+            function(){$("#label-avata").hide();});
+	$('#upload').change(function() {
+		var fd = new FormData();
+		fd.append('file',$(this)[0].files[0]);
+		$.ajax({
+			type:'put',
+			url:'/my-profile/update-avatar',
+			contentType: false,
+			processData: false,
+			data: fd,
+			complete: function(res){
+				console.log(res);
+				if(res.status===200){
+					$('.avatar-view').prop('src','/images/'+res.responseJSON.pathImage)
+					$('#ava-left').prop('src','/images/'+res.responseJSON.pathImage);
+					$('#ava-right').prop('src','/images/'+res.responseJSON.pathImage);
+					sessionStorage.setItem("avatar", '/images/'+res.responseJSON.pathImage);
+				}else if(res.status===304){
+					alert('Format file wrong!!!');
+				}else{
+					alert('Have bug!!!');
+				}
+			}
+		});
+	})
 	
 	$('#doEditProFile').click(function(){
 		var URL = "/my-profile";
