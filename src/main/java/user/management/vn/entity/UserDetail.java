@@ -41,6 +41,9 @@ public class UserDetail {
 
 	@Column(name = "gender", columnDefinition = "TINYINT(1)", nullable = false)
 	private Boolean gender;
+	
+	@Column(name ="pathImage", nullable = false)
+	private String pathImage;
 
 	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -50,6 +53,17 @@ public class UserDetail {
 	@OneToOne(optional = false)
 	@PrimaryKeyJoinColumn
 	private User user;
+	
+	
+	
+
+	public String getPathImage() {
+		return pathImage;
+	}
+
+	public void setPathImage(String pathImage) {
+		this.pathImage = pathImage;
+	}
 
 	public UserDetail() {
 		super();

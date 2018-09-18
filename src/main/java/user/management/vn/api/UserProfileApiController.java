@@ -12,11 +12,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import user.management.vn.entity.User;
 import user.management.vn.entity.dto.PasswordDTO;
 import user.management.vn.entity.response.UserResponse;
+import user.management.vn.service.FileStorageService;
 import user.management.vn.service.PasswordService;
 import user.management.vn.service.UserService;
 
@@ -27,42 +30,48 @@ public class UserProfileApiController {
 	UserService userService;
 
 	@Autowired
+	FileStorageService fileStorageService;
+
+	@Autowired
 	PasswordService passwordService;
 
 	@GetMapping
 	public ResponseEntity<Object> viewMyProfile(Principal principal) {
 		UserResponse userRespone = passwordService.viewCurrentUserResponse(principal);
-		
+		if(userRespone.getPathImage() == null && userRespone.getPathImage().isEmpty()) {
+			userRespone.setPathImage("user.png");
+		}
 		return new ResponseEntity<>(userRespone, HttpStatus.OK);
 	}
 
 	@PutMapping
-	public ResponseEntity<Object> updateMyProfile(@Valid @RequestBody UserResponse userResponse, BindingResult bindingResult) {
+	public ResponseEntity<Object> updateMyProfile(@Valid @RequestBody UserResponse userResponse,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			String fieldName = bindingResult.getFieldError().getField();
 			String message = bindingResult.getFieldError().getDefaultMessage();
-			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(fieldName + " : " + message, HttpStatus.BAD_REQUEST);
 		}
 		if (userResponse == null) {
 			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
 		}
-		
+
 		userService.saveUser(userResponse);
 		return new ResponseEntity<>("Update user successfully", HttpStatus.OK);
 
 	}
 
 	@PutMapping("change-password")
-	public ResponseEntity<Object> changePasswordMyProfile(@Valid @RequestBody PasswordDTO passwordDTO, BindingResult bindingResult,
-			Principal principal) {
-		
+	public ResponseEntity<Object> changePasswordMyProfile(@Valid @RequestBody PasswordDTO passwordDTO,
+			BindingResult bindingResult, Principal principal) {
+
 		if (passwordDTO == null) {
 			return new ResponseEntity<>("Bad request", HttpStatus.BAD_REQUEST);
 		}
 		if (bindingResult.hasErrors()) {
 			String fieldName = bindingResult.getFieldError().getField();
 			String message = bindingResult.getFieldError().getDefaultMessage();
-			return new ResponseEntity<>(fieldName+" : "+message,HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(fieldName + " : " + message, HttpStatus.BAD_REQUEST);
 		}
 		User user = passwordService.viewCurrentUsers(principal);
 
@@ -96,6 +105,17 @@ public class UserProfileApiController {
 
 	}
 
+	@PutMapping("/update-avatar")
+	public ResponseEntity<Object> updateAvatar(Principal principal,@RequestParam("file") MultipartFile file){
+		if(fileStorageService.storeFile(file)) {
+			UserResponse userResponse = passwordService.viewCurrentUserResponse(principal);
+			userResponse.setPathImage(file.getOriginalFilename());
+			userService.saveUser(userResponse);
+			return new ResponseEntity<Object>(userResponse,HttpStatus.OK);
+		}
+		return new ResponseEntity<Object>("Update avatar not success!!!",HttpStatus.NOT_MODIFIED);
+	}
+	
 	public UserResponse viewCurrentUsers(Principal principal) {
 		String email = principal.getName();
 		User user = userService.getUserByEmail(email);
