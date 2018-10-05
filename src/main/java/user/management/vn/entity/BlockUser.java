@@ -2,10 +2,8 @@ package user.management.vn.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -24,15 +22,14 @@ public class BlockUser {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_id", 
-				foreignKey = @ForeignKey(name = "ref_blockuser_user"), 
 				unique = true, 
 				nullable = false)
 	private User user;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "block_time", nullable = false)
+	@Column(name = "block_time", nullable = true)
 	private Date blockTime;
 
 	@Column(name = "number_fail", nullable = false)

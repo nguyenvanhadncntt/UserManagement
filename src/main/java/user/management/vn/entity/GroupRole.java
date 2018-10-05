@@ -1,15 +1,16 @@
 package user.management.vn.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "role_group")
@@ -19,12 +20,14 @@ public class GroupRole {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "role_id", nullable = false, foreignKey = @ForeignKey(name = "ref_role_group"))
+	@JsonIgnoreProperties({"groupRoles","userRoles"})
+	@ManyToOne
+	@JoinColumn(name = "role_id", nullable = false)
 	private Role role;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "group_id", nullable = false, foreignKey = @ForeignKey(name = "ref_group_role"))
+	@JsonIgnoreProperties({"groupRoles","userGroups"})
+	@ManyToOne
+	@JoinColumn(name = "group_id", nullable = false)
 	private Group group;
 
 	public GroupRole() {
@@ -43,7 +46,8 @@ public class GroupRole {
 		this.role = role;
 		this.group = groupId;
 	}
-
+	
+	@JoinTable()
 	public Long getId() {
 		return id;
 	}

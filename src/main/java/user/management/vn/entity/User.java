@@ -1,5 +1,6 @@
 package user.management.vn.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,13 +11,17 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class User {
+public class User implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,23 +45,23 @@ public class User {
 	private Boolean nonLocked = true;
 
 	@JsonIgnoreProperties("user")
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
 	private UserDetail userDetail;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user",orphanRemoval=true)
 	private TokenVerifition tokenVerifition;
 
 	@JsonIgnore
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL,orphanRemoval=true)
+	@OneToOne(mappedBy = "user", cascade=CascadeType.ALL, orphanRemoval=true)
 	private BlockUser blockUser;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "user",orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
 	@JsonIgnoreProperties("user")
-	@OneToMany(mappedBy = "user",cascade=CascadeType.ALL,orphanRemoval=true)
+	@OneToMany(mappedBy = "user",orphanRemoval=true)
 	private List<UserRole> userRoles;
 
 	public User() {

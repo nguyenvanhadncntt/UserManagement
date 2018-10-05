@@ -1,13 +1,30 @@
 package user.management.vn.entity.response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import user.management.vn.entity.Group;
+import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
+import user.management.vn.entity.UserGroup;
+import user.management.vn.entity.UserRole;
+import user.management.vn.validation.Phone;
+import user.management.vn.validation.ValidEmail;
 
+/**
+ * 
+ * @author Thehap Rok
+ *
+ */
 public class UserResponse implements Serializable {
 
 	/**
@@ -17,15 +34,67 @@ public class UserResponse implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private String email;	
+	@ValidEmail(message="Email must be valid")
+	private String email;
 	private Boolean enable;
 	private Boolean nonLocked;
+	
+	@NotBlank
 	private String fullname;
+	
+	@Phone
 	private String phone;
+	
+	@NotNull
 	private Date birthday;
+	
+	@NotBlank
 	private String address;
+	
+	private String pathImage;
+	
+	@NotNull
 	private Boolean gender;
 	private Date createdAt;
+	
+
+	@JsonIgnoreProperties(value = { "userRoles"})
+	private List<Role> listRole;
+	
+	@JsonIgnoreProperties(value = { "userGroups", "groupRoles" })
+	private List<Group> listGroup;
+
+	public UserResponse(Long id, String email, @NotBlank String fullname, String phone, @NotNull Date birthday,
+			@NotBlank String address, @NotNull Boolean gender, Date createdAt) {
+		super();
+		this.id = id;
+		this.email = email;
+		this.fullname = fullname;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.address = address;
+		this.gender = gender;
+		this.createdAt = createdAt;
+	}
+
+	
+	public String getPathImage() {
+		return pathImage;
+	}
+
+
+	public void setPathImage(String pathImage) {
+		this.pathImage = pathImage;
+	}
+
+
+	public List<Group> getListGroup() {
+		return listGroup;
+	}
+
+	public void setListGroup(List<Group> listGroup) {
+		this.listGroup = listGroup;
+	}
 
 	public UserResponse() {
 		super();
@@ -110,7 +179,19 @@ public class UserResponse implements Serializable {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
+	
+	public List<Role> getListRole() {
+		return listRole;
+	}
 
+	public void setListRole(List<Role> listRole) {
+		this.listRole = listRole;
+	}
+	
+	/**
+	 * @summary add properties of user to user response
+	 * @param user
+	 */
 	public void addPropertiesFromUser(User user) {
 		UserDetail userDetail = user.getUserDetail();
 
@@ -124,6 +205,20 @@ public class UserResponse implements Serializable {
 		this.birthday = userDetail.getBirthDay();
 		this.gender = userDetail.getGender();
 		this.createdAt = userDetail.getCreatedAt();
+		this.pathImage = userDetail.getPathImage();
+		
+		this.listRole = new ArrayList<>();
+		List<UserRole> listUR = user.getUserRoles();
+		for (UserRole userRole : listUR) {
+			this.listRole.add(userRole.getRole());
+		}
+		this.listGroup = new ArrayList<>();
+		List<UserGroup> listUG = user.getUserGroups();
+		for (UserGroup userGroup : listUG) {
+			this.listGroup.add(userGroup.getGroup());
+		}
+		
+		
 	}
 
 }

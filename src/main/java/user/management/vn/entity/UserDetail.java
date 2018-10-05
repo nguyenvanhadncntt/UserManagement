@@ -2,10 +2,8 @@ package user.management.vn.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +14,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import user.management.vn.validation.Phone;
 
 @Entity
 @Table(name="user_detail")
@@ -28,6 +28,7 @@ public class UserDetail {
 	@Column(name = "fullname", nullable = false)
 	private String fullname;
 
+	@Phone
 	@Column(name = "phone", columnDefinition = "VARCHAR(15)", nullable = false)
 	private String phone;
 
@@ -40,15 +41,29 @@ public class UserDetail {
 
 	@Column(name = "gender", columnDefinition = "TINYINT(1)", nullable = false)
 	private Boolean gender;
+	
+	@Column(name ="pathImage", nullable = false)
+	private String pathImage;
 
 	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreationTimestamp
 	private Date createdAt;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = false)
-	@PrimaryKeyJoinColumn(foreignKey=@ForeignKey(name="ref_user_detail"))
+	@OneToOne(optional = false)
+	@PrimaryKeyJoinColumn
 	private User user;
+	
+	
+	
+
+	public String getPathImage() {
+		return pathImage;
+	}
+
+	public void setPathImage(String pathImage) {
+		this.pathImage = pathImage;
+	}
 
 	public UserDetail() {
 		super();

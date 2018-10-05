@@ -3,7 +3,6 @@ package user.management.vn.entity;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,8 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotBlank;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name="groups")
@@ -24,12 +26,14 @@ public class Group {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@NotBlank(message="You must not blank")
 	@Column(name = "name", nullable = false)
 	private String name;
 
 	@Column(name = "non_del",nullable = false,columnDefinition="TINYINT(1) default 1")
 	private Boolean nonDel = true;
 
+	@NotBlank(message="You must not blank")
 	@Column(name = "description", nullable = true)
 	private String description;
 
@@ -38,29 +42,31 @@ public class Group {
 	@CreationTimestamp
 	private Date createdAt;
 
-	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnoreProperties("group")
+	@OneToMany(mappedBy = "group",orphanRemoval=true)
 	private List<GroupRole> groupRoles;
 
-	@OneToMany(mappedBy = "group",cascade=CascadeType.ALL,orphanRemoval=true)
+	@JsonIgnoreProperties("group")
+	@OneToMany(mappedBy = "group",orphanRemoval=true)
 	private List<UserGroup> userGroups;
 
 	public Group() {
 		super();
 	}
-
-	public Group(String name, String describe) {
+	public Group(String name, String description) {
 		super();
 		this.name = name;
-		this.description = describe;
+		this.description = description;
 	}
 	
-	public Group(Long id, String name, Boolean nonDel, String describe, Date createdAt, List<GroupRole> groupRoles,
+
+	public Group(Long id, String name, Boolean nonDel, String description, Date createdAt, List<GroupRole> groupRoles,
 			List<UserGroup> userGroups) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.nonDel = nonDel;
-		this.description = describe;
+		this.description = description;
 		this.createdAt = createdAt;
 		this.groupRoles = groupRoles;
 		this.userGroups = userGroups;
@@ -90,12 +96,12 @@ public class Group {
 		this.nonDel = nonDel;
 	}
 
-	public String getDescribe() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescribe(String describe) {
-		this.description = describe;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public Date getCreatedAt() {
