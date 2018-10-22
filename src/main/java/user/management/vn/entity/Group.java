@@ -19,7 +19,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-@Table(name="groups")
+@Table(name="group_detail")
 public class Group {
 	@Id
 	@Column(name = "id")

@@ -66,6 +66,6 @@ public interface GroupRepository extends JpaRepository<Group, Long> {
 	* @return Integer
 	 */
 	@Modifying
-	@Query(value= "delete from group where id=?1",nativeQuery=true)
+	@Query(value= "delete from group_detail where id=?1",nativeQuery=true)
 	Integer deleteByGroupId(Long groupId);
 }

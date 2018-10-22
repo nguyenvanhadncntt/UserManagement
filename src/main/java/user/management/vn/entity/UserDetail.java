@@ -43,7 +43,7 @@ public class UserDetail {
 	private Boolean gender;
 	
 	@Column(name ="pathImage", nullable = false)
-	private String pathImage;
+	private String pathImage = "user.png";
 
 	@Column(name = "created_at",columnDefinition="TIMESTAMP default CURRENT_TIMESTAMP")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -54,9 +54,6 @@ public class UserDetail {
 	@PrimaryKeyJoinColumn
 	private User user;
 	
-	
-	
-
 	public String getPathImage() {
 		return pathImage;
 	}

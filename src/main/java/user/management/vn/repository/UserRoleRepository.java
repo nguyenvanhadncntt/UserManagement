@@ -78,5 +78,12 @@ public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
 	@Query(value="delete from user_role where user_role.user_id = ?1 and user_role.role_id in (select id from role where scope='SYSTEM')",nativeQuery=true)
 	void deleteByUserIdAndRoleIdOfSystem(Long userId);
+	
+	/**
+	 * @param roleName
+	 * @param userEmail
+	 * @return Boolean
+	 */
+	Boolean existsByRoleRoleNameAndUserEmail(String roleName,String userEmail);
 
 }
