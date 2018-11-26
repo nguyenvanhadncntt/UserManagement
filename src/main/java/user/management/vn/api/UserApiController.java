@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import user.management.vn.define.RoleSystem;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
@@ -37,7 +38,6 @@ import user.management.vn.exception.UserNotFoundException;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
-import user.management.vn.util.RoleSystem;
 import user.management.vn.wrapper.ListIdWrapper;
 
 @RestController

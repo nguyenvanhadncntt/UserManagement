@@ -1,4 +1,4 @@
-package user.management.vn.util;
+package user.management.vn.define;
 
 /**
  * 

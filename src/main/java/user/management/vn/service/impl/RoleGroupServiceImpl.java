@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import user.management.vn.define.RoleScope;
 import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
@@ -22,7 +23,6 @@ import user.management.vn.repository.GroupRoleRepository;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.service.RoleGroupService;
-import user.management.vn.util.RoleScope;
 
 @Service
 public class RoleGroupServiceImpl implements RoleGroupService {

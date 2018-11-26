@@ -9,6 +9,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import user.management.vn.define.RoleScope;
+import user.management.vn.define.RoleSystem;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserDetail;
@@ -16,8 +18,6 @@ import user.management.vn.entity.UserRole;
 import user.management.vn.repository.RoleRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.repository.UserRoleRepository;
-import user.management.vn.util.RoleScope;
-import user.management.vn.util.RoleSystem;
 
 @Component
 public class DataSeedingListener implements ApplicationListener<ContextRefreshedEvent> {

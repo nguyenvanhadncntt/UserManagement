@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import user.management.vn.UserManagementApplication;
+import user.management.vn.define.RoleSystem;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
@@ -24,7 +25,6 @@ import user.management.vn.repository.UserGroupRepository;
 import user.management.vn.repository.UserRepository;
 import user.management.vn.repository.UserRoleRepository;
 import user.management.vn.test.config.MailTestConfig;
-import user.management.vn.util.RoleSystem;
 
 @Profile("test")
 @RunWith(SpringRunner.class)

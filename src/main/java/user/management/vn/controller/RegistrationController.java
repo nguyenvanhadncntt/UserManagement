@@ -18,25 +18,22 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import user.management.vn.define.RoleSystem;
 import user.management.vn.entity.Role;
 import user.management.vn.entity.TokenVerifition;
 import user.management.vn.entity.User;
 import user.management.vn.entity.UserRole;
 import user.management.vn.entity.dto.UserDTO;
 import user.management.vn.entity.response.UserDTOResponse;
-import user.management.vn.service.FileStorageService;
 import user.management.vn.service.MailService;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.TokenVerificationService;
 import user.management.vn.service.UserRoleService;
 import user.management.vn.service.UserService;
-import user.management.vn.util.CheckRealMailExist;
-import user.management.vn.util.RoleSystem;
 import user.management.vn.util.VerificationUtil;
 
 @Controller
@@ -82,7 +79,6 @@ public class RegistrationController {
 	 * @param model
 	 * @return ResponseEntity<String>
 	 */
-	
 	@PostMapping(path="/registerAccount")	
 	public  ResponseEntity<Object> registNewAccount(@Valid @RequestBody UserDTO userModel,BindingResult result) {
 		try {
@@ -101,10 +97,7 @@ public class RegistrationController {
 	      }
 		if(userService.checkDuplicateEmail(userModel.getEmail())) {
 			return new ResponseEntity<Object> ("Email is existed", HttpStatus.CONFLICT);
-		} if( !CheckRealMailExist.isAddressValid(userModel.getEmail())){
-			return new ResponseEntity<Object> ("Email is not exist!!!", HttpStatus.NOT_FOUND);
-		}
-		else {
+		} else {
 			String registCode = veritificationUtil.generateVerificationCode(userModel.getEmail()+userModel.getPassword());
 			Date expireDate = veritificationUtil.calculatorExpireTime();
 			String passwordEncode = passwordEncoder.encode(userModel.getPassword());

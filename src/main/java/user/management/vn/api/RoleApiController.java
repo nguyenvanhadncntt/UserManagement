@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import user.management.vn.define.EntityName;
+import user.management.vn.define.RoleScope;
 import user.management.vn.entity.Group;
 import user.management.vn.entity.GroupRole;
 import user.management.vn.entity.Role;
@@ -25,8 +27,6 @@ import user.management.vn.query.RoleQueryCondition;
 import user.management.vn.service.RoleGroupService;
 import user.management.vn.service.RoleService;
 import user.management.vn.service.SearchService;
-import user.management.vn.util.EntityName;
-import user.management.vn.util.RoleScope;
 import user.management.vn.wrapper.ListIdWrapper;
 
 @RestController
