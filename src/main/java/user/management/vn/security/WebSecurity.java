@@ -50,7 +50,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 						"/activeAccount**", "/change-password**")
 				.permitAll();
 		
-		http.authorizeRequests().antMatchers("/home").authenticated().antMatchers("/admin/**").hasAuthority("ADMIN").and().authorizeRequests().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/home","/chat").authenticated().antMatchers("/admin/**").hasAuthority("ADMIN").and().authorizeRequests().anyRequest().authenticated();
 
 		http.authorizeRequests().antMatchers("/user/**").authenticated();
 
