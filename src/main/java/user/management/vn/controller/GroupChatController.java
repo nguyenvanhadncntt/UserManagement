@@ -11,11 +11,11 @@ import user.management.vn.websocket.model.ChatMessage;
 @Controller
 public class GroupChatController {
 	
-	
 	@MessageMapping("/{groupId}/conversation")
 	@SendTo("/group/{groupId}")
 	public ChatMessage sendMessageToGroup(@DestinationVariable(value="groupId") String groupId,
 			@Payload ChatMessage message) {
 		return message;
 	}
+	
 }

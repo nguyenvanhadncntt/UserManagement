@@ -1,4 +1,4 @@
-package user.management.vn.controller;
+package user.management.vn.websocket.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
